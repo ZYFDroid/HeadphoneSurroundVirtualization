@@ -109,11 +109,17 @@ namespace 耳机虚拟环绕声
             var result = deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active | DeviceState.Disabled);
             foreach (var item in result)
             {
-                DeviceDesc deviceDesc = new DeviceDesc();
-                deviceDesc.name = item.FriendlyName;
-                deviceDesc.id = item.ID;
-                deviceDesc.channels = item.AudioClient.MixFormat.Channels;
-                devices.Add(deviceDesc);
+                try
+                {
+                    DeviceDesc deviceDesc = new DeviceDesc();
+                    deviceDesc.name = item.FriendlyName;
+                    deviceDesc.id = item.ID;
+                    deviceDesc.channels = item.AudioClient.MixFormat.Channels;
+                    devices.Add(deviceDesc);
+                }catch 
+                {
+
+                }
             }
             
             cmbSrc.setDict(devices.Where(c => c.channels > 2).ToDictionary(d => d.name));
