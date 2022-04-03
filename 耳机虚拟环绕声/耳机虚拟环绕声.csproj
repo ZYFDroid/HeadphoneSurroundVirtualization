@@ -34,9 +34,17 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>doubi.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
@@ -58,6 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CtlBarMeter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlBarMeter.Designer.cs">
+      <DependentUpon>CtlBarMeter.cs</DependentUpon>
+    </Compile>
     <Compile Include="DSPUtils.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -67,6 +81,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CtlBarMeter.resx">
+      <DependentUpon>CtlBarMeter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -78,7 +95,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -92,6 +111,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\peakbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\peakbar1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\doubi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btnSurroundOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btnSurroundOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="doubi.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />

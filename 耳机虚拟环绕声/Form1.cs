@@ -46,8 +46,10 @@ namespace 耳机虚拟环绕声
         public Form1()
         {
             InitializeComponent();
-            
+            this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
         }
+
+        private SurroundToStereoSampleProvider surroundToStereoSampleProvider;
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -84,13 +86,15 @@ namespace 耳机虚拟环绕声
                 };
                 wasapiCapture.StartRecording();
                 WaveToSampleProvider waveToSampleProvider = new WaveToSampleProvider(bufferedWaveProvider);
-                SurroundToStereoSampleProvider surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider); //实现算法
+                surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider); //实现算法
+                surroundToStereoSampleProvider.applySettings(Program.SurroundSettings,true);
                 wasapiOut.Init(surroundToStereoSampleProvider);
                 wasapiOut.Play(); //开始环绕
                 surroundProc.ReportProgress(10);
                 while (!surroundProc.CancellationPending)
                 {
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(10);
+                    surroundProc.ReportProgress(30);
                 }
                 wasapiCapture.StopRecording();
                 surroundProc.ReportProgress(99);
@@ -103,8 +107,11 @@ namespace 耳机虚拟环绕声
             }
         }
 
+        MP3模拟器.CtlBarMeter[] bars;
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            
             MMDeviceEnumerator deviceEnumerator = new MMDeviceEnumerator();
             var result = deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active | DeviceState.Disabled);
             foreach (var item in result)
@@ -131,6 +138,10 @@ namespace 耳机虚拟环绕声
                     cmbSrc.SelectedValue = device;
                 }
             }
+
+            bars = new MP3模拟器.CtlBarMeter[] {
+                barFL,barFR,barFC,barLF,barRL,barRR,barSL,barSR
+            };
         }
 
         private void btnBegin_Click(object sender, EventArgs e)
@@ -170,24 +181,45 @@ namespace 耳机虚拟环绕声
 
         private void surroundProc_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            if(e.ProgressPercentage == 30)
+            {
+                if (this.WindowState != FormWindowState.Minimized)
+                {
+                    doTimer();
+                }
+                return;
+            }
             if(e.ProgressPercentage == 44)
             {
                 MessageBox.Show(e.UserState.ToString(),"出错了");
                 btnBegin.Enabled = true;
-                btnBegin.Text = "开始环绕";
+                btnBegin.Image = Properties.Resources.btnSurroundOn;
                 lblIndicator.Visible = false;
             }
             if(e.ProgressPercentage == 10)
             {
                 btnBegin.Enabled = true;
-                btnBegin.Text = "停止环绕";
+                btnBegin.Image = Properties.Resources.btnSurroundOff;
                 lblIndicator.Visible = true;
             }
             if (e.ProgressPercentage == 99)
             {
                 btnBegin.Enabled = true;
-                btnBegin.Text = "开始环绕";
+                btnBegin.Image = Properties.Resources.btnSurroundOn;
                 lblIndicator.Visible = false;
+            }
+        }
+
+        const float displayDbRange = 60;
+
+        private void doTimer()
+        {
+            mtmOutL.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.displayLeft) + displayDbRange) / displayDbRange;
+            mtmOutR.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.displayRight) + displayDbRange) / displayDbRange;
+            this.numCompressOverflow.Value = (-surroundToStereoSampleProvider._compressGain) / displayDbRange;
+            for (int i = 0; i < surroundToStereoSampleProvider.rawPeaks.Length; i++)
+            {
+                bars[i].Value = (MathHelper.linear2db(surroundToStereoSampleProvider.rawPeaks[i]) + displayDbRange) / displayDbRange;
             }
         }
 
@@ -199,6 +231,31 @@ namespace 耳机虚拟环绕声
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = lblIndicator.Visible;
+        }
+
+        private void numMasterGain_Scroll(object sender, EventArgs e)
+        {
+            Program.SurroundSettings.masterGain = numMasterGain.Value / 100f;
+            surroundToStereoSampleProvider?.applySettings(Program.SurroundSettings);
+            lblMasterGain.Text = $"{Program.SurroundSettings.masterGain}dB\r\n增益";
+        }
+
+        private void numCompress_ValueChanged(object sender, EventArgs e)
+        {
+            var s = Program.SurroundSettings;
+            s.cmpGate = (float) Math.Round(numCompressGate.Value - 20f,2);
+            s.cmpRatio = (float)Math.Round(numCompressRatio.Value +1,1);
+            if(s.cmpRatio > 79.9)
+            {
+                s.cmpRatio = 0;
+            }
+            s.cmpAttack = (float)Math.Round(numCompressAttack.Value);
+            s.cmpRelease = (float)Math.Round(numCompressRelease.Value);
+            lblCompressAttack.Text = $"{s.cmpAttack}ms\r\n启动时间";
+            lblCompressGate.Text = $"{s.cmpGate}dB\r\n噪音门限";
+            lblCompressRatio.Text = (s.cmpRatio == 0 ? "∞" : s.cmpRatio.ToString())+":1\r\n压缩比";
+            lblCompressRelease.Text = $"{s.cmpRelease}ms\r\n释放时间";
+            surroundToStereoSampleProvider?.applySettings(s);
         }
     }
 }
