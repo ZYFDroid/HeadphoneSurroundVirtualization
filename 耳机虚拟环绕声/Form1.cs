@@ -142,6 +142,14 @@ namespace 耳机虚拟环绕声
             bars = new MP3模拟器.CtlBarMeter[] {
                 barFL,barFR,barFC,barLF,barRL,barRR,barSL,barSR
             };
+
+            numCompressAttack.Value = Properties.Settings.Default.cmpAttack;
+            numCompressGate.Value = Properties.Settings.Default.cmpGate;
+            numCompressRatio.Value = Properties.Settings.Default.cmpRatio;
+            numCompressRelease.Value = Properties.Settings.Default.cmpRelease;
+            numMasterGain.Value = Properties.Settings.Default.masterGain;
+            numCompress_ValueChanged(null, null);
+            numMasterGain_Scroll(null, null);
         }
 
         private void btnBegin_Click(object sender, EventArgs e)
@@ -230,7 +238,21 @@ namespace 耳机虚拟环绕声
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if(e.CloseReason == CloseReason.WindowsShutDown)
+            {
+                surroundProc.CancelAsync();
+                return;
+            }
             e.Cancel = lblIndicator.Visible;
+            if (e.Cancel) { return; }
+
+            var set = Properties.Settings.Default;
+            set.cmpAttack = numCompressAttack.Value;
+            set.cmpGate = numCompressGate.Value;
+            set.masterGain = numMasterGain.Value;
+            set.cmpRatio = numCompressRatio.Value;
+            set.cmpRelease = numCompressRelease.Value;
+            set.Save();
         }
 
         private void numMasterGain_Scroll(object sender, EventArgs e)
