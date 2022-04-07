@@ -7,25 +7,85 @@ using NAudio.CoreAudioApi;
 using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using System.IO;
 namespace 耳机虚拟环绕声
 {
+
+    /*
+    To-Does:
+    TODO: 当无支持环绕的设备时则提示
+    TODO: 配置引导提示
+     */
     internal static class Program
     {
-
+        public static List<DevicePriority> DevicePriorityList = new List<DevicePriority>();
         internal static SurroundSettings SurroundSettings = new SurroundSettings();
-
+        public static bool neenSave = false;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         /// 
-
-
         [STAThread]
         static void Main()
         {
+            if (File.Exists(TuneConfigFile))
+            {
+                SurroundSettings = JsonConvert.Deserialize<SurroundSettings>(File.ReadAllText(TuneConfigFile));
+            }
+            if (File.Exists(DeviceConfigFile))
+            {
+                DevicePriorityList = JsonConvert.Deserialize<List<DevicePriority>>(File.ReadAllText(DeviceConfigFile));
+            }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+            if (neenSave)
+            {
+                File.WriteAllText(TuneConfigFile, JsonConvert.Serialize(SurroundSettings));
+                File.WriteAllText(DeviceConfigFile, JsonConvert.Serialize(DevicePriorityList));
+            }
+        }
+
+        public static string UserDataDir
+        {
+            get
+            {
+                string appdata = Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%");
+                if (appdata == null)
+                {
+                    appdata = System.IO.Path.Combine(Application.ExecutablePath, "AppData");
+                }
+                string datadir = System.IO.Path.Combine(appdata, "com.zyfdroid.hesuvi");
+                if (!System.IO.Directory.Exists(datadir))
+                {
+                    System.IO.Directory.CreateDirectory(datadir);
+                }
+                return datadir;
+            }
+        }
+        public static string TuneConfigFile
+        {
+            get => System.IO.Path.Combine(UserDataDir, "config_v0.json");
+        }
+        public static string DeviceConfigFile
+        {
+            get => System.IO.Path.Combine(UserDataDir, "device.json");
+        }
+
+        public class JsonConvert
+        {
+            private static System.Web.Script.Serialization.JavaScriptSerializer serializer;
+            public static string Serialize(object obj)
+            {
+                if (serializer == null) { serializer = new System.Web.Script.Serialization.JavaScriptSerializer(); }
+                return serializer.Serialize(obj);
+            }
+
+            public static T Deserialize<T>(string json)
+            {
+                if (serializer == null) { serializer = new System.Web.Script.Serialization.JavaScriptSerializer(); }
+                return serializer.Deserialize<T>(json);
+            }
         }
 
         public static void setDict<T>(this ComboBox cmb, Dictionary<String, T> dict)
@@ -46,15 +106,15 @@ namespace 耳机虚拟环绕声
 
     public class SurroundSettings
     {
-        public float masterGain = 0; // 主音量（增益）
+        public float masterGain = 15; // 主音量（增益）
 
-        public float cmpRatio = 1; // 压缩器 - 压缩比
-        public float cmpAttack = 40;// 压缩器 - 启动时间
-        public float cmpRelease = 400; // 压缩器 - 释放时间
+        public float cmpRatio = 15; // 压缩器 - 压缩比
+        public float cmpAttack = 144;// 压缩器 - 启动时间
+        public float cmpRelease = 1440; // 压缩器 - 释放时间
         public float cmpGate = 0;// 压缩器 - 噪音门限
 
         public float fsVolume = 1.0f; //前扬声器音量
-        public float fsCrossin = 0.6f; //前混音交叉淡入
+        public float fsCrossin = 0.57f; //前混音交叉淡入
         public float fsSideDecay = 2.0f; //前侧高频衰减
         public float fsOpposideDecay = 16.0f; //前侧对侧高频衰减
         public float fsOpposideDelay = 0.32f; //对侧延迟混音毫秒
@@ -74,7 +134,7 @@ namespace 耳机虚拟环绕声
         public float rsOpposideDelay = 0.32f; //后侧延迟混音毫秒
 
         public float ssVolume = 1.0f; //侧面扬声器音量
-        public float ssCrossin = 0.8f; //侧面混音交叉淡入
+        public float ssCrossin = 0.69f; //侧面混音交叉淡入
         public float ssSideDecay = -2.0f; //侧面高频衰减
         public float ssOpposideDecay = 22.0f; //侧面对侧高频衰减
         public float ssOpposideDelay = 0.5f; //侧面延迟混音毫秒
@@ -125,6 +185,8 @@ namespace 耳机虚拟环绕声
         private int cd = 500;
         private int updatePeakDelay = 500;
 
+        public bool Bypass = false;
+
         private float _gain = 1f;
         public void applySettings(SurroundSettings settings,bool fullApply = false)
         {
@@ -172,16 +234,23 @@ namespace 耳机虚拟环绕声
             {
                 float left = 0;
                 float right = 0;
-                for(int c = 0;c < _channels; c++)
+                if (!Bypass)
                 {
-                    float[] data = dspProcessor[c].process(_buffer[i + c]);
-                    left += data[0];
-                    right += data[1];
-                    _rawMaxs[c] = _rawMaxs[c] > _buffer[i + c] ? _rawMaxs[c] : _buffer[i + c];
+                    for (int c = 0; c < _channels; c++)
+                    {
+                        float[] data = dspProcessor[c].process(_buffer[i + c]);
+                        left += data[0];
+                        right += data[1];
+                        _rawMaxs[c] = _rawMaxs[c] > _buffer[i + c] ? _rawMaxs[c] : _buffer[i + c];
+                    }
+                    left = left / (float)_channels * _gain;
+                    right = right / (float)_channels * _gain;
                 }
-                left = left / (float)_channels * _gain;
-                right = right / (float)_channels * _gain;
-                
+                else
+                {
+                    left = _buffer[i];
+                    right = _buffer[i+1];
+                }
 
                 float aleft = left < 0 ? -left : left;
                 float aright = right < 0 ? -right : right;
@@ -290,4 +359,91 @@ namespace 耳机虚拟环绕声
             return AudioClientStreamFlags.Loopback;
         }
     }
+
+    internal class DevicePriority
+    {
+        public int Priority;
+        public string DeviceID;
+    }
+    
+    internal class DeviceDecider
+    {
+        public List<DevicePriority> DevicePriorityList;
+        public DeviceDecider(List<DevicePriority> devicePriorityList)
+        {
+            DevicePriorityList = devicePriorityList;
+        }
+        private DevicePriority getPriority(string device)
+        {
+            var query = DevicePriorityList.Where(d => d.DeviceID == device).FirstOrDefault();
+            if (query == null)
+            {
+                var d = new DevicePriority() { DeviceID = device, Priority = 1 };
+                DevicePriorityList.Add(d);
+                return d;
+            }
+            return query;
+        }
+        private void setPriority(string device,int priority)
+        {
+            var query = DevicePriorityList.Where(d => d.DeviceID == device).FirstOrDefault();
+            if (query == null)
+            {
+                var d = new DevicePriority() { DeviceID = device, Priority = priority };
+                DevicePriorityList.Add(d);
+               
+            }
+            query.Priority = priority;
+            Program.neenSave = true;
+        }
+
+        public DevicePriority GetSuggest(string[] availableDevices)
+        {
+           
+            var availablePriority = 
+                availableDevices.Select(d => getPriority(d)).OrderByDescending(d => d.Priority).ToList();
+            if(availablePriority.Count > 0)
+            {
+                return availablePriority[0];
+            }
+            return null;
+        }
+
+
+
+        public DevicePriority OnDeviceChanged(string currentDevice,string[] devices)
+        {
+            DevicePriority currentDevicePriority = getPriority(currentDevice);
+            if (devices.Contains(currentDevice))
+            {
+                DevicePriority maxDevicePrioriry = GetSuggest(devices);
+                return currentDevicePriority.Priority >= maxDevicePrioriry.Priority ? currentDevicePriority : maxDevicePrioriry;
+            }
+            else
+            {
+                return GetSuggest(devices);
+            }
+        }
+
+        public void OnStart(string selectedDevice,string[] devices)
+        {
+            int desiredPriority = devices.Length;
+            DevicePriority selectedDevicePriority = getPriority(selectedDevice);
+            if(selectedDevicePriority.Priority < desiredPriority)
+            {
+                setPriority(selectedDevice,desiredPriority);
+                selectedDevicePriority.Priority = desiredPriority;
+            }
+
+            DevicePriority maxDevicePriority = GetSuggest(devices);
+            if (selectedDevicePriority.Priority < maxDevicePriority.Priority)
+            {
+                int large = maxDevicePriority.Priority;
+                int small = selectedDevicePriority.Priority;
+                setPriority(maxDevicePriority.DeviceID, small);
+                setPriority(selectedDevice,large);
+            }
+        }
+    }
+
 }

@@ -1,21 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="耳机虚拟环绕声.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="cmpGate" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">20</Value>
-    </Setting>
-    <Setting Name="masterGain" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="cmpRatio" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="cmpAttack" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">40</Value>
-    </Setting>
-    <Setting Name="cmpRelease" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">400</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>

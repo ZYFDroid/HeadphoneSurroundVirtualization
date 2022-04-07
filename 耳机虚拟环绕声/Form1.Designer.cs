@@ -36,10 +36,14 @@
             this.lblIndicator = new System.Windows.Forms.Label();
             this.surroundProc = new System.ComponentModel.BackgroundWorker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnHelp = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.lblMasterGain = new System.Windows.Forms.Label();
             this.numMasterGain = new System.Windows.Forms.TrackBar();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.lblCompressRelease = new System.Windows.Forms.Label();
             this.lblCompressAttack = new System.Windows.Forms.Label();
             this.lblCompressRatio = new System.Windows.Forms.Label();
@@ -49,6 +53,7 @@
             this.numCompressRatio = new NAudio.Gui.Pot();
             this.numCompressGate = new NAudio.Gui.Pot();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -57,10 +62,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnBegin = new System.Windows.Forms.Button();
             this.barSR = new MP3模拟器.CtlBarMeter();
@@ -74,6 +75,7 @@
             this.numCompressOverflow = new MP3模拟器.CtlBarMeter();
             this.mtmOutR = new MP3模拟器.CtlBarMeter();
             this.mtmOutL = new MP3模拟器.CtlBarMeter();
+            this.chkBypass = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMasterGain)).BeginInit();
@@ -85,7 +87,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 20);
+            this.label1.Location = new System.Drawing.Point(6, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(257, 12);
             this.label1.TabIndex = 0;
@@ -94,7 +96,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 62);
+            this.label2.Location = new System.Drawing.Point(4, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 0;
@@ -106,7 +108,7 @@
             this.cmbSrc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbSrc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.cmbSrc.FormattingEnabled = true;
-            this.cmbSrc.Location = new System.Drawing.Point(6, 36);
+            this.cmbSrc.Location = new System.Drawing.Point(6, 39);
             this.cmbSrc.Name = "cmbSrc";
             this.cmbSrc.Size = new System.Drawing.Size(335, 20);
             this.cmbSrc.TabIndex = 1;
@@ -117,7 +119,7 @@
             this.cmbDst.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbDst.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.cmbDst.FormattingEnabled = true;
-            this.cmbDst.Location = new System.Drawing.Point(6, 77);
+            this.cmbDst.Location = new System.Drawing.Point(6, 80);
             this.cmbDst.Name = "cmbDst";
             this.cmbDst.Size = new System.Drawing.Size(335, 20);
             this.cmbDst.TabIndex = 1;
@@ -141,6 +143,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnHelp);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.cmbSrc);
             this.groupBox1.Controls.Add(this.cmbDst);
@@ -153,8 +156,28 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "设备选项";
             // 
+            // btnHelp
+            // 
+            this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHelp.Location = new System.Drawing.Point(266, 12);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(75, 25);
+            this.btnHelp.TabIndex = 9;
+            this.btnHelp.Text = "如何配置";
+            this.btnHelp.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(7, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 12);
+            this.label13.TabIndex = 8;
+            this.label13.Text = "设备选项";
+            // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkBypass);
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.lblMasterGain);
             this.groupBox2.Controls.Add(this.numMasterGain);
@@ -167,11 +190,20 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "主控";
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(5, 1);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(29, 12);
+            this.label14.TabIndex = 8;
+            this.label14.Text = "主控";
+            // 
             // lblMasterGain
             // 
-            this.lblMasterGain.Location = new System.Drawing.Point(6, 311);
+            this.lblMasterGain.Location = new System.Drawing.Point(6, 305);
             this.lblMasterGain.Name = "lblMasterGain";
-            this.lblMasterGain.Size = new System.Drawing.Size(68, 36);
+            this.lblMasterGain.Size = new System.Drawing.Size(68, 29);
             this.lblMasterGain.TabIndex = 7;
             this.lblMasterGain.Text = "0dB\r\n增益";
             this.lblMasterGain.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -207,6 +239,15 @@
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "压缩器";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 1);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(41, 12);
+            this.label12.TabIndex = 8;
+            this.label12.Text = "压缩器";
             // 
             // lblCompressRelease
             // 
@@ -314,6 +355,15 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "输入视图";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 1);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 12);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "输入视图";
+            // 
             // label10
             // 
             this.label10.Location = new System.Drawing.Point(303, 98);
@@ -385,42 +435,6 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "左前";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(10, 1);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 12);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "输入视图";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(10, 1);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(41, 12);
-            this.label12.TabIndex = 8;
-            this.label12.Text = "压缩器";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(10, 1);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 12);
-            this.label13.TabIndex = 8;
-            this.label13.Text = "设备选项";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(8, 1);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(29, 12);
-            this.label14.TabIndex = 8;
-            this.label14.Text = "主控";
             // 
             // pictureBox1
             // 
@@ -578,6 +592,17 @@
             this.mtmOutL.TabIndex = 6;
             this.mtmOutL.Value = 0F;
             // 
+            // chkBypass
+            // 
+            this.chkBypass.AutoSize = true;
+            this.chkBypass.Location = new System.Drawing.Point(16, 336);
+            this.chkBypass.Name = "chkBypass";
+            this.chkBypass.Size = new System.Drawing.Size(48, 16);
+            this.chkBypass.TabIndex = 9;
+            this.chkBypass.Text = "旁路";
+            this.chkBypass.UseVisualStyleBackColor = true;
+            this.chkBypass.CheckedChanged += new System.EventHandler(this.chkBypass_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -661,6 +686,8 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnHelp;
+        private System.Windows.Forms.CheckBox chkBypass;
     }
 }
 

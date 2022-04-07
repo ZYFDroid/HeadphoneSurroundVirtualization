@@ -12,10 +12,11 @@ using NAudio.CoreAudioApi;
 using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using NAudio.CoreAudioApi.Interfaces;
 
 namespace 耳机虚拟环绕声
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form,NAudio.CoreAudioApi.Interfaces.IMMNotificationClient
     {
 
         class DeviceDesc
@@ -51,57 +52,84 @@ namespace 耳机虚拟环绕声
 
         private SurroundToStereoSampleProvider surroundToStereoSampleProvider;
 
+        private bool _notifyAudioDeviceChanged = false;
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
+                _notifyAudioDeviceChanged = false;
                 StartParam startParam = e.Argument as StartParam;
 
-                MMDeviceEnumerator deviceEnumerator = new MMDeviceEnumerator();
-                var result = deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active | DeviceState.Disabled);
-                MMDevice targetDevice = null; //要捕获的设备
-                MMDevice outDevice = null; // 输出设备
-                foreach (var item in result)
-                {
-                    Console.WriteLine(item.DeviceFriendlyName);
-                    if (item.ID == startParam.sourceDevice.id) //获取虚拟声卡
-                    {
-                        targetDevice = item;
-                    }
-                    if (item.ID == startParam.targetDevice.id) //获取当前的立体声耳机
-                    {
-                        outDevice = item;
-                    }
-                }
-                //Console.ReadLine();
-                var targetFormat = targetDevice.AudioClient.MixFormat;
-                WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, 50); //对虚拟声卡进行捕获
-                WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, 50); //从我们的立体声耳机创建一个声音输出
-                BufferedWaveProvider bufferedWaveProvider = new BufferedWaveProvider(wasapiCapture.WaveFormat);
-                bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(50);
-                bufferedWaveProvider.DiscardOnBufferOverflow = true;
-                wasapiCapture.DataAvailable += (_, waveArgs) =>
-                {
-                    bufferedWaveProvider.AddSamples(waveArgs.Buffer, 0, waveArgs.BytesRecorded);
-                };
-                wasapiCapture.StartRecording();
-                WaveToSampleProvider waveToSampleProvider = new WaveToSampleProvider(bufferedWaveProvider);
-                surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider); //实现算法
-                surroundToStereoSampleProvider.applySettings(Program.SurroundSettings,true);
-                wasapiOut.Init(surroundToStereoSampleProvider);
-                wasapiOut.Play(); //开始环绕
                 surroundProc.ReportProgress(10);
                 while (!surroundProc.CancellationPending)
                 {
-                    System.Threading.Thread.Sleep(10);
-                    surroundProc.ReportProgress(30);
+                    EarTrumpet.Interop.MMDeviceAPI.AutoPolicyConfigClientWin7 policyConfigClient = new EarTrumpet.Interop.MMDeviceAPI.AutoPolicyConfigClientWin7();
+
+                    policyConfigClient.SetDefaultEndpoint(startParam.sourceDevice.id);
+
+
+                    MMDevice targetDevice = deviceEnumerator.GetDevice(startParam.sourceDevice.id); //要捕获的设备
+                    MMDevice outDevice = deviceEnumerator.GetDevice(startParam.targetDevice.id); // 输出设备
+                    targetDevice.AudioEndpointVolume.MasterVolumeLevel = outDevice.AudioEndpointVolume.MasterVolumeLevel;
+                    AudioEndpointVolumeNotificationDelegate targetVolumeChanged = (data) =>
+                     {
+                         try
+                         {
+                             outDevice.AudioEndpointVolume.Mute = targetDevice.AudioEndpointVolume.Mute;
+                             outDevice.AudioEndpointVolume.MasterVolumeLevel = targetDevice.AudioEndpointVolume.MasterVolumeLevel;
+
+                         }
+                         catch { }
+                     };
+                    targetDevice.AudioEndpointVolume.OnVolumeNotification += targetVolumeChanged;
+                    //Console.ReadLine();
+                    var targetFormat = targetDevice.AudioClient.MixFormat;
+                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, 50); //对虚拟声卡进行捕获
+                    WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, 50); //从我们的立体声耳机创建一个声音输出
+                    BufferedWaveProvider bufferedWaveProvider = new BufferedWaveProvider(wasapiCapture.WaveFormat);
+                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(50);
+                    bufferedWaveProvider.DiscardOnBufferOverflow = true;
+                    wasapiCapture.DataAvailable += (_, waveArgs) =>
+                    {
+                        bufferedWaveProvider.AddSamples(waveArgs.Buffer, 0, waveArgs.BytesRecorded);
+                    };
+                    wasapiCapture.StartRecording();
+                    WaveToSampleProvider waveToSampleProvider = new WaveToSampleProvider(bufferedWaveProvider);
+                    surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider); //实现算法
+                    surroundToStereoSampleProvider.applySettings(Program.SurroundSettings, true);
+                    wasapiOut.Init(surroundToStereoSampleProvider);
+                    wasapiOut.Play(); //开始环绕
+                    while (!surroundProc.CancellationPending)
+                    {
+                        System.Threading.Thread.Sleep(10);
+                        surroundProc.ReportProgress(30);
+                        if (_notifyAudioDeviceChanged)
+                        {
+                            _notifyAudioDeviceChanged = false;
+                            DevicePriority newDevice = deviceDecider.OnDeviceChanged(startParam.targetDevice.id,devices.Select(d => d.id).ToArray());
+                            if(newDevice == null)
+                            {
+                                surroundProc.CancelAsync();
+                                break;
+                            }
+                            if(newDevice.DeviceID != startParam.targetDevice.id) {
+                                startParam.targetDevice.id = newDevice.DeviceID;
+                                break;
+                            }
+                        }
+                    }
+                    targetDevice.AudioEndpointVolume.OnVolumeNotification -= targetVolumeChanged;
+                    wasapiCapture.StopRecording();
+                    wasapiOut.Stop();
+                    wasapiOut.Dispose();
+                    wasapiCapture.Dispose();
+                    policyConfigClient.SetDefaultEndpoint(startParam.targetDevice.id);
                 }
-                wasapiCapture.StopRecording();
+
                 surroundProc.ReportProgress(99);
-                wasapiOut.Stop();
-                wasapiOut.Dispose();
-                wasapiCapture.Dispose();
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 surroundProc.ReportProgress(44, ex.ToString());
             }
@@ -109,11 +137,32 @@ namespace 耳机虚拟环绕声
 
         MP3模拟器.CtlBarMeter[] bars;
 
+        MMDeviceEnumerator deviceEnumerator;
+        DeviceDecider deviceDecider;
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-            MMDeviceEnumerator deviceEnumerator = new MMDeviceEnumerator();
+            deviceDecider = new DeviceDecider(Program.DevicePriorityList);
+            deviceEnumerator = new MMDeviceEnumerator();
+            loadData();
+            deviceEnumerator.RegisterEndpointNotificationCallback(this);
+            bars = new MP3模拟器.CtlBarMeter[] {
+                barFL,barFR,barFC,barLF,barRL,barRR,barSL,barSR
+            };
+
+            numCompressAttack.Value = Program.SurroundSettings.cmpAttack;
+            numCompressGate.Value = Program.SurroundSettings.cmpGate + 20;
+            numCompressRatio.Value = Program.SurroundSettings.cmpRatio -1;
+            numCompressRelease.Value = Program.SurroundSettings.cmpRelease;
+            numMasterGain.Value =(int)Math.Round(Program.SurroundSettings.masterGain * 100f);
+            numCompress_ValueChanged(null, null);
+            numMasterGain_Scroll(null, null);
+            Program.neenSave = false;
+        }
+
+        private void loadData()
+        {
             var result = deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active | DeviceState.Disabled);
+            devices.Clear();
             foreach (var item in result)
             {
                 try
@@ -123,33 +172,40 @@ namespace 耳机虚拟环绕声
                     deviceDesc.id = item.ID;
                     deviceDesc.channels = item.AudioClient.MixFormat.Channels;
                     devices.Add(deviceDesc);
-                }catch 
+                }
+                catch
                 {
 
                 }
             }
+
+            cmbSrc.setDict(devices.Where(c => c.channels == 8).ToDictionary(d => d.name));
             
-            cmbSrc.setDict(devices.Where(c => c.channels > 2).ToDictionary(d => d.name));
             cmbDst.setDict(devices.Where(c => c.channels == 2).ToDictionary(d => d.name));
-            foreach(var device in devices)
+            if (cmbDst.Enabled)
+            {
+                var defaultDeviceId = deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia).ID;
+                var deviceIdArray = devices.Where(c => c.channels == 2).Select(d => d.id).ToArray();
+                if (deviceIdArray.Contains(defaultDeviceId))
+                {
+                    cmbDst.SelectedValue = devices.FirstOrDefault(d => d.id == defaultDeviceId);
+                }
+                else
+                {
+                    DevicePriority devp = deviceDecider.GetSuggest(deviceIdArray);
+                    if(devp != null)
+                    {
+                        cmbDst.SelectedValue = devices.FirstOrDefault(d => d.id == devp.DeviceID);
+                    }
+                }
+            }
+            foreach (var device in devices)
             {
                 if (device.name.ToLower().Contains("cable"))
                 {
                     cmbSrc.SelectedValue = device;
                 }
             }
-
-            bars = new MP3模拟器.CtlBarMeter[] {
-                barFL,barFR,barFC,barLF,barRL,barRR,barSL,barSR
-            };
-
-            numCompressAttack.Value = Properties.Settings.Default.cmpAttack;
-            numCompressGate.Value = Properties.Settings.Default.cmpGate;
-            numCompressRatio.Value = Properties.Settings.Default.cmpRatio;
-            numCompressRelease.Value = Properties.Settings.Default.cmpRelease;
-            numMasterGain.Value = Properties.Settings.Default.masterGain;
-            numCompress_ValueChanged(null, null);
-            numMasterGain_Scroll(null, null);
         }
 
         private void btnBegin_Click(object sender, EventArgs e)
@@ -177,7 +233,10 @@ namespace 耳机虚拟环绕声
                 StartParam sp = new StartParam();
                 sp.sourceDevice = src;
                 sp.targetDevice = dst;
+                deviceDecider.OnStart(dst.id,devices.Select(d => d.id).ToArray());
+                chkBypass.Checked = false;
                 surroundProc.RunWorkerAsync(sp);
+
             }
             else
             {
@@ -245,14 +304,6 @@ namespace 耳机虚拟环绕声
             }
             e.Cancel = lblIndicator.Visible;
             if (e.Cancel) { return; }
-
-            var set = Properties.Settings.Default;
-            set.cmpAttack = numCompressAttack.Value;
-            set.cmpGate = numCompressGate.Value;
-            set.masterGain = numMasterGain.Value;
-            set.cmpRatio = numCompressRatio.Value;
-            set.cmpRelease = numCompressRelease.Value;
-            set.Save();
         }
 
         private void numMasterGain_Scroll(object sender, EventArgs e)
@@ -260,6 +311,7 @@ namespace 耳机虚拟环绕声
             Program.SurroundSettings.masterGain = numMasterGain.Value / 100f;
             surroundToStereoSampleProvider?.applySettings(Program.SurroundSettings);
             lblMasterGain.Text = $"{Program.SurroundSettings.masterGain}dB\r\n增益";
+            Program.neenSave = true;
         }
 
         private void numCompress_ValueChanged(object sender, EventArgs e)
@@ -278,6 +330,49 @@ namespace 耳机虚拟环绕声
             lblCompressRatio.Text = (s.cmpRatio == 0 ? "∞" : s.cmpRatio.ToString())+":1\r\n压缩比";
             lblCompressRelease.Text = $"{s.cmpRelease}ms\r\n释放时间";
             surroundToStereoSampleProvider?.applySettings(s);
+            Program.neenSave = true;
+        }
+
+        void IMMNotificationClient.OnDeviceStateChanged(string deviceId, DeviceState newState)
+        {
+            notifyDeviceChanged();
+        }
+
+        void IMMNotificationClient.OnDeviceAdded(string pwstrDeviceId)
+        {
+            notifyDeviceChanged();
+        }
+
+        void IMMNotificationClient.OnDeviceRemoved(string deviceId)
+        {
+            notifyDeviceChanged();
+        }
+
+        void notifyDeviceChanged()
+        {
+            Invoke(new Action(loadData));
+            if(surroundProc.IsBusy && !surroundProc.CancellationPending)
+            {
+                _notifyAudioDeviceChanged = true;
+            }
+        }
+
+        void IMMNotificationClient.OnDefaultDeviceChanged(DataFlow flow, Role role, string defaultDeviceId)
+        {
+            
+        }
+
+        void IMMNotificationClient.OnPropertyValueChanged(string pwstrDeviceId, PropertyKey key)
+        {
+            
+        }
+
+        private void chkBypass_CheckedChanged(object sender, EventArgs e)
+        {
+            if(surroundToStereoSampleProvider != null)
+            {
+                surroundToStereoSampleProvider.Bypass = chkBypass.Checked;
+            }
         }
     }
 }

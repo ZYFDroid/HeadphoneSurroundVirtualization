@@ -237,7 +237,7 @@ namespace 耳机虚拟环绕声
         {
             sample *= rsVolume;
             channels[0] = crossInFilter1.Transform(sample);
-            channels[1] = crossInFilter2.Transform(_buffer.pop(sample)) * (subWeight / mainWeight);
+            channels[1] = crossInFilter2.Transform(-_buffer.pop(sample)) * (subWeight / mainWeight);
             return channels;
         }
 
@@ -293,7 +293,7 @@ namespace 耳机虚拟环绕声
         {
             sample *= rsVolume;
             channels[1] = crossInFilter1.Transform(sample);
-            channels[0] = crossInFilter2.Transform(_buffer.pop(sample)) * (subWeight / mainWeight);
+            channels[0] = crossInFilter2.Transform(-_buffer.pop(sample)) * (subWeight / mainWeight);
             return channels;
         }
 
