@@ -28,25 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.mask = new System.Windows.Forms.Label();
+            this.mask = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // mask
             // 
-            this.mask.BackColor = System.Drawing.Color.Black;
             this.mask.Dock = System.Windows.Forms.DockStyle.Top;
             this.mask.Location = new System.Drawing.Point(0, 0);
             this.mask.Name = "mask";
-            this.mask.Size = new System.Drawing.Size(170, 310);
-            this.mask.TabIndex = 0;
+            this.mask.Size = new System.Drawing.Size(170, 231);
+            this.mask.TabIndex = 1;
             // 
             // CtlBarMeter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.BackgroundImage = global::耳机虚拟环绕声.Properties.Resources.peakbar1;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Controls.Add(this.mask);
             this.DoubleBuffered = true;
             this.Name = "CtlBarMeter";
@@ -58,6 +55,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label mask;
+        private System.Windows.Forms.Panel mask;
     }
 }

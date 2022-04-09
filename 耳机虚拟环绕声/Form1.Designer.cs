@@ -39,6 +39,7 @@
             this.btnHelp = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkBypass = new System.Windows.Forms.CheckBox();
             this.label14 = new System.Windows.Forms.Label();
             this.lblMasterGain = new System.Windows.Forms.Label();
             this.numMasterGain = new System.Windows.Forms.TrackBar();
@@ -75,7 +76,6 @@
             this.numCompressOverflow = new MP3模拟器.CtlBarMeter();
             this.mtmOutR = new MP3模拟器.CtlBarMeter();
             this.mtmOutL = new MP3模拟器.CtlBarMeter();
-            this.chkBypass = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMasterGain)).BeginInit();
@@ -165,6 +165,7 @@
             this.btnHelp.TabIndex = 9;
             this.btnHelp.Text = "如何配置";
             this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
             // label13
             // 
@@ -189,6 +190,17 @@
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "主控";
+            // 
+            // chkBypass
+            // 
+            this.chkBypass.AutoSize = true;
+            this.chkBypass.Location = new System.Drawing.Point(16, 336);
+            this.chkBypass.Name = "chkBypass";
+            this.chkBypass.Size = new System.Drawing.Size(48, 16);
+            this.chkBypass.TabIndex = 9;
+            this.chkBypass.Text = "旁路";
+            this.chkBypass.UseVisualStyleBackColor = true;
+            this.chkBypass.CheckedChanged += new System.EventHandler(this.chkBypass_CheckedChanged);
             // 
             // label14
             // 
@@ -464,7 +476,6 @@
             // barSR
             // 
             this.barSR.BackColor = System.Drawing.Color.Black;
-            this.barSR.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("barSR.BackgroundImage")));
             this.barSR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.barSR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.barSR.Location = new System.Drawing.Point(316, 20);
@@ -476,7 +487,6 @@
             // barSL
             // 
             this.barSL.BackColor = System.Drawing.Color.Black;
-            this.barSL.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("barSL.BackgroundImage")));
             this.barSL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.barSL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.barSL.Location = new System.Drawing.Point(274, 20);
@@ -488,7 +498,6 @@
             // barRR
             // 
             this.barRR.BackColor = System.Drawing.Color.Black;
-            this.barRR.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("barRR.BackgroundImage")));
             this.barRR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.barRR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.barRR.Location = new System.Drawing.Point(232, 20);
@@ -500,7 +509,6 @@
             // barRL
             // 
             this.barRL.BackColor = System.Drawing.Color.Black;
-            this.barRL.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("barRL.BackgroundImage")));
             this.barRL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.barRL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.barRL.Location = new System.Drawing.Point(190, 20);
@@ -512,7 +520,6 @@
             // barLF
             // 
             this.barLF.BackColor = System.Drawing.Color.Black;
-            this.barLF.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("barLF.BackgroundImage")));
             this.barLF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.barLF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.barLF.Location = new System.Drawing.Point(148, 20);
@@ -524,7 +531,6 @@
             // barFC
             // 
             this.barFC.BackColor = System.Drawing.Color.Black;
-            this.barFC.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("barFC.BackgroundImage")));
             this.barFC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.barFC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.barFC.Location = new System.Drawing.Point(106, 20);
@@ -536,7 +542,6 @@
             // barFR
             // 
             this.barFR.BackColor = System.Drawing.Color.Black;
-            this.barFR.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("barFR.BackgroundImage")));
             this.barFR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.barFR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.barFR.Location = new System.Drawing.Point(64, 20);
@@ -548,7 +553,6 @@
             // barFL
             // 
             this.barFL.BackColor = System.Drawing.Color.Black;
-            this.barFL.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("barFL.BackgroundImage")));
             this.barFL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.barFL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.barFL.Location = new System.Drawing.Point(22, 20);
@@ -571,7 +575,6 @@
             // mtmOutR
             // 
             this.mtmOutR.BackColor = System.Drawing.Color.Black;
-            this.mtmOutR.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mtmOutR.BackgroundImage")));
             this.mtmOutR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mtmOutR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mtmOutR.Location = new System.Drawing.Point(93, 26);
@@ -583,7 +586,6 @@
             // mtmOutL
             // 
             this.mtmOutL.BackColor = System.Drawing.Color.Black;
-            this.mtmOutL.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mtmOutL.BackgroundImage")));
             this.mtmOutL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mtmOutL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mtmOutL.Location = new System.Drawing.Point(78, 26);
@@ -591,17 +593,6 @@
             this.mtmOutL.Size = new System.Drawing.Size(11, 321);
             this.mtmOutL.TabIndex = 6;
             this.mtmOutL.Value = 0F;
-            // 
-            // chkBypass
-            // 
-            this.chkBypass.AutoSize = true;
-            this.chkBypass.Location = new System.Drawing.Point(16, 336);
-            this.chkBypass.Name = "chkBypass";
-            this.chkBypass.Size = new System.Drawing.Size(48, 16);
-            this.chkBypass.TabIndex = 9;
-            this.chkBypass.Text = "旁路";
-            this.chkBypass.UseVisualStyleBackColor = true;
-            this.chkBypass.CheckedChanged += new System.EventHandler(this.chkBypass_CheckedChanged);
             // 
             // Form1
             // 

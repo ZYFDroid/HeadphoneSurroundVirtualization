@@ -144,6 +144,15 @@ namespace 耳机虚拟环绕声
             deviceDecider = new DeviceDecider(Program.DevicePriorityList);
             deviceEnumerator = new MMDeviceEnumerator();
             loadData();
+
+            if (cmbSrc.Enabled == false)
+            {
+                var r = MessageBox.Show(this,"检测到未安装虚拟音频设备，是否打开安装向导？","",MessageBoxButtons.YesNo);
+                if(r == DialogResult.Yes)
+                {
+                    new FrmConfig().ShowDialog(this);
+                }
+            }
             deviceEnumerator.RegisterEndpointNotificationCallback(this);
             bars = new MP3模拟器.CtlBarMeter[] {
                 barFL,barFR,barFC,barLF,barRL,barRR,barSL,barSR
@@ -373,6 +382,11 @@ namespace 耳机虚拟环绕声
             {
                 surroundToStereoSampleProvider.Bypass = chkBypass.Checked;
             }
+        }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            new FrmConfig().ShowDialog(this);
         }
     }
 }

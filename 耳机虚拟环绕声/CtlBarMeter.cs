@@ -46,7 +46,7 @@ namespace MP3模拟器
                 }
                 animedValue = animedValue + (linearDownValue - animedValue) * smoothfactor;
 
-                mask.Height = (int)(this.Height * (1- animedValue)) + 1;
+                mask.Height = (int)(this.Height * step(1- animedValue,steps)) + 1;
                 //mask.Height = (int)(this.Height * (1- valuehistory[ptr])) + 1;
             }
         }
@@ -55,7 +55,45 @@ namespace MP3模拟器
         public int ptr = 0;
         private void CtlBarMeter_Load(object sender, EventArgs e)
         {
+            int removePadding = this.BorderStyle == BorderStyle.None ? 0 : 1;
+            Image bgImg = new Bitmap(this.Width-2 * removePadding, this.Height-2 * removePadding);
+            Graphics g = Graphics.FromImage(bgImg);
+            int level1 = bgImg.Height * 10 / 100;
+            int level2 = bgImg.Height * 20 / 100;
+            Pen pRed = Pens.Red;
+            Pen pYellow = Pens.Yellow;
+            Pen pGreen = Pens.Lime;
+            for (int i = 1; i < bgImg.Height; i+=4)
+            {
+                Pen p = pGreen;
+                if(i < level2)
+                {
+                    p = pYellow;
+                }
+                if (i < level1)
+                {
+                    p = pRed;
+                }
+                g.DrawLine(p, 1, i, bgImg.Width-2, i);
+                g.DrawLine(p, 1, i+1, bgImg.Width-2, i+1);
+                steps++;
+            }
+            steps++;
+            g.Dispose();
+            Bitmap foreImg = new Bitmap(bgImg);
+            g = Graphics.FromImage(foreImg);
+            Brush blackmask = new SolidBrush(Color.FromArgb(192,0,0,0));
+            g.FillRectangle(blackmask, 0, 0, foreImg.Width, foreImg.Height);
+            g.Dispose();
+            this.BackgroundImage = bgImg;
+            this.mask.BackgroundImage = foreImg;
+            mask.Height = this.Height;
         }
 
+        float steps = 0;
+        float step(float i,float steps)
+        {
+            return (float)Math.Round(i * steps) / steps;
+        }
     }
 }

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("耳机虚拟环绕声")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("免费在耳机上体验7.1环绕的效果")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("HP")]
+[assembly: AssemblyCompany("ZYFDroid")]
 [assembly: AssemblyProduct("耳机虚拟环绕声")]
-[assembly: AssemblyCopyright("Copyright © HP 2022")]
+[assembly: AssemblyCopyright("Copyright © ZYFDroid 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
