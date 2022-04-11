@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbSrc = new System.Windows.Forms.ComboBox();
@@ -564,11 +563,11 @@
             // numCompressOverflow
             // 
             this.numCompressOverflow.BackColor = System.Drawing.Color.Black;
-            this.numCompressOverflow.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("numCompressOverflow.BackgroundImage")));
             this.numCompressOverflow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.numCompressOverflow.Location = new System.Drawing.Point(331, 20);
+            this.numCompressOverflow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numCompressOverflow.Location = new System.Drawing.Point(327, 19);
             this.numCompressOverflow.Name = "numCompressOverflow";
-            this.numCompressOverflow.Size = new System.Drawing.Size(10, 91);
+            this.numCompressOverflow.Size = new System.Drawing.Size(14, 91);
             this.numCompressOverflow.TabIndex = 7;
             this.numCompressOverflow.Value = 0F;
             // 

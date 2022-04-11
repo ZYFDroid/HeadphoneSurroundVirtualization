@@ -46,7 +46,7 @@ namespace MP3模拟器
                 }
                 animedValue = animedValue + (linearDownValue - animedValue) * smoothfactor;
 
-                mask.Height = (int)(this.Height * step(1- animedValue,steps)) + 1;
+                mask.Height = (int)(steps * 4 * step(1- animedValue,steps)) + 1;
                 //mask.Height = (int)(this.Height * (1- valuehistory[ptr])) + 1;
             }
         }
@@ -55,6 +55,7 @@ namespace MP3模拟器
         public int ptr = 0;
         private void CtlBarMeter_Load(object sender, EventArgs e)
         {
+            if (DesignMode) { return; }
             int removePadding = this.BorderStyle == BorderStyle.None ? 0 : 1;
             Image bgImg = new Bitmap(this.Width-2 * removePadding, this.Height-2 * removePadding);
             Graphics g = Graphics.FromImage(bgImg);
@@ -78,7 +79,6 @@ namespace MP3模拟器
                 g.DrawLine(p, 1, i+1, bgImg.Width-2, i+1);
                 steps++;
             }
-            steps++;
             g.Dispose();
             Bitmap foreImg = new Bitmap(bgImg);
             g = Graphics.FromImage(foreImg);
