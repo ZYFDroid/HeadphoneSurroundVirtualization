@@ -8,6 +8,8 @@ using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System.IO;
+using NAudio.Dsp;
+
 namespace 耳机虚拟环绕声
 {
 
@@ -107,6 +109,7 @@ namespace 耳机虚拟环绕声
     public class SurroundSettings
     {
         public float masterGain = 15; // 主音量（增益）
+        public float masterHFGain = 3; // 高频补偿
 
         public float cmpRatio = 15; // 压缩器 - 压缩比
         public float cmpAttack = 144;// 压缩器 - 启动时间
@@ -161,6 +164,12 @@ namespace 耳机虚拟环绕声
             dspProcessor[OffsetSideRight] = new SideRightDsp(_inWaveFormat.SampleRate);
             rawPeaks = new float[_inWaveFormat.Channels];
             _rawMaxs = new float[_inWaveFormat.Channels];
+            HFGainFilters = new BiQuadFilter[_channels];
+            for (int i = 0; i < HFGainFilters.Length; i++)
+            {
+                HFGainFilters[i] = BiQuadFilter.PeakingEQ(_inWaveFormat.SampleRate, 20000, 0.1f, masterHFGain);
+            }
+            
         }
         private WaveFormat _outWaveFormat = null;
         private WaveFormat _inWaveFormat = null;
@@ -186,15 +195,20 @@ namespace 耳机虚拟环绕声
         private int updatePeakDelay = 500;
 
         public bool Bypass = false;
-
+        private float masterHFGain = 3;
         private float _gain = 1f;
         public void applySettings(SurroundSettings settings,bool fullApply = false)
         {
+            masterHFGain = settings.masterHFGain;
             if (fullApply)
             {
                 foreach (var item in dspProcessor)
                 {
                     item.applySettings(settings);
+                }
+                for (int i = 0; i < HFGainFilters.Length; i++)
+                {
+                    HFGainFilters[i] = BiQuadFilter.PeakingEQ(_inWaveFormat.SampleRate, 20000, 0.1f, masterHFGain);
                 }
             }
             _gain = MathHelper.db2linear(settings.masterGain);
@@ -212,6 +226,7 @@ namespace 耳机虚拟环绕声
             {
                 _compressGain = 0;
             }
+            
         }
 
 
@@ -238,7 +253,7 @@ namespace 耳机虚拟环绕声
                 {
                     for (int c = 0; c < _channels; c++)
                     {
-                        float[] data = dspProcessor[c].process(_buffer[i + c]);
+                        float[] data = dspProcessor[c].process(HFGainFilters[c].Transform(_buffer[i + c]));
                         left += data[0];
                         right += data[1];
                         _rawMaxs[c] = _rawMaxs[c] > _buffer[i + c] ? _rawMaxs[c] : _buffer[i + c];
@@ -301,6 +316,8 @@ namespace 耳机虚拟环绕声
 
         private float[] _peakHistory = new float[10];
         private int _peakHistoryPtr = 0;
+
+        private BiQuadFilter[] HFGainFilters = null;
 
         private void processCompressor()
         {
