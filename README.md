@@ -1,5 +1,5 @@
 # 耳机虚拟环绕声
 
-使用说明：
+介绍：
 
-[使用普通耳机在原神中体验环绕声 - 哔哩哔哩 (bilibili.com)](https://www.bilibili.com/read/cv15858745)
+[【软件】耳机虚拟环绕声（支持原神）_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1Ka411q7Na)
