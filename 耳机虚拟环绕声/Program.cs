@@ -154,14 +154,19 @@ namespace 耳机虚拟环绕声
             _outWaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(_inWaveFormat.SampleRate, 2);
             _buffer = new float[_inWaveFormat.Channels * _inWaveFormat.SampleRate / 10];
             _channels = _inWaveFormat.Channels;
-            dspProcessor[OffsetFrontLeft] = new FrontLeftDsp(_inWaveFormat.SampleRate);
-            dspProcessor[OffsetFrontRight] = new FrontRightDsp(_inWaveFormat.SampleRate);
-            dspProcessor[OffsetFrontCenter] = new FrontCenterDsp(_inWaveFormat.SampleRate);
-            dspProcessor[OffsetBassBoost] = new LowFrequentDsp(_inWaveFormat.SampleRate);
-            dspProcessor[OffsetRearLeft] = new RearLeftDsp(_inWaveFormat.SampleRate);
-            dspProcessor[OffsetRearRight] = new RearRightDsp(_inWaveFormat.SampleRate);
-            dspProcessor[OffsetSideLeft] = new SideLeftDsp(_inWaveFormat.SampleRate);
-            dspProcessor[OffsetSideRight] = new SideRightDsp(_inWaveFormat.SampleRate);
+
+            var IRs = genIR(_outWaveFormat.SampleRate);
+
+            var sampleRate = _outWaveFormat.SampleRate;
+
+            dspProcessor[OffsetFrontLeft] = createIRDSP(sampleRate, IRs[0], IRs[1]);
+            dspProcessor[OffsetFrontRight] = createIRDSP(sampleRate, IRs[8], IRs[9]);
+            dspProcessor[OffsetFrontCenter] = new DoNothingDSP(sampleRate); //createIRDSP(sampleRate, IRs[6], IRs[7]);
+            dspProcessor[OffsetBassBoost] = new DoNothingDSP(sampleRate); // createIRDSP(sampleRate, IRs[6], IRs[7]); ;
+            dspProcessor[OffsetRearLeft] = new DoNothingDSP(sampleRate); // createIRDSP(sampleRate, IRs[4], IRs[5]);
+            dspProcessor[OffsetRearRight] = new DoNothingDSP(sampleRate); // createIRDSP(sampleRate, IRs[12], IRs[13]);
+            dspProcessor[OffsetSideLeft] = new DoNothingDSP(sampleRate); //createIRDSP(sampleRate, IRs[2], IRs[3]);
+            dspProcessor[OffsetSideRight] = new DoNothingDSP(sampleRate); // createIRDSP(sampleRate, IRs[10], IRs[11]);
             rawPeaks = new float[_inWaveFormat.Channels];
             _rawMaxs = new float[_inWaveFormat.Channels];
             HFGainFilters = new BiQuadFilter[_channels];
@@ -171,6 +176,46 @@ namespace 耳机虚拟环绕声
             }
             
         }
+
+        private DSPProcessor createIRDSP(int sampleRate,float[] leftIR,float[] rightIR)
+        {
+            return new ImpulseResponseDSP(sampleRate, leftIR, rightIR);
+        }
+
+        private float[][] genIR(int sampleRate)
+        {
+            List<float>[] ret;
+            using(MemoryStream ms = new MemoryStream(Properties.Resources.fir))
+            using(WaveFileReader irIn = new WaveFileReader(ms))
+            {
+                ret = new List<float>[irIn.WaveFormat.Channels];
+                for (int i = 0; i < ret.Length; i++)
+                {
+                    ret[i] = new List<float>();
+                }
+                WaveToSampleProvider sampleReader = new WaveToSampleProvider(irIn);
+                ISampleProvider sampleProvider = sampleReader;
+                if(sampleRate != irIn.WaveFormat.SampleRate)
+                {
+                    sampleProvider = new WdlResamplingSampleProvider(sampleProvider,sampleRate);
+                }
+                float[] buffer = new float[ret.Length * 100];
+                int count = 0;
+                while((count = sampleProvider.Read(buffer,0,buffer.Length)) > 0)
+                {
+                    for (int i = 0; i < count; i+=ret.Length)
+                    {
+                        for (int c = 0; c < ret.Length; c++)
+                        {
+                            ret[c].Add(buffer[i + c]);
+                        }
+                    }
+                }
+            }
+            return ret.Select(r => r.ToArray()).ToArray();
+        }
+
+
         private WaveFormat _outWaveFormat = null;
         private WaveFormat _inWaveFormat = null;
         private ISampleProvider _sampleIn;
@@ -253,7 +298,7 @@ namespace 耳机虚拟环绕声
                 {
                     for (int c = 0; c < _channels; c++)
                     {
-                        float[] data = dspProcessor[c].process(HFGainFilters[c].Transform(_buffer[i + c]));
+                        float[] data = dspProcessor[c].process(_buffer[i + c]);
                         left += data[0];
                         right += data[1];
                         _rawMaxs[c] = _rawMaxs[c] > _buffer[i + c] ? _rawMaxs[c] : _buffer[i + c];

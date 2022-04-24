@@ -85,10 +85,10 @@ namespace 耳机虚拟环绕声
                     targetDevice.AudioEndpointVolume.OnVolumeNotification += targetVolumeChanged;
                     //Console.ReadLine();
                     var targetFormat = targetDevice.AudioClient.MixFormat;
-                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, 50); //对虚拟声卡进行捕获
-                    WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, 50); //从我们的立体声耳机创建一个声音输出
+                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, 1000); //对虚拟声卡进行捕获
+                    WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, 1000); //从我们的立体声耳机创建一个声音输出
                     BufferedWaveProvider bufferedWaveProvider = new BufferedWaveProvider(wasapiCapture.WaveFormat);
-                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(50);
+                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(1000);
                     bufferedWaveProvider.DiscardOnBufferOverflow = true;
                     wasapiCapture.DataAvailable += (_, waveArgs) =>
                     {
