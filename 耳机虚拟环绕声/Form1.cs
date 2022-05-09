@@ -19,6 +19,8 @@ namespace 耳机虚拟环绕声
     public partial class Form1 : Form,NAudio.CoreAudioApi.Interfaces.IMMNotificationClient
     {
 
+        public int deviceLancey = 40;
+
         class DeviceDesc
         {
             public string name;
@@ -85,19 +87,36 @@ namespace 耳机虚拟环绕声
                     targetDevice.AudioEndpointVolume.OnVolumeNotification += targetVolumeChanged;
                     //Console.ReadLine();
                     var targetFormat = targetDevice.AudioClient.MixFormat;
-                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, 100); //对虚拟声卡进行捕获
-                    WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, 100); //从我们的立体声耳机创建一个声音输出
+                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, deviceLancey); //对虚拟声卡进行捕获
+                    WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, deviceLancey + deviceLancey / 2 ); //从我们的立体声耳机创建一个声音输出
                     BufferedWaveProvider bufferedWaveProvider = new BufferedWaveProvider(wasapiCapture.WaveFormat);
-                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(120);
+
+                    int prefillLen = deviceLancey/9; //玄学调参：只要除以9就可以避免卡顿？我也不知道为什么
+                    prefillLen *= bufferedWaveProvider.WaveFormat.SampleRate;
+                    prefillLen /= 1000;
+                    prefillLen *= bufferedWaveProvider.WaveFormat.Channels;
+                    prefillLen *= bufferedWaveProvider.WaveFormat.BitsPerSample;
+
+                    byte[] prefillEmptyBuffer = new byte[prefillLen];
+
+                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(deviceLancey * 2);
                     bufferedWaveProvider.DiscardOnBufferOverflow = true;
                     wasapiCapture.DataAvailable += (_, waveArgs) =>
                     {
+                        if(bufferedWaveProvider.BufferedDuration.Milliseconds == 0)
+                        {
+                            bufferedWaveProvider.AddSamples(prefillEmptyBuffer, 0, prefillEmptyBuffer.Length);
+                            
+                        }
                         bufferedWaveProvider.AddSamples(waveArgs.Buffer, 0, waveArgs.BytesRecorded);
                     };
                     wasapiCapture.StartRecording();
                     WaveToSampleProvider waveToSampleProvider = new WaveToSampleProvider(bufferedWaveProvider);
                     surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider); //实现算法
                     surroundToStereoSampleProvider.applySettings(Program.SurroundSettings, true);
+
+                    
+
                     wasapiOut.Init(surroundToStereoSampleProvider);
                     wasapiOut.Play(); //开始环绕
                     while (!surroundProc.CancellationPending)
@@ -283,6 +302,13 @@ namespace 耳机虚拟环绕声
                 btnBegin.Enabled = true;
                 btnBegin.Image = Properties.Resources.btnSurroundOn;
                 lblIndicator.Visible = false;
+                mtmOutL.Reset();
+                mtmOutR.Reset();
+                numCompressOverflow.Reset();
+                for (int i = 0; i < bars.Length; i++)
+                {
+                    bars[i].Reset();
+                }
             }
         }
 

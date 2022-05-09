@@ -20,7 +20,7 @@ namespace MP3模拟器
         public const int delayframe = 1;
 
 
-        float smoothfactor = 0.19f;
+        public float smoothfactor = 0.19f;
 
         float linearDownValue = 0.0f;
 
@@ -94,6 +94,13 @@ namespace MP3模拟器
         float step(float i,float steps)
         {
             return (float)Math.Round(i * steps) / steps;
+        }
+
+        internal void Reset()
+        {
+            linearDownValue = 0;
+            animedValue = 0;
+            Value = 0;
         }
     }
 }

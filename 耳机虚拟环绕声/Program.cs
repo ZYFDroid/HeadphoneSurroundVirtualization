@@ -254,7 +254,6 @@ namespace 耳机虚拟环绕声
         public float displayLeft = 0,displayRight = 0;
         private float _maxLeft = 0, _maxRight = 0;
         private int cd = 500;
-        private int updatePeakDelay = 500;
 
         public bool Bypass = false;
         private float _gain = 1f;
