@@ -67,7 +67,7 @@ namespace 耳机虚拟环绕声
         }
         public static string TuneConfigFile
         {
-            get => System.IO.Path.Combine(UserDataDir, "config_v0.json");
+            get => System.IO.Path.Combine(UserDataDir, "config_fir_v0.json");
         }
         public static string DeviceConfigFile
         {
@@ -108,45 +108,21 @@ namespace 耳机虚拟环绕声
 
     public class SurroundSettings
     {
-        public float masterGain = 15; // 主音量（增益）
-        public float masterHFGain = 3; // 高频补偿
+        public float masterGain = 0; // 主音量（增益）
 
         public float cmpRatio = 15; // 压缩器 - 压缩比
         public float cmpAttack = 144;// 压缩器 - 启动时间
         public float cmpRelease = 1440; // 压缩器 - 释放时间
         public float cmpGate = 0;// 压缩器 - 噪音门限
 
-        public float fsVolume = 1.0f; //前扬声器音量
-        public float fsCrossin = 0.57f; //前混音交叉淡入
-        public float fsSideDecay = 2.0f; //前侧高频衰减
-        public float fsOpposideDecay = 16.0f; //前侧对侧高频衰减
-        public float fsOpposideDelay = 0.32f; //对侧延迟混音毫秒
-
-        public float fcVolume = 0.8f; //中置扬声器音量
-        public float fcDecay = 3f; //中置高频衰减
-        public float fcDelay = 0.16f;//中置混音延迟
-
-        public float lfVolume = 1.0f; //低音扬声器音量
-        public float lfDecay = 18f; //低音扬声器高频衰减
-        public float lfDelay = 0.48f;//低音扬声器混音延迟
-
-        public float rsVolume = 0.8f; //后扬声器音量
-        public float rsCrossin = 0.6f; //后置混音交叉淡入
-        public float rsSideDecay = 9.0f; //后侧高频衰减
-        public float rsOpposideDecay = 24.0f; //后侧对侧高频衰减
-        public float rsOpposideDelay = 0.32f; //后侧延迟混音毫秒
-
-        public float ssVolume = 1.0f; //侧面扬声器音量
-        public float ssCrossin = 0.69f; //侧面混音交叉淡入
-        public float ssSideDecay = -2.0f; //侧面高频衰减
-        public float ssOpposideDecay = 22.0f; //侧面对侧高频衰减
-        public float ssOpposideDelay = 0.5f; //侧面延迟混音毫秒
-
     }
 
     public class SurroundToStereoSampleProvider : ISampleProvider
     {
         int _channels=8;
+
+        const int bufferSize = 1024;
+
         public SurroundToStereoSampleProvider(ISampleProvider sampleIn)
         {
             _sampleIn = sampleIn;
@@ -157,33 +133,80 @@ namespace 耳机虚拟环绕声
 
             var IRs = genIR(_outWaveFormat.SampleRate);
 
-            var sampleRate = _outWaveFormat.SampleRate;
-
-            dspProcessor[OffsetFrontLeft] = createIRDSP(sampleRate, IRs[0], IRs[1]);
-            dspProcessor[OffsetFrontRight] = createIRDSP(sampleRate, IRs[8], IRs[9]);
-            dspProcessor[OffsetFrontCenter] = new DoNothingDSP(sampleRate); //createIRDSP(sampleRate, IRs[6], IRs[7]);
-            dspProcessor[OffsetBassBoost] = new DoNothingDSP(sampleRate); // createIRDSP(sampleRate, IRs[6], IRs[7]); ;
-            dspProcessor[OffsetRearLeft] = new DoNothingDSP(sampleRate); // createIRDSP(sampleRate, IRs[4], IRs[5]);
-            dspProcessor[OffsetRearRight] = new DoNothingDSP(sampleRate); // createIRDSP(sampleRate, IRs[12], IRs[13]);
-            dspProcessor[OffsetSideLeft] = new DoNothingDSP(sampleRate); //createIRDSP(sampleRate, IRs[2], IRs[3]);
-            dspProcessor[OffsetSideRight] = new DoNothingDSP(sampleRate); // createIRDSP(sampleRate, IRs[10], IRs[11]);
-            rawPeaks = new float[_inWaveFormat.Channels];
-            _rawMaxs = new float[_inWaveFormat.Channels];
-            HFGainFilters = new BiQuadFilter[_channels];
-            for (int i = 0; i < HFGainFilters.Length; i++)
+            FFTConvolver.FFTConvolver.con01_reset();
+            FFTConvolver.FFTConvolver.con02_reset();
+            FFTConvolver.FFTConvolver.con03_reset();
+            FFTConvolver.FFTConvolver.con04_reset();
+            FFTConvolver.FFTConvolver.con05_reset();
+            FFTConvolver.FFTConvolver.con06_reset();
+            FFTConvolver.FFTConvolver.con07_reset();
+            FFTConvolver.FFTConvolver.con08_reset();
+            FFTConvolver.FFTConvolver.con09_reset();
+            FFTConvolver.FFTConvolver.con10_reset();
+            FFTConvolver.FFTConvolver.con11_reset();
+            FFTConvolver.FFTConvolver.con12_reset();
+            FFTConvolver.FFTConvolver.con13_reset();
+            FFTConvolver.FFTConvolver.con14_reset();
+            FFTConvolver.FFTConvolver.con15_reset();
+            FFTConvolver.FFTConvolver.con16_reset();
+            ulong irLen = (ulong)IRs[0].Length;
+            ulong fftSize = 1024;
+            unsafe
             {
-                HFGainFilters[i] = BiQuadFilter.PeakingEQ(_inWaveFormat.SampleRate, 20000, 0.1f, masterHFGain);
+                fixed(float* ir0 = IRs[0]) { test(FFTConvolver.FFTConvolver.con01_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[1]) { test(FFTConvolver.FFTConvolver.con02_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[8]) { test(FFTConvolver.FFTConvolver.con03_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[9]) { test(FFTConvolver.FFTConvolver.con04_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[6]) { test(FFTConvolver.FFTConvolver.con05_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[7]) { test(FFTConvolver.FFTConvolver.con06_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[6]) { test(FFTConvolver.FFTConvolver.con07_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[7]) { test(FFTConvolver.FFTConvolver.con08_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[4]) { test(FFTConvolver.FFTConvolver.con09_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[5]) { test(FFTConvolver.FFTConvolver.con10_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[12]) {test( FFTConvolver.FFTConvolver.con11_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[13]) {test( FFTConvolver.FFTConvolver.con12_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[2]) { test(FFTConvolver.FFTConvolver.con13_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[3]) { test(FFTConvolver.FFTConvolver.con14_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[10]) {test( FFTConvolver.FFTConvolver.con15_init(fftSize, ir0, irLen)); }
+                fixed(float* ir0 = IRs[11]) {test( FFTConvolver.FFTConvolver.con16_init(fftSize, ir0, irLen)); }
             }
-            
+            List<float[]> __in = new List<float[]>();
+            for (int i = 0; i < 8; i++)
+            {
+                __in.Add(new float[bufferSize]);
+            }
+            _sampleInBuffer = __in.ToArray();
+
+            List<float[]> __out = new List<float[]>();
+            for (int i = 0; i < 16; i++)
+            {
+                __out.Add(new float[bufferSize]);
+            }
+            _sampleOutBuffer = __out.ToArray();
+            _buffer = new float[bufferSize * _channels];
+            rawPeaks = new float[_channels];
+            _rawMaxs = new float[_channels];
+            compressor = new EnvelopeGenerator();
         }
 
-        private DSPProcessor createIRDSP(int sampleRate,float[] leftIR,float[] rightIR)
+        EnvelopeGenerator compressor;
+
+        void test(bool b)
         {
-            return new ImpulseResponseDSP(sampleRate, leftIR, rightIR);
+            if (!b) { throw new Exception("Operation failed!"); }
         }
 
+        const int OffsetFrontLeft = 0; // 左前
+        const int OffsetFrontRight = 1; //右前
+        const int OffsetFrontCenter = 2; //前
+        const int OffsetBassBoost = 3; //低音炮
+        const int OffsetRearLeft = 4; //左后
+        const int OffsetRearRight = 5; //右后
+        const int OffsetSideLeft = 6; //左侧
+        const int OffsetSideRight = 7; //右侧
         private float[][] genIR(int sampleRate)
         {
+            
             List<float>[] ret;
             using(MemoryStream ms = new MemoryStream(Properties.Resources.fir))
             using(WaveFileReader irIn = new WaveFileReader(ms))
@@ -222,16 +245,10 @@ namespace 耳机虚拟环绕声
         public WaveFormat WaveFormat => _outWaveFormat;
         float[] _buffer;
 
-        const int OffsetFrontLeft = 0; // 左前
-        const int OffsetFrontRight = 1; //右前
-        const int OffsetFrontCenter = 2; //前
-        const int OffsetBassBoost = 3; //低音炮
-        const int OffsetRearLeft = 4; //左后
-        const int OffsetRearRight = 5; //右后
-        const int OffsetSideLeft = 6; //左侧
-        const int OffsetSideRight = 7; //右侧
 
-        DSPProcessor[] dspProcessor = new DSPProcessor[8];
+
+        float[][] _sampleInBuffer = null;
+        float[][] _sampleOutBuffer = null;
 
         public float outLeft = 0,outRight = 0;
         public float displayLeft = 0,displayRight = 0;
@@ -240,159 +257,217 @@ namespace 耳机虚拟环绕声
         private int updatePeakDelay = 500;
 
         public bool Bypass = false;
-        private float masterHFGain = 3;
         private float _gain = 1f;
+
+        private float _compressorGate = 1f;
         public void applySettings(SurroundSettings settings,bool fullApply = false)
         {
-            masterHFGain = settings.masterHFGain;
-            if (fullApply)
-            {
-                foreach (var item in dspProcessor)
-                {
-                    item.applySettings(settings);
-                }
-                for (int i = 0; i < HFGainFilters.Length; i++)
-                {
-                    HFGainFilters[i] = BiQuadFilter.PeakingEQ(_inWaveFormat.SampleRate, 20000, 0.1f, masterHFGain);
-                }
-            }
-            _gain = MathHelper.db2linear(settings.masterGain);
-
-            _compressThreahold = settings.cmpGate;
-            updatePeakDelay = _outWaveFormat.SampleRate / 1000;
-            _minCompress = settings.cmpRatio < 0.5f ? 0 : 1f / settings.cmpRatio;
-            if(_minCompress == 0)
-            {
-                _minCompress = 0.0000001f;
-            }
-            _compressUpRate = settings.cmpRelease == 0 ? 20 : (0 - MathHelper.linear2db(_minCompress)) / settings.cmpRelease;
-            _compressDownRate = settings.cmpAttack == 0 ? 20 : (0 - MathHelper.linear2db(_minCompress)) / settings.cmpAttack;
-            if(_minCompress >= 0.99999f)
-            {
-                _compressGain = 0;
-            }
             
+            _gain = MathHelper.db2linear(settings.masterGain);
+            compressor.AttackRate = settings.cmpAttack / 1000f * _inWaveFormat.SampleRate;
+            compressor.ReleaseRate = settings.cmpRelease / 1000f * _inWaveFormat.SampleRate;
+            compressor.DecayRate = 0f;
+            compressor.SustainLevel = 1 / settings.cmpRatio;
+            _compressorGate =MathHelper.db2linear(settings.cmpGate);
         }
 
 
         public float[] rawPeaks;
         private float[] _rawMaxs;
+        private float l, r;
+        int ccd = 1000;
+
+        public float _compressorGain = 1f;
 
         public int Read(float[] buffer, int offset, int count)
         {
-
             
-            int sampleReaded = 0;
             int desiredSamples = count / 2;
             int neededSamples = desiredSamples * _inWaveFormat.Channels;
             int maxSamples = _buffer.Length;
 
             int readFrom = _sampleIn.Read(_buffer,0,Math.Min(maxSamples,neededSamples));
 
-            int outOffset = offset;
+            ulong monoCount = (ulong)(readFrom / _channels);
+
+            int monoCountInt = (int)monoCount;
+
             for (int i = 0; i < readFrom; i+=_channels)
             {
-                float left = 0;
-                float right = 0;
-                if (!Bypass)
+                for (int c = 0; c < _channels; c++)
                 {
-                    for (int c = 0; c < _channels; c++)
+                    float sample = _buffer[i+c];
+                    _sampleInBuffer[c][i/_channels] = sample;
+                    if(_rawMaxs[c] < sample)
                     {
-                        float[] data = dspProcessor[c].process(_buffer[i + c]);
-                        left += data[0];
-                        right += data[1];
-                        _rawMaxs[c] = _rawMaxs[c] > _buffer[i + c] ? _rawMaxs[c] : _buffer[i + c];
+                        _rawMaxs[c] = sample;
                     }
-                    left = left / (float)_channels * _gain;
-                    right = right / (float)_channels * _gain;
+
                 }
-                else
+                cd--;
+                if(cd < 0)
                 {
-                    left = _buffer[i];
-                    right = _buffer[i+1];
-                }
-
-                float aleft = left < 0 ? -left : left;
-                float aright = right < 0 ? -right : right;
-
-                _maxLeft = _maxLeft < aleft ? aleft : _maxLeft;
-                _maxRight = _maxRight < aright ? aright : _maxRight;
-                
-                if(cd-- < 0)
-                {
-                    cd = updatePeakDelay;
-                    outLeft = _maxLeft;
-                    outRight = _maxRight;
-                    _maxLeft = 0;
-                    _maxRight = 0;
-
-                    for (int c = 0; c < _channels; c++)
+                    cd = ccd;
+                    for (int c = 0; c < rawPeaks.Length; c++)
                     {
                         rawPeaks[c] = _rawMaxs[c];
                         _rawMaxs[c] = 0;
                     }
-                    
-                    processCompressor();
                 }
-                float linearCompressGain = MathHelper.db2linear(_compressGain);
-                left = MathHelper.clamp(left * linearCompressGain);
-                right = MathHelper.clamp(right * linearCompressGain);
-                displayLeft = outLeft * linearCompressGain;
-                displayRight = outRight * linearCompressGain;
-                buffer[outOffset] = left;
-                buffer[outOffset + 1] = right;
+            }
+            unsafe
+            {
+                fixed(float* lpIn = _sampleInBuffer[0])
+                    fixed(float* lpOut = _sampleOutBuffer[0])
+                {
 
-                outOffset += 2;
-                sampleReaded += 2;
+                    FFTConvolver.FFTConvolver.con01_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[0])
+                fixed (float* lpOut = _sampleOutBuffer[1])
+                {
+
+                    FFTConvolver.FFTConvolver.con02_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[1])
+                fixed (float* lpOut = _sampleOutBuffer[2])
+                {
+
+                    FFTConvolver.FFTConvolver.con03_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[1])
+                fixed (float* lpOut = _sampleOutBuffer[3])
+                {
+
+                    FFTConvolver.FFTConvolver.con04_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[2])
+                fixed (float* lpOut = _sampleOutBuffer[4])
+                {
+
+                    FFTConvolver.FFTConvolver.con05_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[2])
+                fixed (float* lpOut = _sampleOutBuffer[5])
+                {
+
+                    FFTConvolver.FFTConvolver.con06_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[3])
+                fixed (float* lpOut = _sampleOutBuffer[6])
+                {
+
+                    FFTConvolver.FFTConvolver.con07_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[3])
+                fixed (float* lpOut = _sampleOutBuffer[7])
+                {
+
+                    FFTConvolver.FFTConvolver.con08_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[4])
+                fixed (float* lpOut = _sampleOutBuffer[8])
+                {
+
+                    FFTConvolver.FFTConvolver.con09_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[4])
+                fixed (float* lpOut = _sampleOutBuffer[9])
+                {
+
+                    FFTConvolver.FFTConvolver.con10_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[5])
+                fixed (float* lpOut = _sampleOutBuffer[10])
+                {
+
+                    FFTConvolver.FFTConvolver.con11_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[5])
+                fixed (float* lpOut = _sampleOutBuffer[11])
+                {
+
+                    FFTConvolver.FFTConvolver.con12_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[6])
+                fixed (float* lpOut = _sampleOutBuffer[12])
+                {
+
+                    FFTConvolver.FFTConvolver.con13_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[6])
+                fixed (float* lpOut = _sampleOutBuffer[13])
+                {
+
+                    FFTConvolver.FFTConvolver.con14_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[7])
+                fixed (float* lpOut = _sampleOutBuffer[14])
+                {
+
+                    FFTConvolver.FFTConvolver.con15_process(lpIn, lpOut, monoCount);
+                }
+                fixed (float* lpIn = _sampleInBuffer[7])
+                fixed (float* lpOut = _sampleOutBuffer[15])
+                {
+
+                    FFTConvolver.FFTConvolver.con16_process(lpIn, lpOut, monoCount);
+                }
             }
 
-            return sampleReaded;
+            for (int i = 0; i < monoCountInt; i ++)
+            {
+                l = 0;r = 0;
+                for (int c = 0; c < _channels; c++)
+                {
+                    if (Bypass)
+                    {
+                        l = _sampleInBuffer[0][i];
+                        r = _sampleInBuffer[1][i];
+                    }
+                    else
+                    {
+                        l += _sampleOutBuffer[c * 2][i];
+                        r += _sampleOutBuffer[c * 2 + 1][i];
+                    }
+                }
+
+                l = l * _gain;
+                r = r * _gain;
+
+                float rectl = l > 0 ? l : -l;
+                float rectr = r > 0 ? r : -r;
+                float link = rectl > rectr ? rectl : rectr;
+
+                bool gate = link < _compressorGate;
+
+                compressor.Gate(gate);
+
+                _compressorGain = compressor.Process();
+
+                l = l * _compressorGain;
+                r = r * _compressorGain;
+
+                _maxLeft = _maxLeft > l ? _maxLeft : l;
+                _maxRight = _maxRight > r ? _maxRight : r;
+
+
+                buffer[offset + i * 2] = l;
+                buffer[offset + i * 2 + 1] = r;
+                cd--;
+                if (cd < 0)
+                {
+                    cd = ccd;
+                    outLeft = _maxLeft;
+                    outRight = _maxRight;
+                    _maxLeft = 0;
+                    _maxRight = 0;
+                }
+            }
+
+            return monoCountInt * 2 ;
         }
 
-        public float _compressGain = 0f;
-
-       
-
-        private float _compressThreahold = 1;
-        private float _minCompress = 1;
-
-        private float _compressUpRate = 0.001f;
-        private float _compressDownRate = 0.001f;
-
-        private float[] _peakHistory = new float[10];
-        private int _peakHistoryPtr = 0;
-
-        private BiQuadFilter[] HFGainFilters = null;
-
-        private void processCompressor()
-        {
-            float peak =MathHelper.linear2db(displayLeft > displayRight ? displayLeft : displayRight);
-            _peakHistory[_peakHistoryPtr] = peak;
-            _peakHistoryPtr++;
-            if(_peakHistoryPtr >= _peakHistory.Length)
-            {
-                _peakHistoryPtr = 0;
-            }
-            peak = _peakHistory.Max();
-            if(peak > _compressThreahold)
-            {
-                _compressGain -= _compressDownRate;
-                
-
-                if(MathHelper.db2linear(_compressGain) < _minCompress)
-                {
-                    _compressGain = MathHelper.linear2db(_minCompress <= 0.0001f ? 0.0001f : _minCompress);
-                }
-            }
-            else
-            {
-                _compressGain += _compressUpRate;
-                if(_compressGain > 0)
-                {
-                    _compressGain = 0;
-                }
-            }
-        }
        
     }
 

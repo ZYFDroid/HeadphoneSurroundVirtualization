@@ -85,10 +85,10 @@ namespace 耳机虚拟环绕声
                     targetDevice.AudioEndpointVolume.OnVolumeNotification += targetVolumeChanged;
                     //Console.ReadLine();
                     var targetFormat = targetDevice.AudioClient.MixFormat;
-                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, 1000); //对虚拟声卡进行捕获
-                    WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, 1000); //从我们的立体声耳机创建一个声音输出
+                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, 100); //对虚拟声卡进行捕获
+                    WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, 100); //从我们的立体声耳机创建一个声音输出
                     BufferedWaveProvider bufferedWaveProvider = new BufferedWaveProvider(wasapiCapture.WaveFormat);
-                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(1000);
+                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(120);
                     bufferedWaveProvider.DiscardOnBufferOverflow = true;
                     wasapiCapture.DataAvailable += (_, waveArgs) =>
                     {
@@ -290,9 +290,9 @@ namespace 耳机虚拟环绕声
 
         private void doTimer()
         {
-            mtmOutL.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.displayLeft) + displayDbRange) / displayDbRange;
-            mtmOutR.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.displayRight) + displayDbRange) / displayDbRange;
-            this.numCompressOverflow.Value = (-surroundToStereoSampleProvider._compressGain) / displayDbRange;
+            mtmOutL.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.outLeft) + displayDbRange) / displayDbRange;
+            mtmOutR.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.outRight) + displayDbRange) / displayDbRange;
+            this.numCompressOverflow.Value = (-MathHelper.linear2db(surroundToStereoSampleProvider._compressorGain)) / displayDbRange;
             for (int i = 0; i < surroundToStereoSampleProvider.rawPeaks.Length; i++)
             {
                 bars[i].Value = (MathHelper.linear2db(surroundToStereoSampleProvider.rawPeaks[i]) + displayDbRange) / displayDbRange;
