@@ -184,6 +184,7 @@ namespace 耳机虚拟环绕声
             numMasterGain.Value =(int)Math.Round(Program.SurroundSettings.masterGain * 100f);
             numCompress_ValueChanged(null, null);
             numMasterGain_Scroll(null, null);
+            chkLowLancey.Checked = Program.SurroundSettings.lowLancey;
             Program.neenSave = false;
         }
 
@@ -263,6 +264,7 @@ namespace 耳机虚拟环绕声
                 sp.targetDevice = dst;
                 deviceDecider.OnStart(dst.id,devices.Select(d => d.id).ToArray());
                 chkBypass.Checked = false;
+                this.deviceLancey = chkLowLancey.Checked ? 40 : 160;
                 surroundProc.RunWorkerAsync(sp);
 
             }
@@ -413,6 +415,12 @@ namespace 耳机虚拟环绕声
         private void btnHelp_Click(object sender, EventArgs e)
         {
             new FrmConfig().ShowDialog(this);
+        }
+
+        private void chkLowLancey_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.SurroundSettings.lowLancey = chkLowLancey.Checked;
+            Program.neenSave = true;
         }
     }
 }

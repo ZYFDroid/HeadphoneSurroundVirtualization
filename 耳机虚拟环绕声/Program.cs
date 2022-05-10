@@ -38,6 +38,14 @@ namespace 耳机虚拟环绕声
             {
                 DevicePriorityList = JsonConvert.Deserialize<List<DevicePriority>>(File.ReadAllText(DeviceConfigFile));
             }
+            if (!File.Exists(FFTConvolverModule))
+            {
+                string name = FFTConvolverModule;
+                string tempname = FFTConvolverModule+".tmp";
+                File.WriteAllBytes(tempname, Properties.Resources.FFTConvolver_dll);
+                File.Move(tempname, name);
+            }
+            FFTConvolver.FFTConvolver.Init();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
@@ -72,6 +80,10 @@ namespace 耳机虚拟环绕声
         public static string DeviceConfigFile
         {
             get => System.IO.Path.Combine(UserDataDir, "device.json");
+        }
+        public static string FFTConvolverModule
+        {
+            get => System.IO.Path.Combine(UserDataDir, "FFTConvolver01.dll");
         }
 
         public class JsonConvert
@@ -114,6 +126,8 @@ namespace 耳机虚拟环绕声
         public float cmpAttack = 144;// 压缩器 - 启动时间
         public float cmpRelease = 1440; // 压缩器 - 释放时间
         public float cmpGate = 0;// 压缩器 - 噪音门限
+
+        public bool lowLancey = false;
 
     }
 

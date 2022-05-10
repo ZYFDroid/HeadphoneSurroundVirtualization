@@ -93,6 +93,16 @@ namespace 耳机虚拟环绕声.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
+        internal static byte[] FFTConvolver_dll {
+            get {
+                object obj = ResourceManager.GetObject("FFTConvolver_dll", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
         internal static byte[] fir {
             get {
                 object obj = ResourceManager.GetObject("fir", resourceCulture);
