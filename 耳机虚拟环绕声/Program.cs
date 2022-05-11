@@ -83,7 +83,7 @@ namespace 耳机虚拟环绕声
         }
         public static string FFTConvolverModule
         {
-            get => System.IO.Path.Combine(UserDataDir, "FFTConvolver01.dll");
+            get => System.IO.Path.Combine(UserDataDir, "FFTConvolver02.dll");
         }
 
         public class JsonConvert
@@ -163,8 +163,8 @@ namespace 耳机虚拟环绕声
             FFTConvolver.FFTConvolver.con14_reset();
             FFTConvolver.FFTConvolver.con15_reset();
             FFTConvolver.FFTConvolver.con16_reset();
-            ulong irLen = (ulong)IRs[0].Length;
-            ulong fftSize = 1024;
+            int irLen = IRs[0].Length;
+            int fftSize = 1024;
             unsafe
             {
                 fixed(float* ir0 = IRs[0]) { test(FFTConvolver.FFTConvolver.con01_init(fftSize, ir0, irLen)); }
@@ -301,9 +301,8 @@ namespace 耳机虚拟环绕声
 
             int readFrom = _sampleIn.Read(_buffer,0,Math.Min(maxSamples,neededSamples));
 
-            ulong monoCount = (ulong)(readFrom / _channels);
+            int monoCount = (readFrom / _channels);
 
-            int monoCountInt = (int)monoCount;
 
             for (int i = 0; i < readFrom; i+=_channels)
             {
@@ -428,7 +427,7 @@ namespace 耳机虚拟环绕声
                 }
             }
 
-            for (int i = 0; i < monoCountInt; i ++)
+            for (int i = 0; i < monoCount; i ++)
             {
                 l = 0;r = 0;
                 for (int c = 0; c < _channels; c++)
@@ -478,7 +477,7 @@ namespace 耳机虚拟环绕声
                 }
             }
 
-            return monoCountInt * 2 ;
+            return monoCount * 2 ;
         }
 
        

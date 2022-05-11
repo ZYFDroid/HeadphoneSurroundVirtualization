@@ -56,6 +56,9 @@ namespace 耳机虚拟环绕声
 
         private bool _notifyAudioDeviceChanged = false;
 
+        int overflowCount = 0;
+        int underflowCount = 0;
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -103,10 +106,16 @@ namespace 耳机虚拟环绕声
                     bufferedWaveProvider.DiscardOnBufferOverflow = true;
                     wasapiCapture.DataAvailable += (_, waveArgs) =>
                     {
-                        if(bufferedWaveProvider.BufferedDuration.Milliseconds == 0)
+                        if(bufferedWaveProvider.BufferedDuration.Milliseconds == 0)//underflow detect
                         {
                             bufferedWaveProvider.AddSamples(prefillEmptyBuffer, 0, prefillEmptyBuffer.Length);
-                            
+                            //underflowCount++;
+                        }
+                        if(bufferedWaveProvider.BufferedDuration.Milliseconds > deviceLancey * 2 * 95 / 100)//Overflow detect
+                        {
+                            bufferedWaveProvider.Read(prefillEmptyBuffer, 0, prefillEmptyBuffer.Length);
+                            Array.Clear(prefillEmptyBuffer,0,prefillEmptyBuffer.Length);
+                            //overflowCount++;
                         }
                         bufferedWaveProvider.AddSamples(waveArgs.Buffer, 0, waveArgs.BytesRecorded);
                     };
@@ -325,6 +334,8 @@ namespace 耳机虚拟环绕声
             {
                 bars[i].Value = (MathHelper.linear2db(surroundToStereoSampleProvider.rawPeaks[i]) + displayDbRange) / displayDbRange;
             }
+
+            //this.Text = $"Overflow={overflowCount},Underflow={underflowCount}";
         }
 
         private void surroundProc_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

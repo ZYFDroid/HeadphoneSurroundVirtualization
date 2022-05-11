@@ -6,8 +6,8 @@ namespace FFTConvolver
 {
     public static unsafe class FFTConvolver
     {
-        public delegate bool ConvolverInitCall(ulong blockSize, float* ir, ulong irLen);
-        public delegate void ConvolverProcess(float* input,float* output, ulong len);
+        public delegate bool ConvolverInitCall(int blockSize, float* ir, int irLen);
+        public delegate void ConvolverProcess(float* input,float* output, int len);
         public delegate void ConvolverReset();
 
         [DllImport("kernel32.dll")]
