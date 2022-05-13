@@ -36,6 +36,7 @@
             this.lblIndicator = new System.Windows.Forms.Label();
             this.surroundProc = new System.ComponentModel.BackgroundWorker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkLowLancey = new System.Windows.Forms.CheckBox();
             this.btnHelp = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -43,8 +44,11 @@
             this.label14 = new System.Windows.Forms.Label();
             this.lblMasterGain = new System.Windows.Forms.Label();
             this.numMasterGain = new System.Windows.Forms.TrackBar();
+            this.mtmOutR = new MP3模拟器.CtlBarMeter();
+            this.mtmOutL = new MP3模拟器.CtlBarMeter();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.numCompressOverflow = new MP3模拟器.CtlBarMeter();
             this.lblCompressRelease = new System.Windows.Forms.Label();
             this.lblCompressAttack = new System.Windows.Forms.Label();
             this.lblCompressRatio = new System.Windows.Forms.Label();
@@ -63,10 +67,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnBegin = new System.Windows.Forms.Button();
-            this.chkLowLancey = new System.Windows.Forms.CheckBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.barSR = new MP3模拟器.CtlBarMeter();
             this.barSL = new MP3模拟器.CtlBarMeter();
             this.barRR = new MP3模拟器.CtlBarMeter();
@@ -75,9 +75,9 @@
             this.barFC = new MP3模拟器.CtlBarMeter();
             this.barFR = new MP3模拟器.CtlBarMeter();
             this.barFL = new MP3模拟器.CtlBarMeter();
-            this.numCompressOverflow = new MP3模拟器.CtlBarMeter();
-            this.mtmOutR = new MP3模拟器.CtlBarMeter();
-            this.mtmOutL = new MP3模拟器.CtlBarMeter();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnBegin = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMasterGain)).BeginInit();
@@ -158,6 +158,20 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "设备选项";
             // 
+            // chkLowLancey
+            // 
+            this.chkLowLancey.AutoSize = true;
+            this.chkLowLancey.Checked = true;
+            this.chkLowLancey.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLowLancey.Location = new System.Drawing.Point(142, 62);
+            this.chkLowLancey.Name = "chkLowLancey";
+            this.chkLowLancey.Size = new System.Drawing.Size(192, 16);
+            this.chkLowLancey.TabIndex = 10;
+            this.chkLowLancey.Text = "低延迟模式（重新开启后生效）";
+            this.toolTip1.SetToolTip(this.chkLowLancey, "低延迟模式，延迟更低但会导致音频卡顿。听音乐时推荐关闭");
+            this.chkLowLancey.UseVisualStyleBackColor = true;
+            this.chkLowLancey.CheckedChanged += new System.EventHandler(this.chkLowLancey_CheckedChanged);
+            // 
             // btnHelp
             // 
             this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -236,6 +250,28 @@
             this.numMasterGain.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.numMasterGain.Scroll += new System.EventHandler(this.numMasterGain_Scroll);
             // 
+            // mtmOutR
+            // 
+            this.mtmOutR.BackColor = System.Drawing.Color.Black;
+            this.mtmOutR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mtmOutR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mtmOutR.Location = new System.Drawing.Point(93, 26);
+            this.mtmOutR.Name = "mtmOutR";
+            this.mtmOutR.Size = new System.Drawing.Size(11, 321);
+            this.mtmOutR.TabIndex = 6;
+            this.mtmOutR.Value = 0F;
+            // 
+            // mtmOutL
+            // 
+            this.mtmOutL.BackColor = System.Drawing.Color.Black;
+            this.mtmOutL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mtmOutL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mtmOutL.Location = new System.Drawing.Point(78, 26);
+            this.mtmOutL.Name = "mtmOutL";
+            this.mtmOutL.Size = new System.Drawing.Size(11, 321);
+            this.mtmOutL.TabIndex = 6;
+            this.mtmOutL.Value = 0F;
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label12);
@@ -263,6 +299,17 @@
             this.label12.Size = new System.Drawing.Size(41, 12);
             this.label12.TabIndex = 8;
             this.label12.Text = "压缩器";
+            // 
+            // numCompressOverflow
+            // 
+            this.numCompressOverflow.BackColor = System.Drawing.Color.Black;
+            this.numCompressOverflow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.numCompressOverflow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numCompressOverflow.Location = new System.Drawing.Point(327, 19);
+            this.numCompressOverflow.Name = "numCompressOverflow";
+            this.numCompressOverflow.Size = new System.Drawing.Size(14, 91);
+            this.numCompressOverflow.TabIndex = 7;
+            this.numCompressOverflow.Value = 0F;
             // 
             // lblCompressRelease
             // 
@@ -336,6 +383,7 @@
             this.numCompressRatio.TabIndex = 0;
             this.numCompressRatio.Value = 0D;
             this.numCompressRatio.ValueChanged += new System.EventHandler(this.numCompress_ValueChanged);
+            this.numCompressRatio.Load += new System.EventHandler(this.numCompressRatio_Load);
             // 
             // numCompressGate
             // 
@@ -455,52 +503,6 @@
             this.label3.Text = "左前";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::耳机虚拟环绕声.Properties.Resources.doubi;
-            this.pictureBox1.Location = new System.Drawing.Point(13, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(470, 64);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 8;
-            this.pictureBox1.TabStop = false;
-            // 
-            // btnBegin
-            // 
-            this.btnBegin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnBegin.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnBegin.FlatAppearance.BorderSize = 5;
-            this.btnBegin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
-            this.btnBegin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBegin.Image = global::耳机虚拟环绕声.Properties.Resources.btnSurroundOn;
-            this.btnBegin.Location = new System.Drawing.Point(13, 450);
-            this.btnBegin.Name = "btnBegin";
-            this.btnBegin.Size = new System.Drawing.Size(471, 69);
-            this.btnBegin.TabIndex = 2;
-            this.btnBegin.UseVisualStyleBackColor = false;
-            this.btnBegin.Click += new System.EventHandler(this.btnBegin_Click);
-            // 
-            // chkLowLancey
-            // 
-            this.chkLowLancey.AutoSize = true;
-            this.chkLowLancey.Checked = true;
-            this.chkLowLancey.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkLowLancey.Location = new System.Drawing.Point(142, 62);
-            this.chkLowLancey.Name = "chkLowLancey";
-            this.chkLowLancey.Size = new System.Drawing.Size(192, 16);
-            this.chkLowLancey.TabIndex = 10;
-            this.chkLowLancey.Text = "低延迟模式（重新开启后生效）";
-            this.toolTip1.SetToolTip(this.chkLowLancey, "低延迟模式，延迟更低但会导致音频卡顿。听音乐时推荐关闭");
-            this.chkLowLancey.UseVisualStyleBackColor = true;
-            this.chkLowLancey.CheckedChanged += new System.EventHandler(this.chkLowLancey_CheckedChanged);
-            // 
-            // toolTip1
-            // 
-            this.toolTip1.IsBalloon = true;
-            this.toolTip1.ShowAlways = true;
-            this.toolTip1.UseAnimation = false;
-            this.toolTip1.UseFading = false;
-            // 
             // barSR
             // 
             this.barSR.BackColor = System.Drawing.Color.Black;
@@ -589,38 +591,37 @@
             this.barFL.TabIndex = 0;
             this.barFL.Value = 0F;
             // 
-            // numCompressOverflow
+            // pictureBox1
             // 
-            this.numCompressOverflow.BackColor = System.Drawing.Color.Black;
-            this.numCompressOverflow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.numCompressOverflow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numCompressOverflow.Location = new System.Drawing.Point(327, 19);
-            this.numCompressOverflow.Name = "numCompressOverflow";
-            this.numCompressOverflow.Size = new System.Drawing.Size(14, 91);
-            this.numCompressOverflow.TabIndex = 7;
-            this.numCompressOverflow.Value = 0F;
+            this.pictureBox1.Image = global::耳机虚拟环绕声.Properties.Resources.doubi;
+            this.pictureBox1.Location = new System.Drawing.Point(13, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(470, 64);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 8;
+            this.pictureBox1.TabStop = false;
             // 
-            // mtmOutR
+            // btnBegin
             // 
-            this.mtmOutR.BackColor = System.Drawing.Color.Black;
-            this.mtmOutR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mtmOutR.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mtmOutR.Location = new System.Drawing.Point(93, 26);
-            this.mtmOutR.Name = "mtmOutR";
-            this.mtmOutR.Size = new System.Drawing.Size(11, 321);
-            this.mtmOutR.TabIndex = 6;
-            this.mtmOutR.Value = 0F;
+            this.btnBegin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnBegin.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnBegin.FlatAppearance.BorderSize = 5;
+            this.btnBegin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+            this.btnBegin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBegin.Image = global::耳机虚拟环绕声.Properties.Resources.btnSurroundOn;
+            this.btnBegin.Location = new System.Drawing.Point(13, 450);
+            this.btnBegin.Name = "btnBegin";
+            this.btnBegin.Size = new System.Drawing.Size(471, 69);
+            this.btnBegin.TabIndex = 2;
+            this.btnBegin.UseVisualStyleBackColor = false;
+            this.btnBegin.Click += new System.EventHandler(this.btnBegin_Click);
             // 
-            // mtmOutL
+            // toolTip1
             // 
-            this.mtmOutL.BackColor = System.Drawing.Color.Black;
-            this.mtmOutL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mtmOutL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mtmOutL.Location = new System.Drawing.Point(78, 26);
-            this.mtmOutL.Name = "mtmOutL";
-            this.mtmOutL.Size = new System.Drawing.Size(11, 321);
-            this.mtmOutL.TabIndex = 6;
-            this.mtmOutL.Value = 0F;
+            this.toolTip1.IsBalloon = true;
+            this.toolTip1.ShowAlways = true;
+            this.toolTip1.UseAnimation = false;
+            this.toolTip1.UseFading = false;
             // 
             // Form1
             // 

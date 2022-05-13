@@ -53,11 +53,7 @@ namespace 耳机虚拟环绕声
         }
 
         private SurroundToStereoSampleProvider surroundToStereoSampleProvider;
-
         private bool _notifyAudioDeviceChanged = false;
-
-        int overflowCount = 0;
-        int underflowCount = 0;
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -124,8 +120,7 @@ namespace 耳机虚拟环绕声
                     surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider); //实现算法
                     surroundToStereoSampleProvider.applySettings(Program.SurroundSettings, true);
 
-                    
-
+                 
                     wasapiOut.Init(surroundToStereoSampleProvider);
                     wasapiOut.Play(); //开始环绕
                     while (!surroundProc.CancellationPending)
@@ -152,6 +147,7 @@ namespace 耳机虚拟环绕声
                     wasapiOut.Stop();
                     wasapiOut.Dispose();
                     wasapiCapture.Dispose();
+                    surroundToStereoSampleProvider = null;
                     policyConfigClient.SetDefaultEndpoint(startParam.targetDevice.id);
                 }
 
@@ -329,13 +325,11 @@ namespace 耳机虚拟环绕声
         {
             mtmOutL.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.outLeft) + displayDbRange) / displayDbRange;
             mtmOutR.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.outRight) + displayDbRange) / displayDbRange;
-            this.numCompressOverflow.Value = (-MathHelper.linear2db(surroundToStereoSampleProvider._compressorGain)) / displayDbRange;
+            this.numCompressOverflow.Value = (MathHelper.linear2db(surroundToStereoSampleProvider._compressorGain)) / displayDbRange;
             for (int i = 0; i < surroundToStereoSampleProvider.rawPeaks.Length; i++)
             {
                 bars[i].Value = (MathHelper.linear2db(surroundToStereoSampleProvider.rawPeaks[i]) + displayDbRange) / displayDbRange;
             }
-
-            //this.Text = $"Overflow={overflowCount},Underflow={underflowCount}";
         }
 
         private void surroundProc_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -379,6 +373,7 @@ namespace 耳机虚拟环绕声
             lblCompressRelease.Text = $"{s.cmpRelease}ms\r\n释放时间";
             surroundToStereoSampleProvider?.applySettings(s);
             Program.neenSave = true;
+
         }
 
         void IMMNotificationClient.OnDeviceStateChanged(string deviceId, DeviceState newState)
@@ -432,6 +427,11 @@ namespace 耳机虚拟环绕声
         {
             Program.SurroundSettings.lowLancey = chkLowLancey.Checked;
             Program.neenSave = true;
+        }
+
+        private void numCompressRatio_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

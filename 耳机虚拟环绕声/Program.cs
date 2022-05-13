@@ -9,6 +9,7 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System.IO;
 using NAudio.Dsp;
+using NAudio2.Dsp;
 
 namespace 耳机虚拟环绕声
 {
@@ -60,10 +61,10 @@ namespace 耳机虚拟环绕声
         {
             get
             {
-                string appdata = Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%");
-                if (appdata == null)
+                string appdata = Environment.GetEnvironmentVariable("LOCALAPPDATA");
+                if (appdata == null || appdata.Trim() == "")
                 {
-                    appdata = System.IO.Path.Combine(Application.ExecutablePath, "AppData");
+                    appdata = System.IO.Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "AppData");
                 }
                 string datadir = System.IO.Path.Combine(appdata, "com.zyfdroid.hesuvi");
                 if (!System.IO.Directory.Exists(datadir))
@@ -75,7 +76,7 @@ namespace 耳机虚拟环绕声
         }
         public static string TuneConfigFile
         {
-            get => System.IO.Path.Combine(UserDataDir, "config_fir_v0.json");
+            get => System.IO.Path.Combine(UserDataDir, "config_fir_v1.json");
         }
         public static string DeviceConfigFile
         {
@@ -122,7 +123,7 @@ namespace 耳机虚拟环绕声
     {
         public float masterGain = 0; // 主音量（增益）
 
-        public float cmpRatio = 15; // 压缩器 - 压缩比
+        public float cmpRatio = 1; // 压缩器 - 压缩比
         public float cmpAttack = 144;// 压缩器 - 启动时间
         public float cmpRelease = 1440; // 压缩器 - 释放时间
         public float cmpGate = 0;// 压缩器 - 噪音门限
@@ -130,6 +131,7 @@ namespace 耳机虚拟环绕声
         public bool lowLancey = false;
 
     }
+
 
     public class SurroundToStereoSampleProvider : ISampleProvider
     {
@@ -200,10 +202,9 @@ namespace 耳机虚拟环绕声
             _buffer = new float[bufferSize * _channels];
             rawPeaks = new float[_channels];
             _rawMaxs = new float[_channels];
-            compressor = new EnvelopeGenerator();
+            compressor = new SimpleCompressor(0.4, 4, _outWaveFormat.SampleRate);
         }
 
-        EnvelopeGenerator compressor;
 
         void test(bool b)
         {
@@ -272,18 +273,19 @@ namespace 耳机虚拟环绕声
         public bool Bypass = false;
         private float _gain = 1f;
 
-        private float _compressorGate = 1f;
         public void applySettings(SurroundSettings settings,bool fullApply = false)
         {
             
             _gain = MathHelper.db2linear(settings.masterGain);
-            compressor.AttackRate = settings.cmpAttack / 1000f * _inWaveFormat.SampleRate;
-            compressor.ReleaseRate = settings.cmpRelease / 1000f * _inWaveFormat.SampleRate;
-            compressor.DecayRate = 0f;
-            compressor.SustainLevel = 1 / settings.cmpRatio;
-            _compressorGate =MathHelper.db2linear(settings.cmpGate);
+            compressor.Attack = settings.cmpAttack / 1000d + 0.001d;
+            compressor.Release = settings.cmpRelease / 1000d + 0.001d;
+            compressor.Threshold = settings.cmpGate;
+            compressor.Ratio = settings.cmpRatio == 0 ? 1 / 114514d : 1 / settings.cmpRatio; 
         }
 
+        private SimpleCompressor compressor;
+
+        
 
         public float[] rawPeaks;
         private float[] _rawMaxs;
@@ -327,6 +329,7 @@ namespace 耳机虚拟环绕声
                     }
                 }
             }
+            if(!Bypass)
             unsafe
             {
                 fixed(float* lpIn = _sampleInBuffer[0])
@@ -444,21 +447,15 @@ namespace 耳机虚拟环绕声
                     }
                 }
 
-                l = l * _gain;
-                r = r * _gain;
+                l = l * _gain * 0.9f;
+                r = r * _gain * 0.9f;
 
-                float rectl = l > 0 ? l : -l;
-                float rectr = r > 0 ? r : -r;
-                float link = rectl > rectr ? rectl : rectr;
+                double ld = l, rd = r;
+                compressor.Process(ref ld, ref rd);
+                l = (float)ld;
+                r = (float)rd;
 
-                bool gate = link < _compressorGate;
-
-                compressor.Gate(gate);
-
-                _compressorGain = compressor.Process();
-
-                l = l * _compressorGain;
-                r = r * _compressorGain;
+                _compressorGain = (float)compressor.envdB;
 
                 _maxLeft = _maxLeft > l ? _maxLeft : l;
                 _maxRight = _maxRight > r ? _maxRight : r;
