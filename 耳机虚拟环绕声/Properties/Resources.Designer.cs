@@ -119,25 +119,5 @@ namespace 耳机虚拟环绕声.Properties {
                 return ((byte[])(obj));
             }
         }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap peakbar {
-            get {
-                object obj = ResourceManager.GetObject("peakbar", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap peakbar1 {
-            get {
-                object obj = ResourceManager.GetObject("peakbar1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

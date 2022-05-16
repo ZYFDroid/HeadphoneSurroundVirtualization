@@ -134,10 +134,6 @@
   <ItemGroup>
     <None Include="Resources\fir.dat" />
     <None Include="Resources\install.pdf" />
-    <None Include="Resources\peakbar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\peakbar1.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\doubi.png" />
