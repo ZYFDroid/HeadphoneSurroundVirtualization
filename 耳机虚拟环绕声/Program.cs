@@ -76,7 +76,7 @@ namespace 耳机虚拟环绕声
         }
         public static string TuneConfigFile
         {
-            get => System.IO.Path.Combine(UserDataDir, "config_fir_v1.json");
+            get => System.IO.Path.Combine(UserDataDir, "config_fir_v2.json");
         }
         public static string DeviceConfigFile
         {
@@ -123,9 +123,9 @@ namespace 耳机虚拟环绕声
     {
         public float masterGain = 0; // 主音量（增益）
 
-        public float cmpRatio = 1; // 压缩器 - 压缩比
+        public float cmpRatio = 30; // 压缩器 - 压缩比
         public float cmpAttack = 144;// 压缩器 - 启动时间
-        public float cmpRelease = 1440; // 压缩器 - 释放时间
+        public float cmpRelease = 3200; // 压缩器 - 释放时间
         public float cmpGate = 0;// 压缩器 - 噪音门限
 
         public bool lowLancey = false;
@@ -202,7 +202,6 @@ namespace 耳机虚拟环绕声
             _buffer = new float[bufferSize * _channels];
             rawPeaks = new float[_channels];
             _rawMaxs = new float[_channels];
-            compressor = new SimpleCompressor(0.4, 4, _outWaveFormat.SampleRate);
         }
 
 
@@ -273,17 +272,33 @@ namespace 耳机虚拟环绕声
         public bool Bypass = false;
         private float _gain = 1f;
 
+
+        private float _currentGain = 0f;
+        private float _MininumGain = 0f;
+        private float _gainAttackRate = 0f;
+        private float _gainDecayRate = 0f;
+        private float _gate;
+
+        private int _decayCd = 0;
+        private int _decayCds = 100;
+
         public void applySettings(SurroundSettings settings,bool fullApply = false)
         {
             
             _gain = MathHelper.db2linear(settings.masterGain);
-            compressor.Attack = settings.cmpAttack / 1000d + 0.001d;
-            compressor.Release = settings.cmpRelease / 1000d + 0.001d;
-            compressor.Threshold = settings.cmpGate;
-            compressor.Ratio = settings.cmpRatio == 0 ? 1 / 114514d : 1 / settings.cmpRatio; 
+            
+            _gate = MathHelper.db2linear(settings.cmpGate);
+            _MininumGain = settings.cmpRatio == 0 ? -150 : MathHelper.linear2db(1 / settings.cmpRatio);
+            float sampleRate = _outWaveFormat.SampleRate;
+            _gainAttackRate = (-_MininumGain) / (sampleRate * (settings.cmpAttack/1000f + 0.001f));
+            _gainDecayRate = (-_MininumGain) / (sampleRate * (settings.cmpRelease / 1000f + 0.001f));
+            _decayCds = _inWaveFormat.SampleRate / 1000 * 25;
+            if (settings.cmpAttack <= 0.000001f)
+            {
+                _currentGain = 0f;//disable compressor
+            }
         }
 
-        private SimpleCompressor compressor;
 
         
 
@@ -446,16 +461,42 @@ namespace 耳机虚拟环绕声
                         r += _sampleOutBuffer[c * 2 + 1][i];
                     }
                 }
+                _compressorGain = -_currentGain;
+                float gainFactor = MathHelper.db2linear(_currentGain);
 
-                l = l * _gain * 0.9f;
-                r = r * _gain * 0.9f;
+                l = l * _gain * 0.9f * gainFactor;
+                r = r * _gain * 0.9f * gainFactor ;
 
-                double ld = l, rd = r;
-                compressor.Process(ref ld, ref rd);
-                l = (float)ld;
-                r = (float)rd;
 
-                _compressorGain = (float)compressor.envdB;
+                float dc = Math.Max(Math.Abs(l),Math.Abs(r));
+                if(dc > _gate)
+                {
+                    _currentGain -= _gainAttackRate;
+                    if(_currentGain < _MininumGain)
+                    {
+                        _currentGain = _MininumGain;
+                    }
+                    _decayCd = _decayCds;
+                }
+                else
+                {
+                    if (_decayCd > 0)
+                    {
+                        _decayCd--;
+                    }
+                    else
+                    {
+                        _currentGain += _gainDecayRate;
+                        if (_currentGain > 0)
+                        {
+                            _currentGain = 0;
+                        }
+                    }
+                }
+
+               
+                l =MathHelper.clamp(l );
+                r =MathHelper.clamp(r );
 
                 _maxLeft = _maxLeft > l ? _maxLeft : l;
                 _maxRight = _maxRight > r ? _maxRight : r;
