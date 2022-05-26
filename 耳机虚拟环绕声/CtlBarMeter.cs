@@ -20,7 +20,7 @@ namespace MP3模拟器
         public const int delayframe = 1;
 
 
-        public float smoothfactor = 0.19f;
+        public float smoothfactor = 0.28f;
 
         float linearDownValue = 0.0f;
 
@@ -46,55 +46,72 @@ namespace MP3模拟器
                 }
                 animedValue = animedValue + (linearDownValue - animedValue) * smoothfactor;
 
-                mask.Height = (int)(steps * 4 * step(1- animedValue,steps)) + 1;
-                //mask.Height = (int)(this.Height * (1- valuehistory[ptr])) + 1;
+                Invalidate();
             }
         }
 
         public float[] valuehistory = new float[delayframe];
         public int ptr = 0;
+
+        int stepHeight = 4;
+
         private void CtlBarMeter_Load(object sender, EventArgs e)
         {
             if (DesignMode) { return; }
-            int removePadding = this.BorderStyle == BorderStyle.None ? 0 : 1;
-            Image bgImg = new Bitmap(this.Width-2 * removePadding, this.Height-2 * removePadding);
-            Graphics g = Graphics.FromImage(bgImg);
-            int level1 = bgImg.Height * 10 / 100;
-            int level2 = bgImg.Height * 20 / 100;
-            Pen pRed = Pens.Red;
-            Pen pYellow = Pens.Yellow;
-            Pen pGreen = Pens.Lime;
-            for (int i = 1; i < bgImg.Height; i+=4)
-            {
-                Pen p = pGreen;
-                if(i < level2)
-                {
-                    p = pYellow;
-                }
-                if (i < level1)
-                {
-                    p = pRed;
-                }
-                g.DrawLine(p, 1, i, bgImg.Width-2, i);
-                g.DrawLine(p, 1, i+1, bgImg.Width-2, i+1);
-                steps++;
-            }
-            g.Dispose();
-            Bitmap foreImg = new Bitmap(bgImg);
-            g = Graphics.FromImage(foreImg);
-            Brush blackmask = new SolidBrush(Color.FromArgb(192,0,0,0));
-            g.FillRectangle(blackmask, 0, 0, foreImg.Width, foreImg.Height);
-            g.Dispose();
-            this.BackgroundImage = bgImg;
-            this.mask.BackgroundImage = foreImg;
-            mask.Height = this.Height;
+            this.DoubleBuffered = true;
+            this.BorderStyle = BorderStyle.None;
         }
 
-        float steps = 0;
-        float step(float i,float steps)
+
+        Pen pCircle = new Pen(Brushes.White, 2.5f);
+        Pen pHand = new Pen(Brushes.White, 1.8f);
+        Pen pBorder = new Pen(Brushes.White, 1);
+        Brush txtBrush = Brushes.LightGray;
+        public string DisplayText { get; set; } = "";
+
+        StringFormat centerStr = new StringFormat()
         {
-            return (float)Math.Round(i * steps) / steps;
+            Alignment = StringAlignment.Center,
+            LineAlignment = StringAlignment.Center
+        };
+        Rectangle clientRect = new Rectangle();
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            Graphics g = e.Graphics;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            g.Clear(Color.Transparent);
+            g.DrawLine(pBorder, 1, 0, Width - 2, 0);
+            g.DrawLine(pBorder, 1, Height-1, Width - 2, Height-1);
+            g.DrawLine(pBorder, 0, 1, 0, Height-2);
+            g.DrawLine(pBorder, Width - 1, 1, Width - 1, Height-2);
+            clientRect.Width = this.Width;
+            clientRect.Height = this.Height;
+            if (DisplayText != null)
+            {
+                g.DrawString(DisplayText, this.Font,txtBrush,clientRect, centerStr);
+            }
+
+            float rectSize = this.Width * 1.2f;
+            float rectY = this.Height / 8f;
+            float rectCenterX = this.Width / 2;
+            float rectCenterY = rectSize / 2 + rectY;
+            float rectX = rectCenterX - rectSize / 2;
+
+            float handLength = rectSize / 2f * 0.98f;
+
+            g.DrawArc(pCircle, rectX, rectY, rectSize, rectSize, 225, 90);
+            //g.DrawArc(pCircle1, rectX, rectY, rectSize, rectSize, 225+72, 90-72);
+            //g.DrawArc(pCircle2, rectX, rectY, rectSize, rectSize, 225+81, 90-81);
+
+            float pointerAngle = -(float)Math.PI / 4f * 3f +  animedValue / 1 * (float)Math.PI /2 ;
+
+            g.DrawLine(pHand, rectCenterX, rectCenterY, rectCenterX+(float)Math.Cos(pointerAngle) * handLength, rectCenterY+(float)Math.Sin(pointerAngle) * handLength);
+
         }
+
+       
 
         internal void Reset()
         {

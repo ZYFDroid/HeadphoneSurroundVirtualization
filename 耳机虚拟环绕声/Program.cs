@@ -495,8 +495,6 @@ namespace 耳机虚拟环绕声
                 }
 
                
-                l =MathHelper.clamp(l );
-                r =MathHelper.clamp(r );
 
                 _maxLeft = _maxLeft > l ? _maxLeft : l;
                 _maxRight = _maxRight > r ? _maxRight : r;

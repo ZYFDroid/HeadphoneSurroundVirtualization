@@ -50,6 +50,7 @@ namespace 耳机虚拟环绕声
         {
             InitializeComponent();
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
+            this.Size = Properties.Resources.bg_hesuvi2.Size;
         }
 
         private SurroundToStereoSampleProvider surroundToStereoSampleProvider;
@@ -125,7 +126,7 @@ namespace 耳机虚拟环绕声
                     wasapiOut.Play(); //开始环绕
                     while (!surroundProc.CancellationPending)
                     {
-                        System.Threading.Thread.Sleep(10);
+                        System.Threading.Thread.Sleep(20);
                         surroundProc.ReportProgress(30);
                         if (_notifyAudioDeviceChanged)
                         {
@@ -242,9 +243,11 @@ namespace 耳机虚拟环绕声
             }
         }
 
+        private bool surroundIsOn = false;
+
         private void btnBegin_Click(object sender, EventArgs e)
         {
-            if (!lblIndicator.Visible)
+            if (!surroundIsOn)
             {
                 DeviceDesc src = cmbSrc.SelectedValue as DeviceDesc;
                 DeviceDesc dst = cmbDst.SelectedValue as DeviceDesc;
@@ -296,19 +299,19 @@ namespace 耳机虚拟环绕声
                 MessageBox.Show(e.UserState.ToString(),"出错了");
                 btnBegin.Enabled = true;
                 btnBegin.Image = Properties.Resources.btnSurroundOn;
-                lblIndicator.Visible = false;
+                surroundIsOn = false;
             }
             if(e.ProgressPercentage == 10)
             {
                 btnBegin.Enabled = true;
                 btnBegin.Image = Properties.Resources.btnSurroundOff;
-                lblIndicator.Visible = true;
+                surroundIsOn = true;
             }
             if (e.ProgressPercentage == 99)
             {
                 btnBegin.Enabled = true;
                 btnBegin.Image = Properties.Resources.btnSurroundOn;
-                lblIndicator.Visible = false;
+                surroundIsOn = false;
                 mtmOutL.Reset();
                 mtmOutR.Reset();
                 numCompressOverflow.Reset();
@@ -344,7 +347,7 @@ namespace 耳机虚拟环绕声
                 surroundProc.CancelAsync();
                 return;
             }
-            e.Cancel = lblIndicator.Visible;
+            e.Cancel = surroundIsOn;
             if (e.Cancel) { return; }
         }
 
@@ -432,6 +435,48 @@ namespace 耳机虚拟环绕声
         private void numCompressRatio_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            if (surroundIsOn)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
+            else
+            {
+                Close();
+            }
+        }
+
+
+        private bool _dragging = false;
+        private int dragX = 0,dragY = 0;
+        private void dragger_MouseDown(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                dragX = e.X;
+                dragY = e.Y;
+                _dragging = true;
+            }
+        }
+
+        private void dragger_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_dragging)
+            {
+                this.Left += (e.X - dragX);
+                this.Top += (e.Y - dragY);
+            }
+        }
+
+        private void dragger_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                _dragging = false;
+            }
         }
     }
 }

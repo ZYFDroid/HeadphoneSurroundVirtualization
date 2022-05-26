@@ -136,9 +136,6 @@
     <None Include="Resources\install.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\doubi.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\btnSurroundOff.png" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +144,8 @@
   <ItemGroup>
     <Content Include="doubi.ico" />
     <Content Include="FFTConvolver.dll" />
+    <None Include="Resources\bg_hesuvi2.png" />
+    <None Include="Resources\whitebg.png" />
     <Content Include="ThirdParties\NAudioInternal\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
