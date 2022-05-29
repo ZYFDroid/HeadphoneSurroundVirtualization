@@ -29,98 +29,105 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.cmbSrc = new System.Windows.Forms.ComboBox();
             this.cmbDst = new System.Windows.Forms.ComboBox();
             this.surroundProc = new System.ComponentModel.BackgroundWorker();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkLowLancey = new System.Windows.Forms.CheckBox();
             this.btnHelp = new System.Windows.Forms.Button();
             this.chkBypass = new System.Windows.Forms.CheckBox();
-            this.lblMasterGain = new System.Windows.Forms.Label();
-            this.numMasterGain = new System.Windows.Forms.TrackBar();
-            this.mtmOutR = new MP3模拟器.CtlBarMeter();
-            this.mtmOutL = new MP3模拟器.CtlBarMeter();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.numCompressOverflow = new MP3模拟器.CtlBarMeter();
-            this.lblCompressRelease = new System.Windows.Forms.Label();
-            this.lblCompressAttack = new System.Windows.Forms.Label();
-            this.lblCompressRatio = new System.Windows.Forms.Label();
-            this.lblCompressGate = new System.Windows.Forms.Label();
-            this.numCompressRelease = new NAudio.Gui.Pot();
-            this.numCompressAttack = new NAudio.Gui.Pot();
-            this.numCompressRatio = new NAudio.Gui.Pot();
-            this.numCompressGate = new NAudio.Gui.Pot();
-            this.barSR = new MP3模拟器.CtlBarMeter();
-            this.barSL = new MP3模拟器.CtlBarMeter();
-            this.barRR = new MP3模拟器.CtlBarMeter();
-            this.barRL = new MP3模拟器.CtlBarMeter();
-            this.barLF = new MP3模拟器.CtlBarMeter();
-            this.barFC = new MP3模拟器.CtlBarMeter();
-            this.barFR = new MP3模拟器.CtlBarMeter();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             this.btnBegin = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.dragger = new System.Windows.Forms.PictureBox();
-            this.barFL = new MP3模拟器.CtlBarMeter();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnPage1 = new System.Windows.Forms.Button();
             this.btnPage2 = new System.Windows.Forms.Button();
             this.btnPage3 = new System.Windows.Forms.Button();
             this.btnPage4 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelPage1 = new System.Windows.Forms.Panel();
+            this.numMasterGain = new 耳机虚拟环绕声.CtlBarSlider();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.lblPanelLocation = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numMasterGain)).BeginInit();
-            this.groupBox3.SuspendLayout();
+            this.barFL = new MP3模拟器.CtlBarMeter();
+            this.mtmOutR = new MP3模拟器.CtlBarMeter();
+            this.barFR = new MP3模拟器.CtlBarMeter();
+            this.numCompressOverflow1 = new MP3模拟器.CtlBarMeter();
+            this.mtmOutL = new MP3模拟器.CtlBarMeter();
+            this.barFC = new MP3模拟器.CtlBarMeter();
+            this.barLF = new MP3模拟器.CtlBarMeter();
+            this.barRL = new MP3模拟器.CtlBarMeter();
+            this.barSL = new MP3模拟器.CtlBarMeter();
+            this.barRR = new MP3模拟器.CtlBarMeter();
+            this.barSR = new MP3模拟器.CtlBarMeter();
+            this.posShow = new System.Windows.Forms.Label();
+            this.posHide = new System.Windows.Forms.Label();
+            this.panelPage2 = new System.Windows.Forms.Panel();
+            this.numCompressOverflow = new MP3模拟器.CtlBarMeter();
+            this.label13 = new System.Windows.Forms.Label();
+            this.numCompressRelease = new 耳机虚拟环绕声.CtlBarSlider();
+            this.numCompressAttack = new 耳机虚拟环绕声.CtlBarSlider();
+            this.numCompressRatio = new 耳机虚拟环绕声.CtlBarSlider();
+            this.numCompressGate = new 耳机虚拟环绕声.CtlBarSlider();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.panelPage3 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.panelPage4 = new System.Windows.Forms.Panel();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dragger)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panelPage1.SuspendLayout();
+            this.panelPage2.SuspendLayout();
+            this.panelPage3.SuspendLayout();
+            this.panelPage4.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(257, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "选择你的虚拟环绕声设备（一般叫CABLE Input)";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 63);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 12);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "选择你的耳机";
             // 
             // cmbSrc
             // 
-            this.cmbSrc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSrc.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cmbSrc.BackColor = System.Drawing.Color.Black;
+            this.cmbSrc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbSrc.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.cmbSrc.ForeColor = System.Drawing.Color.White;
             this.cmbSrc.FormattingEnabled = true;
-            this.cmbSrc.Location = new System.Drawing.Point(6, 39);
+            this.cmbSrc.Location = new System.Drawing.Point(112, 128);
             this.cmbSrc.Name = "cmbSrc";
-            this.cmbSrc.Size = new System.Drawing.Size(335, 20);
+            this.cmbSrc.Size = new System.Drawing.Size(335, 29);
             this.cmbSrc.TabIndex = 1;
             // 
             // cmbDst
             // 
-            this.cmbDst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbDst.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cmbDst.ForeColor = System.Drawing.Color.Black;
+            this.cmbDst.BackColor = System.Drawing.Color.Black;
+            this.cmbDst.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbDst.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cmbDst.ForeColor = System.Drawing.Color.White;
             this.cmbDst.FormattingEnabled = true;
-            this.cmbDst.Location = new System.Drawing.Point(6, 80);
+            this.cmbDst.Location = new System.Drawing.Point(112, 50);
             this.cmbDst.Name = "cmbDst";
-            this.cmbDst.Size = new System.Drawing.Size(335, 20);
+            this.cmbDst.Size = new System.Drawing.Size(335, 29);
             this.cmbDst.TabIndex = 1;
             // 
             // surroundProc
@@ -131,42 +138,37 @@
             this.surroundProc.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.surroundProc_ProgressChanged);
             this.surroundProc.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.surroundProc_RunWorkerCompleted);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.chkLowLancey);
-            this.groupBox1.Controls.Add(this.btnHelp);
-            this.groupBox1.Controls.Add(this.cmbSrc);
-            this.groupBox1.Controls.Add(this.cmbDst);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(847, 382);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(350, 108);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            // 
             // chkLowLancey
             // 
             this.chkLowLancey.AutoSize = true;
+            this.chkLowLancey.BackColor = System.Drawing.Color.Black;
             this.chkLowLancey.Checked = true;
             this.chkLowLancey.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkLowLancey.Location = new System.Drawing.Point(142, 62);
+            this.chkLowLancey.FlatAppearance.CheckedBackColor = System.Drawing.Color.Black;
+            this.chkLowLancey.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkLowLancey.Font = new System.Drawing.Font("微软雅黑 Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkLowLancey.Location = new System.Drawing.Point(112, 91);
             this.chkLowLancey.Name = "chkLowLancey";
-            this.chkLowLancey.Size = new System.Drawing.Size(192, 16);
+            this.chkLowLancey.Size = new System.Drawing.Size(202, 25);
             this.chkLowLancey.TabIndex = 10;
-            this.chkLowLancey.Text = "低延迟模式（重新开启后生效）";
+            this.chkLowLancey.Text = "启用（重新开启后生效）";
             this.toolTip1.SetToolTip(this.chkLowLancey, "低延迟模式，延迟更低但会导致音频卡顿。听音乐时推荐关闭");
-            this.chkLowLancey.UseVisualStyleBackColor = true;
+            this.chkLowLancey.UseVisualStyleBackColor = false;
             this.chkLowLancey.CheckedChanged += new System.EventHandler(this.chkLowLancey_CheckedChanged);
             // 
             // btnHelp
             // 
+            this.btnHelp.FlatAppearance.BorderSize = 0;
+            this.btnHelp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHelp.Location = new System.Drawing.Point(266, 12);
+            this.btnHelp.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnHelp.Location = new System.Drawing.Point(453, 123);
             this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(75, 25);
+            this.btnHelp.Size = new System.Drawing.Size(179, 38);
             this.btnHelp.TabIndex = 9;
-            this.btnHelp.Text = "如何配置";
+            this.btnHelp.Text = "如何配置虚拟设备";
+            this.btnHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnHelp.UseVisualStyleBackColor = true;
             this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
@@ -177,7 +179,7 @@
             this.chkBypass.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
             this.chkBypass.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.chkBypass.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chkBypass.Location = new System.Drawing.Point(83, 172);
+            this.chkBypass.Location = new System.Drawing.Point(82, 160);
             this.chkBypass.Name = "chkBypass";
             this.chkBypass.Size = new System.Drawing.Size(58, 25);
             this.chkBypass.TabIndex = 9;
@@ -187,257 +189,29 @@
             this.chkBypass.UseVisualStyleBackColor = true;
             this.chkBypass.CheckedChanged += new System.EventHandler(this.chkBypass_CheckedChanged);
             // 
-            // lblMasterGain
-            // 
-            this.lblMasterGain.Location = new System.Drawing.Point(560, 209);
-            this.lblMasterGain.Name = "lblMasterGain";
-            this.lblMasterGain.Size = new System.Drawing.Size(68, 29);
-            this.lblMasterGain.TabIndex = 7;
-            this.lblMasterGain.Text = "0dB\r\n增益";
-            this.lblMasterGain.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // numMasterGain
-            // 
-            this.numMasterGain.BackColor = System.Drawing.Color.Black;
-            this.numMasterGain.Location = new System.Drawing.Point(83, 203);
-            this.numMasterGain.Maximum = 4000;
-            this.numMasterGain.Minimum = -2000;
-            this.numMasterGain.Name = "numMasterGain";
-            this.numMasterGain.Size = new System.Drawing.Size(482, 45);
-            this.numMasterGain.TabIndex = 6;
-            this.numMasterGain.TickFrequency = 500;
-            this.numMasterGain.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.numMasterGain.Scroll += new System.EventHandler(this.numMasterGain_Scroll);
-            // 
-            // mtmOutR
-            // 
-            this.mtmOutR.BackColor = System.Drawing.Color.Black;
-            this.mtmOutR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mtmOutR.DisplayText = "R";
-            this.mtmOutR.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.mtmOutR.Location = new System.Drawing.Point(486, 50);
-            this.mtmOutR.Name = "mtmOutR";
-            this.mtmOutR.Size = new System.Drawing.Size(142, 104);
-            this.mtmOutR.TabIndex = 6;
-            this.mtmOutR.Value = 0F;
-            // 
-            // mtmOutL
-            // 
-            this.mtmOutL.BackColor = System.Drawing.Color.Black;
-            this.mtmOutL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mtmOutL.DisplayText = "L";
-            this.mtmOutL.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.mtmOutL.Location = new System.Drawing.Point(338, 50);
-            this.mtmOutL.Name = "mtmOutL";
-            this.mtmOutL.Size = new System.Drawing.Size(142, 104);
-            this.mtmOutL.TabIndex = 6;
-            this.mtmOutL.Value = 0F;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.numCompressOverflow);
-            this.groupBox3.Controls.Add(this.lblCompressRelease);
-            this.groupBox3.Controls.Add(this.lblCompressAttack);
-            this.groupBox3.Controls.Add(this.lblCompressRatio);
-            this.groupBox3.Controls.Add(this.lblCompressGate);
-            this.groupBox3.Controls.Add(this.numCompressRelease);
-            this.groupBox3.Controls.Add(this.numCompressAttack);
-            this.groupBox3.Controls.Add(this.numCompressRatio);
-            this.groupBox3.Controls.Add(this.numCompressGate);
-            this.groupBox3.Location = new System.Drawing.Point(856, 238);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(350, 121);
-            this.groupBox3.TabIndex = 6;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "压缩器";
-            // 
-            // numCompressOverflow
-            // 
-            this.numCompressOverflow.BackColor = System.Drawing.Color.Black;
-            this.numCompressOverflow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.numCompressOverflow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numCompressOverflow.DisplayText = "";
-            this.numCompressOverflow.Location = new System.Drawing.Point(327, 19);
-            this.numCompressOverflow.Name = "numCompressOverflow";
-            this.numCompressOverflow.Size = new System.Drawing.Size(14, 91);
-            this.numCompressOverflow.TabIndex = 7;
-            this.numCompressOverflow.Value = 0F;
-            // 
-            // lblCompressRelease
-            // 
-            this.lblCompressRelease.Location = new System.Drawing.Point(253, 77);
-            this.lblCompressRelease.Name = "lblCompressRelease";
-            this.lblCompressRelease.Size = new System.Drawing.Size(77, 39);
-            this.lblCompressRelease.TabIndex = 1;
-            this.lblCompressRelease.Text = "400ms\r\n释放时间";
-            this.lblCompressRelease.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip1.SetToolTip(this.lblCompressRelease, "压缩器未触发时完整释放的时间");
-            // 
-            // lblCompressAttack
-            // 
-            this.lblCompressAttack.Location = new System.Drawing.Point(171, 77);
-            this.lblCompressAttack.Name = "lblCompressAttack";
-            this.lblCompressAttack.Size = new System.Drawing.Size(77, 39);
-            this.lblCompressAttack.TabIndex = 1;
-            this.lblCompressAttack.Text = "40ms\r\n启动时间";
-            this.lblCompressAttack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip1.SetToolTip(this.lblCompressAttack, "压缩器从触发到完成压缩的时间");
-            // 
-            // lblCompressRatio
-            // 
-            this.lblCompressRatio.Location = new System.Drawing.Point(89, 77);
-            this.lblCompressRatio.Name = "lblCompressRatio";
-            this.lblCompressRatio.Size = new System.Drawing.Size(77, 39);
-            this.lblCompressRatio.TabIndex = 1;
-            this.lblCompressRatio.Text = "1:1\r\n压缩比";
-            this.lblCompressRatio.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip1.SetToolTip(this.lblCompressRatio, "最大压缩量");
-            // 
-            // lblCompressGate
-            // 
-            this.lblCompressGate.Location = new System.Drawing.Point(6, 77);
-            this.lblCompressGate.Name = "lblCompressGate";
-            this.lblCompressGate.Size = new System.Drawing.Size(77, 39);
-            this.lblCompressGate.TabIndex = 1;
-            this.lblCompressGate.Text = "0dB\r\n噪音门限";
-            this.lblCompressGate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip1.SetToolTip(this.lblCompressGate, "触发压缩的声音大小");
-            // 
-            // numCompressRelease
-            // 
-            this.numCompressRelease.Location = new System.Drawing.Point(257, 20);
-            this.numCompressRelease.Maximum = 4000D;
-            this.numCompressRelease.Minimum = 0D;
-            this.numCompressRelease.Name = "numCompressRelease";
-            this.numCompressRelease.Size = new System.Drawing.Size(67, 54);
-            this.numCompressRelease.TabIndex = 0;
-            this.numCompressRelease.Value = 400D;
-            this.numCompressRelease.ValueChanged += new System.EventHandler(this.numCompress_ValueChanged);
-            // 
-            // numCompressAttack
-            // 
-            this.numCompressAttack.Location = new System.Drawing.Point(175, 20);
-            this.numCompressAttack.Maximum = 200D;
-            this.numCompressAttack.Minimum = 0D;
-            this.numCompressAttack.Name = "numCompressAttack";
-            this.numCompressAttack.Size = new System.Drawing.Size(67, 54);
-            this.numCompressAttack.TabIndex = 0;
-            this.numCompressAttack.Value = 40D;
-            this.numCompressAttack.ValueChanged += new System.EventHandler(this.numCompress_ValueChanged);
-            // 
-            // numCompressRatio
-            // 
-            this.numCompressRatio.Location = new System.Drawing.Point(93, 20);
-            this.numCompressRatio.Maximum = 79D;
-            this.numCompressRatio.Minimum = 0D;
-            this.numCompressRatio.Name = "numCompressRatio";
-            this.numCompressRatio.Size = new System.Drawing.Size(67, 54);
-            this.numCompressRatio.TabIndex = 0;
-            this.numCompressRatio.Value = 0D;
-            this.numCompressRatio.ValueChanged += new System.EventHandler(this.numCompress_ValueChanged);
-            this.numCompressRatio.Load += new System.EventHandler(this.numCompressRatio_Load);
-            // 
-            // numCompressGate
-            // 
-            this.numCompressGate.Location = new System.Drawing.Point(10, 20);
-            this.numCompressGate.Maximum = 20D;
-            this.numCompressGate.Minimum = 0D;
-            this.numCompressGate.Name = "numCompressGate";
-            this.numCompressGate.Size = new System.Drawing.Size(67, 54);
-            this.numCompressGate.TabIndex = 0;
-            this.numCompressGate.Value = 20D;
-            this.numCompressGate.ValueChanged += new System.EventHandler(this.numCompress_ValueChanged);
-            // 
-            // barSR
-            // 
-            this.barSR.BackColor = System.Drawing.Color.Black;
-            this.barSR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barSR.DisplayText = "SR";
-            this.barSR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.barSR.Location = new System.Drawing.Point(175, 105);
-            this.barSR.Name = "barSR";
-            this.barSR.Size = new System.Drawing.Size(72, 49);
-            this.barSR.TabIndex = 0;
-            this.barSR.Value = 0F;
-            // 
-            // barSL
-            // 
-            this.barSL.BackColor = System.Drawing.Color.Black;
-            this.barSL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barSL.DisplayText = "SL";
-            this.barSL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.barSL.Location = new System.Drawing.Point(175, 50);
-            this.barSL.Name = "barSL";
-            this.barSL.Size = new System.Drawing.Size(72, 49);
-            this.barSL.TabIndex = 0;
-            this.barSL.Value = 0F;
-            // 
-            // barRR
-            // 
-            this.barRR.BackColor = System.Drawing.Color.Black;
-            this.barRR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barRR.DisplayText = "RR";
-            this.barRR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.barRR.Location = new System.Drawing.Point(253, 105);
-            this.barRR.Name = "barRR";
-            this.barRR.Size = new System.Drawing.Size(72, 49);
-            this.barRR.TabIndex = 0;
-            this.barRR.Value = 0F;
-            // 
-            // barRL
-            // 
-            this.barRL.BackColor = System.Drawing.Color.Black;
-            this.barRL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barRL.DisplayText = "RL";
-            this.barRL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.barRL.Location = new System.Drawing.Point(253, 50);
-            this.barRL.Name = "barRL";
-            this.barRL.Size = new System.Drawing.Size(72, 49);
-            this.barRL.TabIndex = 0;
-            this.barRL.Value = 0F;
-            // 
-            // barLF
-            // 
-            this.barLF.BackColor = System.Drawing.Color.Black;
-            this.barLF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barLF.DisplayText = "LF";
-            this.barLF.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.barLF.Location = new System.Drawing.Point(97, 105);
-            this.barLF.Name = "barLF";
-            this.barLF.Size = new System.Drawing.Size(72, 49);
-            this.barLF.TabIndex = 0;
-            this.barLF.Value = 0F;
-            // 
-            // barFC
-            // 
-            this.barFC.BackColor = System.Drawing.Color.Black;
-            this.barFC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barFC.DisplayText = "FC";
-            this.barFC.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.barFC.Location = new System.Drawing.Point(97, 50);
-            this.barFC.Name = "barFC";
-            this.barFC.Size = new System.Drawing.Size(72, 49);
-            this.barFC.TabIndex = 0;
-            this.barFC.Value = 0F;
-            // 
-            // barFR
-            // 
-            this.barFR.BackColor = System.Drawing.Color.Black;
-            this.barFR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barFR.DisplayText = "FR";
-            this.barFR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.barFR.Location = new System.Drawing.Point(19, 105);
-            this.barFR.Name = "barFR";
-            this.barFR.Size = new System.Drawing.Size(72, 49);
-            this.barFR.TabIndex = 0;
-            this.barFR.Value = 0F;
-            // 
             // toolTip1
             // 
             this.toolTip1.IsBalloon = true;
             this.toolTip1.ShowAlways = true;
             this.toolTip1.UseAnimation = false;
             this.toolTip1.UseFading = false;
+            // 
+            // button1
+            // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.No;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button1.Location = new System.Drawing.Point(453, 45);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(179, 38);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "音质增强";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip1.SetToolTip(this.button1, "此功能尚未完成");
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // btnBegin
             // 
@@ -470,26 +244,12 @@
             // dragger
             // 
             this.dragger.BackColor = System.Drawing.Color.Transparent;
-            this.dragger.Location = new System.Drawing.Point(10, 6);
+            this.dragger.Location = new System.Drawing.Point(0, -2);
             this.dragger.Name = "dragger";
-            this.dragger.Size = new System.Drawing.Size(667, 83);
+            this.dragger.Size = new System.Drawing.Size(824, 105);
             this.dragger.TabIndex = 9;
             this.dragger.TabStop = false;
             this.dragger.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragger_MouseDown);
-            this.dragger.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dragger_MouseMove);
-            this.dragger.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dragger_MouseUp);
-            // 
-            // barFL
-            // 
-            this.barFL.BackColor = System.Drawing.Color.Black;
-            this.barFL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barFL.DisplayText = "FL";
-            this.barFL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.barFL.Location = new System.Drawing.Point(19, 50);
-            this.barFL.Name = "barFL";
-            this.barFL.Size = new System.Drawing.Size(72, 49);
-            this.barFL.TabIndex = 0;
-            this.barFL.Value = 0F;
             // 
             // tableLayoutPanel1
             // 
@@ -525,9 +285,11 @@
             this.btnPage1.Name = "btnPage1";
             this.btnPage1.Size = new System.Drawing.Size(140, 41);
             this.btnPage1.TabIndex = 0;
+            this.btnPage1.Tag = "1";
             this.btnPage1.Text = "环绕声";
             this.btnPage1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPage1.UseVisualStyleBackColor = true;
+            this.btnPage1.Click += new System.EventHandler(this.btnPage1_Click);
             // 
             // btnPage2
             // 
@@ -544,9 +306,11 @@
             this.btnPage2.Name = "btnPage2";
             this.btnPage2.Size = new System.Drawing.Size(140, 41);
             this.btnPage2.TabIndex = 0;
+            this.btnPage2.Tag = "2";
             this.btnPage2.Text = "音频增强";
             this.btnPage2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPage2.UseVisualStyleBackColor = true;
+            this.btnPage2.Click += new System.EventHandler(this.btnPage1_Click);
             // 
             // btnPage3
             // 
@@ -563,9 +327,11 @@
             this.btnPage3.Name = "btnPage3";
             this.btnPage3.Size = new System.Drawing.Size(140, 41);
             this.btnPage3.TabIndex = 0;
+            this.btnPage3.Tag = "3";
             this.btnPage3.Text = "设备配置";
             this.btnPage3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPage3.UseVisualStyleBackColor = true;
+            this.btnPage3.Click += new System.EventHandler(this.btnPage1_Click);
             // 
             // btnPage4
             // 
@@ -582,41 +348,84 @@
             this.btnPage4.Name = "btnPage4";
             this.btnPage4.Size = new System.Drawing.Size(140, 44);
             this.btnPage4.TabIndex = 0;
+            this.btnPage4.Tag = "4";
             this.btnPage4.Text = "关于";
             this.btnPage4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPage4.UseVisualStyleBackColor = true;
+            this.btnPage4.Click += new System.EventHandler(this.btnPage1_Click);
             // 
-            // panel1
+            // panelPage1
             // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Controls.Add(this.lblMasterGain);
-            this.panel1.Controls.Add(this.chkBypass);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label11);
-            this.panel1.Controls.Add(this.numMasterGain);
-            this.panel1.Controls.Add(this.barFL);
-            this.panel1.Controls.Add(this.mtmOutR);
-            this.panel1.Controls.Add(this.barFR);
-            this.panel1.Controls.Add(this.mtmOutL);
-            this.panel1.Controls.Add(this.barFC);
-            this.panel1.Controls.Add(this.barLF);
-            this.panel1.Controls.Add(this.barRL);
-            this.panel1.Controls.Add(this.barSL);
-            this.panel1.Controls.Add(this.barRR);
-            this.panel1.Controls.Add(this.barSR);
-            this.panel1.Location = new System.Drawing.Point(166, 106);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(647, 370);
-            this.panel1.TabIndex = 11;
+            this.panelPage1.BackColor = System.Drawing.Color.Transparent;
+            this.panelPage1.Controls.Add(this.numMasterGain);
+            this.panelPage1.Controls.Add(this.chkBypass);
+            this.panelPage1.Controls.Add(this.label6);
+            this.panelPage1.Controls.Add(this.label5);
+            this.panelPage1.Controls.Add(this.label4);
+            this.panelPage1.Controls.Add(this.label3);
+            this.panelPage1.Controls.Add(this.label11);
+            this.panelPage1.Controls.Add(this.barFL);
+            this.panelPage1.Controls.Add(this.mtmOutR);
+            this.panelPage1.Controls.Add(this.barFR);
+            this.panelPage1.Controls.Add(this.numCompressOverflow1);
+            this.panelPage1.Controls.Add(this.mtmOutL);
+            this.panelPage1.Controls.Add(this.barFC);
+            this.panelPage1.Controls.Add(this.barLF);
+            this.panelPage1.Controls.Add(this.barRL);
+            this.panelPage1.Controls.Add(this.barSL);
+            this.panelPage1.Controls.Add(this.barRR);
+            this.panelPage1.Controls.Add(this.barSR);
+            this.panelPage1.Location = new System.Drawing.Point(166, 106);
+            this.panelPage1.Name = "panelPage1";
+            this.panelPage1.Size = new System.Drawing.Size(647, 394);
+            this.panelPage1.TabIndex = 11;
+            // 
+            // numMasterGain
+            // 
+            this.numMasterGain.BackColor = System.Drawing.Color.Black;
+            this.numMasterGain.BigStep = 5;
+            this.numMasterGain.Location = new System.Drawing.Point(96, 201);
+            this.numMasterGain.Max = 4000;
+            this.numMasterGain.Min = -2000;
+            this.numMasterGain.Name = "numMasterGain";
+            this.numMasterGain.Size = new System.Drawing.Size(531, 25);
+            this.numMasterGain.SmallStep = 3;
+            this.numMasterGain.TabIndex = 10;
+            this.numMasterGain.ThumbText = "0.0 dB";
+            this.numMasterGain.ThumbWidth = 80;
+            this.numMasterGain.Value = 0;
+            this.numMasterGain.ValueChanged += new System.EventHandler<System.EventArgs>(this.numMasterGain_Scroll);
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(18, 250);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(58, 25);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "压限";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(18, 201);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(58, 25);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "增益";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
             this.label4.BackColor = System.Drawing.Color.White;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(19, 172);
+            this.label4.Location = new System.Drawing.Point(18, 160);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(58, 25);
             this.label4.TabIndex = 1;
@@ -628,7 +437,7 @@
             this.label3.BackColor = System.Drawing.Color.White;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(340, 19);
+            this.label3.Location = new System.Drawing.Point(338, 5);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 25);
             this.label3.TabIndex = 1;
@@ -640,35 +449,625 @@
             this.label11.BackColor = System.Drawing.Color.White;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(19, 17);
+            this.label11.Location = new System.Drawing.Point(18, 5);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(58, 25);
             this.label11.TabIndex = 1;
             this.label11.Text = "输入";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblPanelLocation
+            // barFL
             // 
-            this.lblPanelLocation.AutoSize = true;
-            this.lblPanelLocation.ForeColor = System.Drawing.Color.Black;
-            this.lblPanelLocation.Location = new System.Drawing.Point(164, 106);
-            this.lblPanelLocation.Name = "lblPanelLocation";
-            this.lblPanelLocation.Size = new System.Drawing.Size(41, 12);
-            this.lblPanelLocation.TabIndex = 12;
-            this.lblPanelLocation.Text = "114514";
-            this.lblPanelLocation.Visible = false;
+            this.barFL.BackColor = System.Drawing.Color.Black;
+            this.barFL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barFL.DisplayText = "FL";
+            this.barFL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.barFL.Location = new System.Drawing.Point(18, 38);
+            this.barFL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barFL.Name = "barFL";
+            this.barFL.Size = new System.Drawing.Size(72, 49);
+            this.barFL.TabIndex = 0;
+            this.barFL.Value = 0F;
             // 
-            // label5
+            // mtmOutR
             // 
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(19, 213);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(58, 25);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "增益";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mtmOutR.BackColor = System.Drawing.Color.Black;
+            this.mtmOutR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mtmOutR.DisplayText = "R";
+            this.mtmOutR.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.mtmOutR.Location = new System.Drawing.Point(485, 38);
+            this.mtmOutR.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.mtmOutR.Name = "mtmOutR";
+            this.mtmOutR.Size = new System.Drawing.Size(142, 104);
+            this.mtmOutR.TabIndex = 6;
+            this.mtmOutR.Value = 0F;
+            // 
+            // barFR
+            // 
+            this.barFR.BackColor = System.Drawing.Color.Black;
+            this.barFR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barFR.DisplayText = "FR";
+            this.barFR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.barFR.Location = new System.Drawing.Point(18, 93);
+            this.barFR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barFR.Name = "barFR";
+            this.barFR.Size = new System.Drawing.Size(72, 49);
+            this.barFR.TabIndex = 0;
+            this.barFR.Value = 0F;
+            // 
+            // numCompressOverflow1
+            // 
+            this.numCompressOverflow1.BackColor = System.Drawing.Color.Black;
+            this.numCompressOverflow1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.numCompressOverflow1.DisplayText = "CMP";
+            this.numCompressOverflow1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
+            this.numCompressOverflow1.Location = new System.Drawing.Point(96, 250);
+            this.numCompressOverflow1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.numCompressOverflow1.Name = "numCompressOverflow1";
+            this.numCompressOverflow1.Size = new System.Drawing.Size(150, 104);
+            this.numCompressOverflow1.TabIndex = 6;
+            this.numCompressOverflow1.Value = 0F;
+            // 
+            // mtmOutL
+            // 
+            this.mtmOutL.BackColor = System.Drawing.Color.Black;
+            this.mtmOutL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mtmOutL.DisplayText = "L";
+            this.mtmOutL.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.mtmOutL.Location = new System.Drawing.Point(337, 38);
+            this.mtmOutL.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.mtmOutL.Name = "mtmOutL";
+            this.mtmOutL.Size = new System.Drawing.Size(142, 104);
+            this.mtmOutL.TabIndex = 6;
+            this.mtmOutL.Value = 0F;
+            // 
+            // barFC
+            // 
+            this.barFC.BackColor = System.Drawing.Color.Black;
+            this.barFC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barFC.DisplayText = "FC";
+            this.barFC.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.barFC.Location = new System.Drawing.Point(96, 38);
+            this.barFC.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barFC.Name = "barFC";
+            this.barFC.Size = new System.Drawing.Size(72, 49);
+            this.barFC.TabIndex = 0;
+            this.barFC.Value = 0F;
+            // 
+            // barLF
+            // 
+            this.barLF.BackColor = System.Drawing.Color.Black;
+            this.barLF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barLF.DisplayText = "LF";
+            this.barLF.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.barLF.Location = new System.Drawing.Point(96, 93);
+            this.barLF.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barLF.Name = "barLF";
+            this.barLF.Size = new System.Drawing.Size(72, 49);
+            this.barLF.TabIndex = 0;
+            this.barLF.Value = 0F;
+            // 
+            // barRL
+            // 
+            this.barRL.BackColor = System.Drawing.Color.Black;
+            this.barRL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barRL.DisplayText = "RL";
+            this.barRL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.barRL.Location = new System.Drawing.Point(252, 38);
+            this.barRL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barRL.Name = "barRL";
+            this.barRL.Size = new System.Drawing.Size(72, 49);
+            this.barRL.TabIndex = 0;
+            this.barRL.Value = 0F;
+            // 
+            // barSL
+            // 
+            this.barSL.BackColor = System.Drawing.Color.Black;
+            this.barSL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barSL.DisplayText = "SL";
+            this.barSL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.barSL.Location = new System.Drawing.Point(174, 38);
+            this.barSL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barSL.Name = "barSL";
+            this.barSL.Size = new System.Drawing.Size(72, 49);
+            this.barSL.TabIndex = 0;
+            this.barSL.Value = 0F;
+            // 
+            // barRR
+            // 
+            this.barRR.BackColor = System.Drawing.Color.Black;
+            this.barRR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barRR.DisplayText = "RR";
+            this.barRR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.barRR.Location = new System.Drawing.Point(252, 93);
+            this.barRR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barRR.Name = "barRR";
+            this.barRR.Size = new System.Drawing.Size(72, 49);
+            this.barRR.TabIndex = 0;
+            this.barRR.Value = 0F;
+            // 
+            // barSR
+            // 
+            this.barSR.BackColor = System.Drawing.Color.Black;
+            this.barSR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barSR.DisplayText = "SR";
+            this.barSR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.barSR.Location = new System.Drawing.Point(174, 93);
+            this.barSR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barSR.Name = "barSR";
+            this.barSR.Size = new System.Drawing.Size(72, 49);
+            this.barSR.TabIndex = 0;
+            this.barSR.Value = 0F;
+            // 
+            // posShow
+            // 
+            this.posShow.AutoSize = true;
+            this.posShow.ForeColor = System.Drawing.Color.Black;
+            this.posShow.Location = new System.Drawing.Point(164, 106);
+            this.posShow.Name = "posShow";
+            this.posShow.Size = new System.Drawing.Size(41, 12);
+            this.posShow.TabIndex = 12;
+            this.posShow.Text = "114514";
+            this.posShow.Visible = false;
+            // 
+            // posHide
+            // 
+            this.posHide.AutoSize = true;
+            this.posHide.Location = new System.Drawing.Point(830, -2);
+            this.posHide.Name = "posHide";
+            this.posHide.Size = new System.Drawing.Size(41, 12);
+            this.posHide.TabIndex = 13;
+            this.posHide.Text = "label7";
+            // 
+            // panelPage2
+            // 
+            this.panelPage2.BackColor = System.Drawing.Color.Transparent;
+            this.panelPage2.Controls.Add(this.numCompressOverflow);
+            this.panelPage2.Controls.Add(this.label13);
+            this.panelPage2.Controls.Add(this.numCompressRelease);
+            this.panelPage2.Controls.Add(this.numCompressAttack);
+            this.panelPage2.Controls.Add(this.numCompressRatio);
+            this.panelPage2.Controls.Add(this.numCompressGate);
+            this.panelPage2.Controls.Add(this.label12);
+            this.panelPage2.Controls.Add(this.label10);
+            this.panelPage2.Controls.Add(this.label9);
+            this.panelPage2.Controls.Add(this.label8);
+            this.panelPage2.Controls.Add(this.label7);
+            this.panelPage2.Location = new System.Drawing.Point(832, 106);
+            this.panelPage2.Name = "panelPage2";
+            this.panelPage2.Size = new System.Drawing.Size(647, 394);
+            this.panelPage2.TabIndex = 14;
+            // 
+            // numCompressOverflow
+            // 
+            this.numCompressOverflow.BackColor = System.Drawing.Color.Black;
+            this.numCompressOverflow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.numCompressOverflow.DisplayText = "CMP";
+            this.numCompressOverflow.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
+            this.numCompressOverflow.Location = new System.Drawing.Point(112, 230);
+            this.numCompressOverflow.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.numCompressOverflow.Name = "numCompressOverflow";
+            this.numCompressOverflow.Size = new System.Drawing.Size(142, 104);
+            this.numCompressOverflow.TabIndex = 7;
+            this.numCompressOverflow.Value = 0F;
+            // 
+            // label13
+            // 
+            this.label13.BackColor = System.Drawing.Color.Transparent;
+            this.label13.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label13.ForeColor = System.Drawing.Color.White;
+            this.label13.Location = new System.Drawing.Point(20, 234);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(86, 25);
+            this.label13.TabIndex = 12;
+            this.label13.Text = "压限";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // numCompressRelease
+            // 
+            this.numCompressRelease.BackColor = System.Drawing.Color.Black;
+            this.numCompressRelease.BigStep = 5;
+            this.numCompressRelease.Location = new System.Drawing.Point(112, 188);
+            this.numCompressRelease.Max = 4000;
+            this.numCompressRelease.Min = 0;
+            this.numCompressRelease.Name = "numCompressRelease";
+            this.numCompressRelease.Size = new System.Drawing.Size(507, 25);
+            this.numCompressRelease.SmallStep = 3;
+            this.numCompressRelease.TabIndex = 11;
+            this.numCompressRelease.ThumbText = "3200ms";
+            this.numCompressRelease.ThumbWidth = 80;
+            this.numCompressRelease.Value = 3200;
+            this.numCompressRelease.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
+            // 
+            // numCompressAttack
+            // 
+            this.numCompressAttack.BackColor = System.Drawing.Color.Black;
+            this.numCompressAttack.BigStep = 5;
+            this.numCompressAttack.Location = new System.Drawing.Point(112, 142);
+            this.numCompressAttack.Max = 200;
+            this.numCompressAttack.Min = 0;
+            this.numCompressAttack.Name = "numCompressAttack";
+            this.numCompressAttack.Size = new System.Drawing.Size(507, 25);
+            this.numCompressAttack.SmallStep = 3;
+            this.numCompressAttack.TabIndex = 11;
+            this.numCompressAttack.ThumbText = "144ms";
+            this.numCompressAttack.ThumbWidth = 80;
+            this.numCompressAttack.Value = 144;
+            this.numCompressAttack.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
+            // 
+            // numCompressRatio
+            // 
+            this.numCompressRatio.BackColor = System.Drawing.Color.Black;
+            this.numCompressRatio.BigStep = 5;
+            this.numCompressRatio.Location = new System.Drawing.Point(112, 96);
+            this.numCompressRatio.Max = 800;
+            this.numCompressRatio.Min = 0;
+            this.numCompressRatio.Name = "numCompressRatio";
+            this.numCompressRatio.Size = new System.Drawing.Size(507, 25);
+            this.numCompressRatio.SmallStep = 3;
+            this.numCompressRatio.TabIndex = 11;
+            this.numCompressRatio.ThumbText = "30:1";
+            this.numCompressRatio.ThumbWidth = 80;
+            this.numCompressRatio.Value = 310;
+            this.numCompressRatio.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
+            // 
+            // numCompressGate
+            // 
+            this.numCompressGate.BackColor = System.Drawing.Color.Black;
+            this.numCompressGate.BigStep = 5;
+            this.numCompressGate.Location = new System.Drawing.Point(112, 50);
+            this.numCompressGate.Max = 1;
+            this.numCompressGate.Min = -200;
+            this.numCompressGate.Name = "numCompressGate";
+            this.numCompressGate.Size = new System.Drawing.Size(507, 25);
+            this.numCompressGate.SmallStep = 3;
+            this.numCompressGate.TabIndex = 11;
+            this.numCompressGate.ThumbText = "0.0 dB";
+            this.numCompressGate.ThumbWidth = 80;
+            this.numCompressGate.Value = 0;
+            this.numCompressGate.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
+            // 
+            // label12
+            // 
+            this.label12.BackColor = System.Drawing.Color.Transparent;
+            this.label12.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label12.ForeColor = System.Drawing.Color.White;
+            this.label12.Location = new System.Drawing.Point(15, 188);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(91, 25);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "释放时间";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label10
+            // 
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(15, 142);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(91, 25);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "启动时间";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label9
+            // 
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(15, 96);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(91, 25);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "压缩比";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label8
+            // 
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label8.ForeColor = System.Drawing.Color.White;
+            this.label8.Location = new System.Drawing.Point(15, 50);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(91, 25);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "噪音门限";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.White;
+            this.label7.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.ForeColor = System.Drawing.Color.Black;
+            this.label7.Location = new System.Drawing.Point(15, 5);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(91, 25);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "压缩器";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panelPage3
+            // 
+            this.panelPage3.BackColor = System.Drawing.Color.Transparent;
+            this.panelPage3.Controls.Add(this.button1);
+            this.panelPage3.Controls.Add(this.btnHelp);
+            this.panelPage3.Controls.Add(this.chkLowLancey);
+            this.panelPage3.Controls.Add(this.cmbSrc);
+            this.panelPage3.Controls.Add(this.label2);
+            this.panelPage3.Controls.Add(this.label1);
+            this.panelPage3.Controls.Add(this.label15);
+            this.panelPage3.Controls.Add(this.label14);
+            this.panelPage3.Controls.Add(this.cmbDst);
+            this.panelPage3.Location = new System.Drawing.Point(166, 515);
+            this.panelPage3.Name = "panelPage3";
+            this.panelPage3.Size = new System.Drawing.Size(647, 394);
+            this.panelPage3.TabIndex = 15;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(15, 129);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(91, 25);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "虚拟设备";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(15, 91);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(91, 25);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "低延迟";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label15
+            // 
+            this.label15.BackColor = System.Drawing.Color.Transparent;
+            this.label15.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label15.ForeColor = System.Drawing.Color.White;
+            this.label15.Location = new System.Drawing.Point(15, 50);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(91, 25);
+            this.label15.TabIndex = 7;
+            this.label15.Text = "输出设备";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label14
+            // 
+            this.label14.BackColor = System.Drawing.Color.White;
+            this.label14.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label14.ForeColor = System.Drawing.Color.Black;
+            this.label14.Location = new System.Drawing.Point(15, 5);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(91, 25);
+            this.label14.TabIndex = 6;
+            this.label14.Text = "设备选择";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panelPage4
+            // 
+            this.panelPage4.BackColor = System.Drawing.Color.Transparent;
+            this.panelPage4.Controls.Add(this.label16);
+            this.panelPage4.Controls.Add(this.label20);
+            this.panelPage4.Controls.Add(this.label19);
+            this.panelPage4.Controls.Add(this.label18);
+            this.panelPage4.Controls.Add(this.label27);
+            this.panelPage4.Controls.Add(this.label26);
+            this.panelPage4.Controls.Add(this.label25);
+            this.panelPage4.Controls.Add(this.label24);
+            this.panelPage4.Controls.Add(this.label30);
+            this.panelPage4.Controls.Add(this.label29);
+            this.panelPage4.Controls.Add(this.label23);
+            this.panelPage4.Controls.Add(this.label22);
+            this.panelPage4.Controls.Add(this.label21);
+            this.panelPage4.Controls.Add(this.label17);
+            this.panelPage4.Location = new System.Drawing.Point(832, 515);
+            this.panelPage4.Name = "panelPage4";
+            this.panelPage4.Size = new System.Drawing.Size(647, 394);
+            this.panelPage4.TabIndex = 15;
+            // 
+            // label16
+            // 
+            this.label16.BackColor = System.Drawing.Color.White;
+            this.label16.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label16.ForeColor = System.Drawing.Color.Black;
+            this.label16.Location = new System.Drawing.Point(15, 5);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(194, 25);
+            this.label16.TabIndex = 7;
+            this.label16.Text = "关于耳机虚拟环绕声";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label20
+            // 
+            this.label20.BackColor = System.Drawing.Color.Transparent;
+            this.label20.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label20.ForeColor = System.Drawing.Color.White;
+            this.label20.Location = new System.Drawing.Point(15, 168);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(91, 25);
+            this.label20.TabIndex = 7;
+            this.label20.Text = "第三方库";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label19
+            // 
+            this.label19.BackColor = System.Drawing.Color.Transparent;
+            this.label19.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label19.ForeColor = System.Drawing.Color.White;
+            this.label19.Location = new System.Drawing.Point(15, 129);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(91, 25);
+            this.label19.TabIndex = 7;
+            this.label19.Text = "主页";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label18
+            // 
+            this.label18.BackColor = System.Drawing.Color.Transparent;
+            this.label18.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label18.ForeColor = System.Drawing.Color.White;
+            this.label18.Location = new System.Drawing.Point(15, 91);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(91, 25);
+            this.label18.TabIndex = 7;
+            this.label18.Text = "源代码";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label27
+            // 
+            this.label27.BackColor = System.Drawing.Color.Transparent;
+            this.label27.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label27.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label27.ForeColor = System.Drawing.Color.White;
+            this.label27.Location = new System.Drawing.Point(118, 243);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(136, 25);
+            this.label27.TabIndex = 7;
+            this.label27.Tag = "https://github.com/File-New-Project/EarTrumpet";
+            this.label27.Text = "EarTrumpet";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label27.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label26
+            // 
+            this.label26.BackColor = System.Drawing.Color.Transparent;
+            this.label26.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label26.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label26.ForeColor = System.Drawing.Color.White;
+            this.label26.Location = new System.Drawing.Point(118, 218);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(136, 25);
+            this.label26.TabIndex = 7;
+            this.label26.Tag = "https://github.com/naudio/NAudio";
+            this.label26.Text = "NAudio";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label26.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label25
+            // 
+            this.label25.BackColor = System.Drawing.Color.Transparent;
+            this.label25.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label25.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label25.ForeColor = System.Drawing.Color.White;
+            this.label25.Location = new System.Drawing.Point(118, 193);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(136, 25);
+            this.label25.TabIndex = 7;
+            this.label25.Tag = "https://github.com/HiFi-LoFi/FFTConvolver";
+            this.label25.Text = "FFTConvolver";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label25.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label24
+            // 
+            this.label24.BackColor = System.Drawing.Color.Transparent;
+            this.label24.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label24.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label24.ForeColor = System.Drawing.Color.White;
+            this.label24.Location = new System.Drawing.Point(118, 168);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(216, 25);
+            this.label24.TabIndex = 7;
+            this.label24.Tag = "https://sourceforge.net/projects/hesuvi/";
+            this.label24.Text = "HeSuVi (脉冲响应样本)";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label24.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label30
+            // 
+            this.label30.BackColor = System.Drawing.Color.Transparent;
+            this.label30.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label30.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label30.ForeColor = System.Drawing.Color.White;
+            this.label30.Location = new System.Drawing.Point(312, 128);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(116, 25);
+            this.label30.TabIndex = 7;
+            this.label30.Tag = "https://gitee.com/ZYFDroid/";
+            this.label30.Text = "码云Gitee";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label30.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label29
+            // 
+            this.label29.BackColor = System.Drawing.Color.Transparent;
+            this.label29.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label29.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label29.ForeColor = System.Drawing.Color.White;
+            this.label29.Location = new System.Drawing.Point(215, 128);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(91, 25);
+            this.label29.TabIndex = 7;
+            this.label29.Tag = "https://github.com/ZYFDroid";
+            this.label29.Text = "Github";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label29.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label23
+            // 
+            this.label23.BackColor = System.Drawing.Color.Transparent;
+            this.label23.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label23.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label23.ForeColor = System.Drawing.Color.White;
+            this.label23.Location = new System.Drawing.Point(118, 128);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(91, 25);
+            this.label23.TabIndex = 7;
+            this.label23.Tag = "https://space.bilibili.com/10927769";
+            this.label23.Text = "B站主页";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label23.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label22
+            // 
+            this.label22.BackColor = System.Drawing.Color.Transparent;
+            this.label22.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label22.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label22.ForeColor = System.Drawing.Color.White;
+            this.label22.Location = new System.Drawing.Point(118, 91);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(91, 25);
+            this.label22.TabIndex = 7;
+            this.label22.Tag = "https://gitee.com/ZYFDroid/SimpleHeadphoneSurroundVirtualization";
+            this.label22.Text = "网页链接";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label22.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label21
+            // 
+            this.label21.BackColor = System.Drawing.Color.Transparent;
+            this.label21.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label21.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label21.ForeColor = System.Drawing.Color.White;
+            this.label21.Location = new System.Drawing.Point(118, 51);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(106, 25);
+            this.label21.TabIndex = 7;
+            this.label21.Tag = "https://github.com/ZYFDroid";
+            this.label21.Text = "ZYFDroid";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label21.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label17
+            // 
+            this.label17.BackColor = System.Drawing.Color.Transparent;
+            this.label17.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label17.ForeColor = System.Drawing.Color.White;
+            this.label17.Location = new System.Drawing.Point(15, 51);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(91, 25);
+            this.label17.TabIndex = 7;
+            this.label17.Text = "作者";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Form1
             // 
@@ -676,15 +1075,17 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::耳机虚拟环绕声.Properties.Resources.bg_hesuvi2;
-            this.ClientSize = new System.Drawing.Size(1793, 800);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.lblPanelLocation);
+            this.ClientSize = new System.Drawing.Size(1486, 922);
+            this.Controls.Add(this.panelPage4);
+            this.Controls.Add(this.panelPage3);
+            this.Controls.Add(this.panelPage2);
+            this.Controls.Add(this.posHide);
+            this.Controls.Add(this.panelPage1);
+            this.Controls.Add(this.posShow);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.dragger);
             this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnBegin);
+            this.Controls.Add(this.dragger);
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -694,42 +1095,26 @@
             this.Text = "耳机虚拟环绕声";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numMasterGain)).EndInit();
-            this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dragger)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panelPage1.ResumeLayout(false);
+            this.panelPage2.ResumeLayout(false);
+            this.panelPage3.ResumeLayout(false);
+            this.panelPage3.PerformLayout();
+            this.panelPage4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbSrc;
         private System.Windows.Forms.ComboBox cmbDst;
         private System.Windows.Forms.Button btnBegin;
         private System.ComponentModel.BackgroundWorker surroundProc;
-        private System.Windows.Forms.GroupBox groupBox1;
         private MP3模拟器.CtlBarMeter mtmOutR;
         private MP3模拟器.CtlBarMeter mtmOutL;
-        private System.Windows.Forms.Label lblMasterGain;
-        private System.Windows.Forms.TrackBar numMasterGain;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label lblCompressRelease;
-        private System.Windows.Forms.Label lblCompressAttack;
-        private System.Windows.Forms.Label lblCompressRatio;
-        private System.Windows.Forms.Label lblCompressGate;
-        private NAudio.Gui.Pot numCompressRelease;
-        private NAudio.Gui.Pot numCompressAttack;
-        private NAudio.Gui.Pot numCompressRatio;
-        private NAudio.Gui.Pot numCompressGate;
         private MP3模拟器.CtlBarMeter numCompressOverflow;
         private MP3模拟器.CtlBarMeter barFL;
         private MP3模拟器.CtlBarMeter barSR;
@@ -750,12 +1135,48 @@
         private System.Windows.Forms.Button btnPage2;
         private System.Windows.Forms.Button btnPage3;
         private System.Windows.Forms.Button btnPage4;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelPage1;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label lblPanelLocation;
+        private System.Windows.Forms.Label posShow;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private CtlBarSlider numMasterGain;
+        private System.Windows.Forms.Label label6;
+        private MP3模拟器.CtlBarMeter numCompressOverflow1;
+        private System.Windows.Forms.Label posHide;
+        private System.Windows.Forms.Panel panelPage2;
+        private CtlBarSlider numCompressRelease;
+        private CtlBarSlider numCompressAttack;
+        private CtlBarSlider numCompressRatio;
+        private CtlBarSlider numCompressGate;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Panel panelPage3;
+        private System.Windows.Forms.Panel panelPage4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
     }
 }
 

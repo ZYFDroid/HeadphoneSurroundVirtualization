@@ -17,10 +17,9 @@ namespace MP3模拟器
             InitializeComponent();
         }
 
-        public const int delayframe = 1;
 
 
-        public float smoothfactor = 0.28f;
+        public float smoothfactor = 0.15f;
 
         float linearDownValue = 0.0f;
 
@@ -34,34 +33,56 @@ namespace MP3模拟器
                 _value = value;
                 if (_value > 1) { _value = 1; }
                 if (_value < 0) { _value = 0; }
-
-                valuehistory[ptr] = _value;
-                
-                ptr++;
-                if (ptr >= valuehistory.Length) { ptr = 0; }
-                linearDownValue -= 0.015f;
-                if (linearDownValue < valuehistory[ptr])
+                if(linearDownValue < _value)
                 {
-                    linearDownValue = valuehistory[ptr];
+                    linearDownValue = _value;
                 }
-                animedValue = animedValue + (linearDownValue - animedValue) * smoothfactor;
-
-                Invalidate();
+                
             }
         }
-
-        public float[] valuehistory = new float[delayframe];
-        public int ptr = 0;
-
-        int stepHeight = 4;
-
         private void CtlBarMeter_Load(object sender, EventArgs e)
         {
             if (DesignMode) { return; }
             this.DoubleBuffered = true;
             this.BorderStyle = BorderStyle.None;
+            controlGraphics = Graphics.FromHwnd(Handle);
+            initMemoryDC();
+            
         }
 
+        private void initMemoryDC()
+        {
+            renderTimer.Enabled = false;
+            renderBuffer?.Dispose();
+            memoryDC?.Dispose();
+            memoryDC = new Bitmap(this.Width,this.Height);
+            renderBuffer = Graphics.FromImage(memoryDC);
+            renderBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            renderBuffer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            renderTimer.Enabled = true;
+        }
+
+        private Bitmap memoryDC = null;
+        private Graphics renderBuffer = null;
+        private Graphics controlGraphics = null;
+
+        private void Draw()
+        {
+
+            if(controlGraphics == null)
+            {
+                return;
+            }
+            if(renderBuffer == null)
+            {
+                return;
+            }
+            if(ParentForm.WindowState == FormWindowState.Minimized) { return; }
+            DrawInternal(renderBuffer);
+            controlGraphics.DrawImage(memoryDC, 0, 0);
+        }
+
+        
 
         Pen pCircle = new Pen(Brushes.White, 2.5f);
         Pen pHand = new Pen(Brushes.White, 1.8f);
@@ -75,13 +96,9 @@ namespace MP3模拟器
             LineAlignment = StringAlignment.Center
         };
         Rectangle clientRect = new Rectangle();
-        protected override void OnPaint(PaintEventArgs e)
+        void DrawInternal(Graphics g)
         {
-            base.OnPaint(e);
-            Graphics g = e.Graphics;
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-            g.Clear(Color.Transparent);
+            g.Clear(Color.Black);
             g.DrawLine(pBorder, 1, 0, Width - 2, 0);
             g.DrawLine(pBorder, 1, Height-1, Width - 2, Height-1);
             g.DrawLine(pBorder, 0, 1, 0, Height-2);
@@ -102,8 +119,6 @@ namespace MP3模拟器
             float handLength = rectSize / 2f * 0.98f;
 
             g.DrawArc(pCircle, rectX, rectY, rectSize, rectSize, 225, 90);
-            //g.DrawArc(pCircle1, rectX, rectY, rectSize, rectSize, 225+72, 90-72);
-            //g.DrawArc(pCircle2, rectX, rectY, rectSize, rectSize, 225+81, 90-81);
 
             float pointerAngle = -(float)Math.PI / 4f * 3f +  animedValue / 1 * (float)Math.PI /2 ;
 
@@ -111,13 +126,42 @@ namespace MP3模拟器
 
         }
 
-       
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            initMemoryDC();
+        }
 
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            initMemoryDC();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            if (DesignMode)
+            {
+                DrawInternal(e.Graphics);
+            }
+        }
         internal void Reset()
         {
-            linearDownValue = 0;
-            animedValue = 0;
+            //linearDownValue = 0;
+            //animedValue = 0;
             Value = 0;
+        }
+
+        private void renderTimer_Tick(object sender, EventArgs e)
+        {
+            linearDownValue -= 0.016f;
+            if (linearDownValue < _value)
+            {
+                linearDownValue = _value;
+            }
+            animedValue = animedValue + (linearDownValue - animedValue) * smoothfactor;
+            Draw();
         }
     }
 }

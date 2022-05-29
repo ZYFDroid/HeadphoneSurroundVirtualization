@@ -28,7 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.renderTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // renderTimer
+            // 
+            this.renderTimer.Interval = 1;
+            this.renderTimer.Tick += new System.EventHandler(this.renderTimer_Tick);
             // 
             // CtlBarMeter
             // 
@@ -44,5 +51,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer renderTimer;
     }
 }
