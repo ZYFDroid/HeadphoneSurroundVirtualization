@@ -193,6 +193,8 @@ namespace 耳机虚拟环绕声
             numMasterGain_Scroll(null, null);
             chkLowLancey.Checked = Program.SurroundSettings.lowLancey;
             Program.needSave = false;
+
+            lblVersion.Text ="v"+ Application.ProductVersion;
         }
 
         private void loadData()
@@ -480,8 +482,12 @@ namespace 耳机虚拟环绕声
             {
                 initPage();
             }
+            if(currentPage == p) { return; }
             pageButtons[currentPage].Image = null;
+            pageButtons[currentPage].ForeColor = Color.LightGray;
             pageButtons[p].Image = Properties.Resources.rightIndicator;
+            pageButtons[p].ForeColor = Color.White;
+
             pages[currentPage].Location = posHide.Location;
             pages[p].Location = posShow.Location;
             currentPage = p;

@@ -86,6 +86,7 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
@@ -93,6 +94,8 @@
             this.label24 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
@@ -307,7 +310,7 @@
             this.btnPage2.Size = new System.Drawing.Size(140, 41);
             this.btnPage2.TabIndex = 0;
             this.btnPage2.Tag = "2";
-            this.btnPage2.Text = "音频增强";
+            this.btnPage2.Text = "音频处理";
             this.btnPage2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnPage2.UseVisualStyleBackColor = true;
             this.btnPage2.Click += new System.EventHandler(this.btnPage1_Click);
@@ -858,6 +861,7 @@
             this.panelPage4.Controls.Add(this.label16);
             this.panelPage4.Controls.Add(this.label20);
             this.panelPage4.Controls.Add(this.label19);
+            this.panelPage4.Controls.Add(this.label31);
             this.panelPage4.Controls.Add(this.label18);
             this.panelPage4.Controls.Add(this.label27);
             this.panelPage4.Controls.Add(this.label26);
@@ -865,6 +869,8 @@
             this.panelPage4.Controls.Add(this.label24);
             this.panelPage4.Controls.Add(this.label30);
             this.panelPage4.Controls.Add(this.label29);
+            this.panelPage4.Controls.Add(this.label32);
+            this.panelPage4.Controls.Add(this.lblVersion);
             this.panelPage4.Controls.Add(this.label23);
             this.panelPage4.Controls.Add(this.label22);
             this.panelPage4.Controls.Add(this.label21);
@@ -891,7 +897,7 @@
             this.label20.BackColor = System.Drawing.Color.Transparent;
             this.label20.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(15, 168);
+            this.label20.Location = new System.Drawing.Point(15, 200);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(91, 25);
             this.label20.TabIndex = 7;
@@ -903,19 +909,31 @@
             this.label19.BackColor = System.Drawing.Color.Transparent;
             this.label19.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label19.ForeColor = System.Drawing.Color.White;
-            this.label19.Location = new System.Drawing.Point(15, 129);
+            this.label19.Location = new System.Drawing.Point(15, 161);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(91, 25);
             this.label19.TabIndex = 7;
             this.label19.Text = "主页";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // label31
+            // 
+            this.label31.BackColor = System.Drawing.Color.Transparent;
+            this.label31.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label31.ForeColor = System.Drawing.Color.White;
+            this.label31.Location = new System.Drawing.Point(15, 88);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(91, 25);
+            this.label31.TabIndex = 7;
+            this.label31.Text = "版本";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // label18
             // 
             this.label18.BackColor = System.Drawing.Color.Transparent;
             this.label18.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label18.ForeColor = System.Drawing.Color.White;
-            this.label18.Location = new System.Drawing.Point(15, 91);
+            this.label18.Location = new System.Drawing.Point(15, 123);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(91, 25);
             this.label18.TabIndex = 7;
@@ -928,7 +946,7 @@
             this.label27.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label27.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label27.ForeColor = System.Drawing.Color.White;
-            this.label27.Location = new System.Drawing.Point(118, 243);
+            this.label27.Location = new System.Drawing.Point(118, 275);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(136, 25);
             this.label27.TabIndex = 7;
@@ -943,7 +961,7 @@
             this.label26.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label26.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label26.ForeColor = System.Drawing.Color.White;
-            this.label26.Location = new System.Drawing.Point(118, 218);
+            this.label26.Location = new System.Drawing.Point(118, 250);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(136, 25);
             this.label26.TabIndex = 7;
@@ -958,7 +976,7 @@
             this.label25.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label25.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label25.ForeColor = System.Drawing.Color.White;
-            this.label25.Location = new System.Drawing.Point(118, 193);
+            this.label25.Location = new System.Drawing.Point(118, 225);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(136, 25);
             this.label25.TabIndex = 7;
@@ -973,7 +991,7 @@
             this.label24.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label24.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label24.ForeColor = System.Drawing.Color.White;
-            this.label24.Location = new System.Drawing.Point(118, 168);
+            this.label24.Location = new System.Drawing.Point(118, 200);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(216, 25);
             this.label24.TabIndex = 7;
@@ -988,7 +1006,7 @@
             this.label30.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label30.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label30.ForeColor = System.Drawing.Color.White;
-            this.label30.Location = new System.Drawing.Point(312, 128);
+            this.label30.Location = new System.Drawing.Point(312, 160);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(116, 25);
             this.label30.TabIndex = 7;
@@ -1003,7 +1021,7 @@
             this.label29.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label29.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label29.ForeColor = System.Drawing.Color.White;
-            this.label29.Location = new System.Drawing.Point(215, 128);
+            this.label29.Location = new System.Drawing.Point(215, 160);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(91, 25);
             this.label29.TabIndex = 7;
@@ -1012,13 +1030,42 @@
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label29.Click += new System.EventHandler(this.aboutClick);
             // 
+            // label32
+            // 
+            this.label32.BackColor = System.Drawing.Color.Transparent;
+            this.label32.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label32.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label32.ForeColor = System.Drawing.Color.White;
+            this.label32.Location = new System.Drawing.Point(215, 87);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(241, 25);
+            this.label32.TabIndex = 7;
+            this.label32.Tag = "https://zyfdroid.lanzoul.com/b065zrvte";
+            this.label32.Text = "新版下载（提取码:5fpu）";
+            this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label32.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // lblVersion
+            // 
+            this.lblVersion.BackColor = System.Drawing.Color.Transparent;
+            this.lblVersion.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblVersion.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblVersion.ForeColor = System.Drawing.Color.White;
+            this.lblVersion.Location = new System.Drawing.Point(118, 88);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(91, 25);
+            this.lblVersion.TabIndex = 7;
+            this.lblVersion.Tag = "https://gitee.com/ZYFDroid/SimpleHeadphoneSurroundVirtualization";
+            this.lblVersion.Text = "网页链接";
+            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // label23
             // 
             this.label23.BackColor = System.Drawing.Color.Transparent;
             this.label23.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label23.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label23.ForeColor = System.Drawing.Color.White;
-            this.label23.Location = new System.Drawing.Point(118, 128);
+            this.label23.Location = new System.Drawing.Point(118, 160);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(91, 25);
             this.label23.TabIndex = 7;
@@ -1033,7 +1080,7 @@
             this.label22.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label22.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label22.ForeColor = System.Drawing.Color.White;
-            this.label22.Location = new System.Drawing.Point(118, 91);
+            this.label22.Location = new System.Drawing.Point(118, 123);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(91, 25);
             this.label22.TabIndex = 7;
@@ -1177,6 +1224,9 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label lblVersion;
     }
 }
 
