@@ -152,6 +152,7 @@
     <Content Include="doubi.ico" />
     <Content Include="FFTConvolver.dll" />
     <None Include="Resources\bg_hesuvi2.png" />
+    <None Include="Resources\testsurround.wav0.gzip" />
     <None Include="Resources\whitebg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

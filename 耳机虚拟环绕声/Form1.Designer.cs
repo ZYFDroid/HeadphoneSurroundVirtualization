@@ -46,6 +46,8 @@
             this.btnPage3 = new System.Windows.Forms.Button();
             this.btnPage4 = new System.Windows.Forms.Button();
             this.panelPage1 = new System.Windows.Forms.Panel();
+            this.btnSwitchConvolver = new System.Windows.Forms.Button();
+            this.btnTest = new System.Windows.Forms.Button();
             this.numMasterGain = new 耳机虚拟环绕声.CtlBarSlider();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -100,6 +102,7 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dragger)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -360,6 +363,8 @@
             // panelPage1
             // 
             this.panelPage1.BackColor = System.Drawing.Color.Transparent;
+            this.panelPage1.Controls.Add(this.btnSwitchConvolver);
+            this.panelPage1.Controls.Add(this.btnTest);
             this.panelPage1.Controls.Add(this.numMasterGain);
             this.panelPage1.Controls.Add(this.chkBypass);
             this.panelPage1.Controls.Add(this.label6);
@@ -382,6 +387,42 @@
             this.panelPage1.Name = "panelPage1";
             this.panelPage1.Size = new System.Drawing.Size(647, 394);
             this.panelPage1.TabIndex = 11;
+            // 
+            // btnSwitchConvolver
+            // 
+            this.btnSwitchConvolver.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSwitchConvolver.Enabled = false;
+            this.btnSwitchConvolver.FlatAppearance.BorderSize = 0;
+            this.btnSwitchConvolver.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnSwitchConvolver.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnSwitchConvolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSwitchConvolver.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnSwitchConvolver.Location = new System.Drawing.Point(82, 2);
+            this.btnSwitchConvolver.Name = "btnSwitchConvolver";
+            this.btnSwitchConvolver.Size = new System.Drawing.Size(184, 32);
+            this.btnSwitchConvolver.TabIndex = 9;
+            this.btnSwitchConvolver.Text = "切换脉冲响应文件";
+            this.btnSwitchConvolver.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSwitchConvolver.UseVisualStyleBackColor = true;
+            this.btnSwitchConvolver.Visible = false;
+            this.btnSwitchConvolver.Click += new System.EventHandler(this.btnSwitchConvolver_Click);
+            // 
+            // btnTest
+            // 
+            this.btnTest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTest.FlatAppearance.BorderSize = 0;
+            this.btnTest.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnTest.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTest.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnTest.Location = new System.Drawing.Point(402, 2);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(58, 32);
+            this.btnTest.TabIndex = 9;
+            this.btnTest.Text = "测试";
+            this.btnTest.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // numMasterGain
             // 
@@ -1116,6 +1157,10 @@
             this.label17.Text = "作者";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "Wave文件|*.wav";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1227,6 +1272,9 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.Button btnSwitchConvolver;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
 

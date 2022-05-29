@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO.Compression;
+using System.IO;
 using NAudio.CoreAudioApi;
 using NAudio;
 using NAudio.Wave;
@@ -505,6 +506,69 @@ namespace 耳机虚拟环绕声
             {
                 string text = which.Tag.ToString();
                 System.Diagnostics.Process.Start(text);
+            }
+        }
+
+        private WasapiOut waveOut = null;
+        private WaveFileReader waveFileReader = null;
+        private MemoryStream sourcefile = null;
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+
+            btnTest.Enabled = false;
+            if (waveOut == null)
+            {
+                MemoryStream compressedFile = new MemoryStream(Properties.Resources.testsurround_wav0);
+                sourcefile = new MemoryStream();
+                GZipStream gZipStream = new GZipStream(compressedFile, CompressionMode.Decompress, false);
+                gZipStream.CopyTo(sourcefile);
+                gZipStream.Dispose();
+                compressedFile.Dispose();
+                sourcefile.Seek(0, SeekOrigin.Begin);
+                waveFileReader = new WaveFileReader(sourcefile);
+                waveOut = new WasapiOut();
+                waveOut.Init(waveFileReader);
+                waveOut.PlaybackStopped += WaveOut_PlaybackStopped;
+                waveOut.Play();
+            }
+            else
+            {
+                waveOut.Stop();
+            }
+
+            btnTest.Enabled = true;
+        }
+
+        private void WaveOut_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            safeDispose(waveOut, waveFileReader, sourcefile);
+            waveOut = null;
+            sourcefile = null;
+            waveFileReader = null;
+        }
+
+        private void safeDispose(params IDisposable[] d)
+        {
+            foreach (var item in d)
+            {
+
+                try { item?.Dispose(); } catch { }
+            }
+        }
+
+        private void btnSwitchConvolver_Click(object sender, EventArgs e)
+        {
+            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = openFileDialog.FileName;
+                try
+                {
+                    surroundToStereoSampleProvider?.switchIrFile(path);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
     }

@@ -146,6 +146,28 @@ namespace 耳机虚拟环绕声
             _buffer = new float[_inWaveFormat.Channels * _inWaveFormat.SampleRate / 10];
             _channels = _inWaveFormat.Channels;
 
+            initIR();
+            List<float[]> __in = new List<float[]>();
+            for (int i = 0; i < 8; i++)
+            {
+                __in.Add(new float[bufferSize]);
+            }
+            _sampleInBuffer = __in.ToArray();
+
+            List<float[]> __out = new List<float[]>();
+            for (int i = 0; i < 16; i++)
+            {
+                __out.Add(new float[bufferSize]);
+            }
+            _sampleOutBuffer = __out.ToArray();
+            _buffer = new float[bufferSize * _channels];
+            rawPeaks = new float[_channels];
+            _rawMaxs = new float[_channels];
+        }
+
+        private string customIrPath = null;
+        void initIR()
+        {
             var IRs = genIR(_outWaveFormat.SampleRate);
 
             FFTConvolver.FFTConvolver.con01_reset();
@@ -168,45 +190,39 @@ namespace 耳机虚拟环绕声
             int fftSize = 1024;
             unsafe
             {
-                fixed(float* ir0 = IRs[0]) { test(FFTConvolver.FFTConvolver.con01_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[1]) { test(FFTConvolver.FFTConvolver.con02_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[8]) { test(FFTConvolver.FFTConvolver.con03_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[9]) { test(FFTConvolver.FFTConvolver.con04_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[6]) { test(FFTConvolver.FFTConvolver.con05_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[7]) { test(FFTConvolver.FFTConvolver.con06_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[6]) { test(FFTConvolver.FFTConvolver.con07_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[7]) { test(FFTConvolver.FFTConvolver.con08_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[4]) { test(FFTConvolver.FFTConvolver.con09_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[5]) { test(FFTConvolver.FFTConvolver.con10_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[12]) {test( FFTConvolver.FFTConvolver.con11_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[13]) {test( FFTConvolver.FFTConvolver.con12_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[2]) { test(FFTConvolver.FFTConvolver.con13_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[3]) { test(FFTConvolver.FFTConvolver.con14_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[10]) {test( FFTConvolver.FFTConvolver.con15_init(fftSize, ir0, irLen)); }
-                fixed(float* ir0 = IRs[11]) {test( FFTConvolver.FFTConvolver.con16_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[0]) { test(FFTConvolver.FFTConvolver.con01_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[1]) { test(FFTConvolver.FFTConvolver.con02_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[8]) { test(FFTConvolver.FFTConvolver.con03_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[9]) { test(FFTConvolver.FFTConvolver.con04_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[6]) { test(FFTConvolver.FFTConvolver.con05_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[7]) { test(FFTConvolver.FFTConvolver.con06_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[6]) { test(FFTConvolver.FFTConvolver.con07_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[7]) { test(FFTConvolver.FFTConvolver.con08_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[4]) { test(FFTConvolver.FFTConvolver.con09_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[5]) { test(FFTConvolver.FFTConvolver.con10_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[12]) { test(FFTConvolver.FFTConvolver.con11_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[13]) { test(FFTConvolver.FFTConvolver.con12_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[2]) { test(FFTConvolver.FFTConvolver.con13_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[3]) { test(FFTConvolver.FFTConvolver.con14_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[10]) { test(FFTConvolver.FFTConvolver.con15_init(fftSize, ir0, irLen)); }
+                fixed (float* ir0 = IRs[11]) { test(FFTConvolver.FFTConvolver.con16_init(fftSize, ir0, irLen)); }
             }
-            List<float[]> __in = new List<float[]>();
-            for (int i = 0; i < 8; i++)
-            {
-                __in.Add(new float[bufferSize]);
-            }
-            _sampleInBuffer = __in.ToArray();
 
-            List<float[]> __out = new List<float[]>();
-            for (int i = 0; i < 16; i++)
-            {
-                __out.Add(new float[bufferSize]);
-            }
-            _sampleOutBuffer = __out.ToArray();
-            _buffer = new float[bufferSize * _channels];
-            rawPeaks = new float[_channels];
-            _rawMaxs = new float[_channels];
         }
-
 
         void test(bool b)
         {
             if (!b) { throw new Exception("Operation failed!"); }
+        }
+
+        public void switchIrFile(string irPath)
+        {
+            customIrPath = irPath;
+            bool _lastBypass = Bypass;
+            Bypass = true;
+            System.Threading.Thread.Sleep(500);
+            initIR();
+            Bypass = _lastBypass;
         }
 
         const int OffsetFrontLeft = 0; // 左前
@@ -221,10 +237,25 @@ namespace 耳机虚拟环绕声
         {
             
             List<float>[] ret;
-            using(MemoryStream ms = new MemoryStream(Properties.Resources.fir))
+
+            Stream irSource = null;
+            if (customIrPath != null) {
+                if (File.Exists(customIrPath)) { 
+                    irSource = File.OpenRead(customIrPath); 
+                }
+                
+            }
+
+            if(irSource == null)
+            {
+                irSource = new MemoryStream(Properties.Resources.fir);
+            }
+
+            using(Stream ms = irSource)
             using(WaveFileReader irIn = new WaveFileReader(ms))
             {
-                ret = new List<float>[irIn.WaveFormat.Channels];
+                ret = new List<float>[14];
+                int irChannels = irIn.WaveFormat.Channels;
                 for (int i = 0; i < ret.Length; i++)
                 {
                     ret[i] = new List<float>();
@@ -235,17 +266,44 @@ namespace 耳机虚拟环绕声
                 {
                     sampleProvider = new WdlResamplingSampleProvider(sampleProvider,sampleRate);
                 }
-                float[] buffer = new float[ret.Length * 100];
+                float[] buffer = new float[irChannels * 100];
                 int count = 0;
                 while((count = sampleProvider.Read(buffer,0,buffer.Length)) > 0)
                 {
-                    for (int i = 0; i < count; i+=ret.Length)
+                    if(irChannels == 14)
                     {
-                        for (int c = 0; c < ret.Length; c++)
+                        for (int i = 0; i < count; i += irChannels)
                         {
-                            ret[c].Add(buffer[i + c]);
+                            for (int c = 0; c < irChannels; c++)
+                            {
+                                ret[c].Add(buffer[i + c]);
+                            }
+                        }
+                    }else if(irChannels == 7)
+                    {
+                        for (int i = 0; i < count; i += irChannels)
+                        {
+                            for (int c = 0; c < irChannels; c++)
+                            {
+                                ret[c].Add(buffer[i + c]);
+                            }
+                            ret[7].Add(ret[6].Last());
+
+                            ret[8].Add(ret[1].Last());
+                            ret[9].Add(ret[0].Last());
+
+                            ret[10].Add(ret[3].Last());
+                            ret[11].Add(ret[2].Last());
+
+                            ret[12].Add(ret[5].Last());
+                            ret[13].Add(ret[4].Last());
                         }
                     }
+                    else
+                    {
+                        throw new Exception("不是有效的7.1环绕脉冲响应文件");
+                    }
+                    
                 }
             }
             return ret.Select(r => r.ToArray()).ToArray();
