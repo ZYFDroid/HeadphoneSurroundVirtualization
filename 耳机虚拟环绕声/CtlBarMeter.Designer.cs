@@ -28,26 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.mask = new System.Windows.Forms.Panel();
+            this.components = new System.ComponentModel.Container();
+            this.renderTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // mask
+            // renderTimer
             // 
-            this.mask.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mask.Location = new System.Drawing.Point(0, 0);
-            this.mask.Name = "mask";
-            this.mask.Size = new System.Drawing.Size(170, 231);
-            this.mask.TabIndex = 1;
+            this.renderTimer.Interval = 1;
+            this.renderTimer.Tick += new System.EventHandler(this.renderTimer_Tick);
             // 
             // CtlBarMeter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.mask);
             this.DoubleBuffered = true;
             this.Name = "CtlBarMeter";
-            this.Size = new System.Drawing.Size(170, 339);
+            this.Size = new System.Drawing.Size(83, 58);
             this.Load += new System.EventHandler(this.CtlBarMeter_Load);
             this.ResumeLayout(false);
 
@@ -55,6 +52,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel mask;
+        private System.Windows.Forms.Timer renderTimer;
     }
 }

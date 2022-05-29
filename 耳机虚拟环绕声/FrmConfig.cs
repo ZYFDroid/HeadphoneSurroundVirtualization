@@ -20,7 +20,7 @@ namespace 耳机虚拟环绕声
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string installdoc = System.IO.Path.Combine(Program.UserDataDir, "install_v0.pdf");
+            string installdoc = System.IO.Path.Combine(Program.UserDataDir, "install_v10000.pdf");
             if (!System.IO.File.Exists(installdoc))
             {
                 System.IO.File.WriteAllBytes(installdoc, Properties.Resources.install);

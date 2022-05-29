@@ -75,6 +75,12 @@
     <Compile Include="CtlBarMeter.Designer.cs">
       <DependentUpon>CtlBarMeter.cs</DependentUpon>
     </Compile>
+    <Compile Include="CtlBarSlider.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlBarSlider.Designer.cs">
+      <DependentUpon>CtlBarSlider.cs</DependentUpon>
+    </Compile>
     <Compile Include="DSPUtils.cs" />
     <Compile Include="FFTConvolver.cs" />
     <Compile Include="Form1.cs">
@@ -94,10 +100,11 @@
     <Compile Include="ThirdParties\EarTrumpet\ERole.cs" />
     <Compile Include="ThirdParties\EarTrumpet\IPolicyConfig.cs" />
     <Compile Include="ThirdParties\EarTrumpet\PolicyConfigClient.cs" />
-    <Compile Include="ThirdParties\NAudioInternal\EnvelopeDetector.cs" />
-    <Compile Include="ThirdParties\NAudioInternal\SimpleCompressor.cs" />
     <EmbeddedResource Include="CtlBarMeter.resx">
       <DependentUpon>CtlBarMeter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CtlBarSlider.resx">
+      <DependentUpon>CtlBarSlider.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -136,9 +143,6 @@
     <None Include="Resources\install.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\doubi.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\btnSurroundOff.png" />
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +151,8 @@
   <ItemGroup>
     <Content Include="doubi.ico" />
     <Content Include="FFTConvolver.dll" />
-    <Content Include="ThirdParties\NAudioInternal\Readme.txt" />
+    <None Include="Resources\bg_hesuvi2.png" />
+    <None Include="Resources\whitebg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />

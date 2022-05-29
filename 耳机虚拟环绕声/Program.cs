@@ -9,7 +9,6 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System.IO;
 using NAudio.Dsp;
-using NAudio2.Dsp;
 
 namespace 耳机虚拟环绕声
 {
@@ -23,7 +22,7 @@ namespace 耳机虚拟环绕声
     {
         public static List<DevicePriority> DevicePriorityList = new List<DevicePriority>();
         internal static SurroundSettings SurroundSettings = new SurroundSettings();
-        public static bool neenSave = false;
+        public static bool needSave = false;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -50,7 +49,7 @@ namespace 耳机虚拟环绕声
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-            if (neenSave)
+            if (needSave)
             {
                 File.WriteAllText(TuneConfigFile, JsonConvert.Serialize(SurroundSettings));
                 File.WriteAllText(DeviceConfigFile, JsonConvert.Serialize(DevicePriorityList));
@@ -339,7 +338,11 @@ namespace 耳机虚拟环绕声
                     cd = ccd;
                     for (int c = 0; c < rawPeaks.Length; c++)
                     {
-                        rawPeaks[c] = _rawMaxs[c];
+                        rawPeaks[c] -= visualizerDownRate;
+                        if (rawPeaks[c] < _rawMaxs[c])
+                        {
+                            rawPeaks[c] = _rawMaxs[c];
+                        }
                         _rawMaxs[c] = 0;
                     }
                 }
@@ -494,9 +497,6 @@ namespace 耳机虚拟环绕声
                     }
                 }
 
-               
-                l =MathHelper.clamp(l );
-                r =MathHelper.clamp(r );
 
                 _maxLeft = _maxLeft > l ? _maxLeft : l;
                 _maxRight = _maxRight > r ? _maxRight : r;
@@ -508,8 +508,18 @@ namespace 耳机虚拟环绕声
                 if (cd < 0)
                 {
                     cd = ccd;
-                    outLeft = _maxLeft;
-                    outRight = _maxRight;
+
+                    outLeft -= visualizerDownRate;
+                    outRight -= visualizerDownRate;
+
+                    if(outLeft < _maxLeft)
+                    {
+                        outLeft = _maxLeft;
+                    }
+                    if(outRight < _maxRight)
+                    {
+                        outRight = _maxRight;
+                    }
                     _maxLeft = 0;
                     _maxRight = 0;
                 }
@@ -518,6 +528,7 @@ namespace 耳机虚拟环绕声
             return monoCount * 2 ;
         }
 
+        const float visualizerDownRate = 0.04f;
        
     }
 
@@ -581,7 +592,7 @@ namespace 耳机虚拟环绕声
                
             }
             query.Priority = priority;
-            Program.neenSave = true;
+            Program.needSave = true;
         }
 
         public DevicePriority GetSuggest(string[] availableDevices)

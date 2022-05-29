@@ -63,6 +63,16 @@ namespace 耳机虚拟环绕声.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap bg_hesuvi2 {
+            get {
+                object obj = ResourceManager.GetObject("bg_hesuvi2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap btnSurroundOff {
             get {
                 object obj = ResourceManager.GetObject("btnSurroundOff", resourceCulture);
@@ -76,16 +86,6 @@ namespace 耳机虚拟环绕声.Properties {
         internal static System.Drawing.Bitmap btnSurroundOn {
             get {
                 object obj = ResourceManager.GetObject("btnSurroundOn", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap doubi {
-            get {
-                object obj = ResourceManager.GetObject("doubi", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -117,6 +117,16 @@ namespace 耳机虚拟环绕声.Properties {
             get {
                 object obj = ResourceManager.GetObject("install", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap rightIndicator {
+            get {
+                object obj = ResourceManager.GetObject("rightIndicator", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

@@ -13,6 +13,7 @@ using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using NAudio.CoreAudioApi.Interfaces;
+using System.Runtime.InteropServices;
 
 namespace 耳机虚拟环绕声
 {
@@ -50,6 +51,7 @@ namespace 耳机虚拟环绕声
         {
             InitializeComponent();
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
+            this.Size = Properties.Resources.bg_hesuvi2.Size;
         }
 
         private SurroundToStereoSampleProvider surroundToStereoSampleProvider;
@@ -125,7 +127,7 @@ namespace 耳机虚拟环绕声
                     wasapiOut.Play(); //开始环绕
                     while (!surroundProc.CancellationPending)
                     {
-                        System.Threading.Thread.Sleep(10);
+                        System.Threading.Thread.Sleep(20);
                         surroundProc.ReportProgress(30);
                         if (_notifyAudioDeviceChanged)
                         {
@@ -182,15 +184,15 @@ namespace 耳机虚拟环绕声
                 barFL,barFR,barFC,barLF,barRL,barRR,barSL,barSR
             };
 
-            numCompressAttack.Value = Program.SurroundSettings.cmpAttack;
-            numCompressGate.Value = Program.SurroundSettings.cmpGate + 20;
-            numCompressRatio.Value = Program.SurroundSettings.cmpRatio -1;
-            numCompressRelease.Value = Program.SurroundSettings.cmpRelease;
+            numCompressAttack.Value = (int)Program.SurroundSettings.cmpAttack;
+            numCompressGate.Value = (int)(Program.SurroundSettings.cmpGate * 10);
+            numCompressRatio.Value = (int)(Program.SurroundSettings.cmpRatio *10);
+            numCompressRelease.Value = (int)Program.SurroundSettings.cmpRelease;
             numMasterGain.Value =(int)Math.Round(Program.SurroundSettings.masterGain * 100f);
             numCompress_ValueChanged(null, null);
             numMasterGain_Scroll(null, null);
             chkLowLancey.Checked = Program.SurroundSettings.lowLancey;
-            Program.neenSave = false;
+            Program.needSave = false;
         }
 
         private void loadData()
@@ -242,9 +244,11 @@ namespace 耳机虚拟环绕声
             }
         }
 
+        private bool surroundIsOn = false;
+
         private void btnBegin_Click(object sender, EventArgs e)
         {
-            if (!lblIndicator.Visible)
+            if (!surroundIsOn)
             {
                 DeviceDesc src = cmbSrc.SelectedValue as DeviceDesc;
                 DeviceDesc dst = cmbDst.SelectedValue as DeviceDesc;
@@ -296,19 +300,19 @@ namespace 耳机虚拟环绕声
                 MessageBox.Show(e.UserState.ToString(),"出错了");
                 btnBegin.Enabled = true;
                 btnBegin.Image = Properties.Resources.btnSurroundOn;
-                lblIndicator.Visible = false;
+                surroundIsOn = false;
             }
             if(e.ProgressPercentage == 10)
             {
                 btnBegin.Enabled = true;
                 btnBegin.Image = Properties.Resources.btnSurroundOff;
-                lblIndicator.Visible = true;
+                surroundIsOn = true;
             }
             if (e.ProgressPercentage == 99)
             {
                 btnBegin.Enabled = true;
                 btnBegin.Image = Properties.Resources.btnSurroundOn;
-                lblIndicator.Visible = false;
+                surroundIsOn = false;
                 mtmOutL.Reset();
                 mtmOutR.Reset();
                 numCompressOverflow.Reset();
@@ -325,7 +329,7 @@ namespace 耳机虚拟环绕声
         {
             mtmOutL.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.outLeft) + displayDbRange) / displayDbRange;
             mtmOutR.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.outRight) + displayDbRange) / displayDbRange;
-            this.numCompressOverflow.Value = (MathHelper.linear2db(surroundToStereoSampleProvider._compressorGain)) / displayDbRange;
+            this.numCompressOverflow1.Value =  this.numCompressOverflow.Value = (MathHelper.linear2db(surroundToStereoSampleProvider._compressorGain)) / displayDbRange;
             for (int i = 0; i < surroundToStereoSampleProvider.rawPeaks.Length; i++)
             {
                 bars[i].Value = (MathHelper.linear2db(surroundToStereoSampleProvider.rawPeaks[i]) + displayDbRange) / displayDbRange;
@@ -344,7 +348,7 @@ namespace 耳机虚拟环绕声
                 surroundProc.CancelAsync();
                 return;
             }
-            e.Cancel = lblIndicator.Visible;
+            e.Cancel = surroundIsOn;
             if (e.Cancel) { return; }
         }
 
@@ -352,27 +356,27 @@ namespace 耳机虚拟环绕声
         {
             Program.SurroundSettings.masterGain = numMasterGain.Value / 100f;
             surroundToStereoSampleProvider?.applySettings(Program.SurroundSettings);
-            lblMasterGain.Text = $"{Program.SurroundSettings.masterGain}dB\r\n增益";
-            Program.neenSave = true;
+            numMasterGain.ThumbText = $"{Program.SurroundSettings.masterGain.ToString("00.00")}dB";
+            Program.needSave = true;
         }
 
         private void numCompress_ValueChanged(object sender, EventArgs e)
         {
             var s = Program.SurroundSettings;
-            s.cmpGate = (float) Math.Round(numCompressGate.Value - 20f,2);
-            s.cmpRatio = (float)Math.Round(numCompressRatio.Value +1,1);
+            s.cmpGate = numCompressGate.Value / 10f;
+            s.cmpRatio = (numCompressRatio.Value +10f) / 10f;
             if(s.cmpRatio > 79.9)
             {
                 s.cmpRatio = 0;
             }
-            s.cmpAttack = (float)Math.Round(numCompressAttack.Value);
-            s.cmpRelease = (float)Math.Round(numCompressRelease.Value);
-            lblCompressAttack.Text = $"{s.cmpAttack}ms\r\n启动时间";
-            lblCompressGate.Text = $"{s.cmpGate}dB\r\n噪音门限";
-            lblCompressRatio.Text = (s.cmpRatio == 0 ? "∞" : s.cmpRatio.ToString())+":1\r\n压缩比";
-            lblCompressRelease.Text = $"{s.cmpRelease}ms\r\n释放时间";
+            s.cmpAttack = (float)Math.Round(numCompressAttack.Value / 1f);
+            s.cmpRelease = (float)Math.Round(numCompressRelease.Value / 1f);
+            numCompressAttack.ThumbText = $"{s.cmpAttack}ms";
+            numCompressGate.ThumbText = $"{s.cmpGate}dB";
+            numCompressRatio.ThumbText = (s.cmpRatio == 0 ? "∞" : s.cmpRatio.ToString())+":1";
+            numCompressRelease.ThumbText = $"{s.cmpRelease}ms";
             surroundToStereoSampleProvider?.applySettings(s);
-            Program.neenSave = true;
+            Program.needSave = true;
 
         }
 
@@ -426,12 +430,76 @@ namespace 耳机虚拟环绕声
         private void chkLowLancey_CheckedChanged(object sender, EventArgs e)
         {
             Program.SurroundSettings.lowLancey = chkLowLancey.Checked;
-            Program.neenSave = true;
+            Program.needSave = true;
         }
 
         private void numCompressRatio_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            if (surroundIsOn)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
+            else
+            {
+                Close();
+            }
+        }
+
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+        [DllImport("user32.dll")]
+        public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
+        public const int WM_SYSCOMMAND = 0x0112;
+        public const int SC_MOVE = 0xF010;
+        public const int HTCAPTION = 0x0002; 
+        private void dragger_MouseDown(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(this.Handle, WM_SYSCOMMAND, SC_MOVE + HTCAPTION, 0);
+            }
+        }
+
+        private Control[] pages = null;
+        private Button[] pageButtons = null;
+        private void initPage()
+        {
+            pages = new Control[] {panelPage1,panelPage2,panelPage3,panelPage4 };
+            pageButtons = new Button[] {btnPage1,btnPage2,btnPage3,btnPage4}; 
+        }
+        private int currentPage = 0;
+        private void switchPage(int p)
+        {
+            if(pages == null)
+            {
+                initPage();
+            }
+            pageButtons[currentPage].Image = null;
+            pageButtons[p].Image = Properties.Resources.rightIndicator;
+            pages[currentPage].Location = posHide.Location;
+            pages[p].Location = posShow.Location;
+            currentPage = p;
+        }
+
+        private void btnPage1_Click(object sender, EventArgs e)
+        {
+            switchPage(int.Parse(((Control)sender).Tag.ToString())-1);
+        }
+
+        private void aboutClick(object sender, EventArgs e)
+        {
+            Control which = sender as Control;
+            if(which.Tag != null)
+            {
+                string text = which.Tag.ToString();
+                System.Diagnostics.Process.Start(text);
+            }
         }
     }
 }
