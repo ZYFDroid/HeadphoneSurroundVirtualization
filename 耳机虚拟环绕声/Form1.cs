@@ -193,6 +193,7 @@ namespace 耳机虚拟环绕声
             numCompress_ValueChanged(null, null);
             numMasterGain_Scroll(null, null);
             chkLowLancey.Checked = Program.SurroundSettings.lowLancey;
+            chkFc2F.Checked = Program.SurroundSettings.rerouteFrontCenter;
             Program.needSave = false;
 
             lblVersion.Text ="v"+ Application.ProductVersion;
@@ -436,6 +437,13 @@ namespace 耳机虚拟环绕声
             Program.needSave = true;
         }
 
+        private void chkFc2F_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.SurroundSettings.rerouteFrontCenter = chkFc2F.Checked;
+            Program.needSave = true;
+            surroundToStereoSampleProvider?.applySettings(Program.SurroundSettings);
+        }
+
         private void numCompressRatio_Load(object sender, EventArgs e)
         {
 
@@ -571,5 +579,7 @@ namespace 耳机虚拟环绕声
                 }
             }
         }
+
+        
     }
 }

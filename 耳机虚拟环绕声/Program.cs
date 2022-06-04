@@ -127,8 +127,9 @@ namespace 耳机虚拟环绕声
         public float cmpRelease = 3200; // 压缩器 - 释放时间
         public float cmpGate = 0;// 压缩器 - 噪音门限
 
-        public bool lowLancey = false;
+        public bool lowLancey = false; // 低延迟模式
 
+        public bool rerouteFrontCenter = false; // 将前置声道通入左前和右前
     }
 
 
@@ -354,10 +355,11 @@ namespace 耳机虚拟环绕声
             {
                 _currentGain = 0f;//disable compressor
             }
+            this.fc2f = settings.rerouteFrontCenter;
         }
 
 
-        
+        private bool fc2f = false;
 
         public float[] rawPeaks;
         private float[] _rawMaxs;
@@ -403,6 +405,12 @@ namespace 耳机虚拟环绕声
                         }
                         _rawMaxs[c] = 0;
                     }
+                }
+                if (fc2f)
+                {
+                    _sampleInBuffer[OffsetFrontLeft][i / _channels] += _sampleInBuffer[OffsetFrontCenter][i / _channels] * 0.75f;
+                    _sampleInBuffer[OffsetFrontRight][i / _channels] += _sampleInBuffer[OffsetFrontCenter][i / _channels] * 0.75f;
+                    _sampleInBuffer[OffsetFrontCenter][i / _channels] = 0;
                 }
             }
             if(!Bypass)
