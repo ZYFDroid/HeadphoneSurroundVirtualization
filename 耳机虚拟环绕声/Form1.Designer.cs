@@ -658,6 +658,8 @@
             this.btnSwitchConvolver.Size = new System.Drawing.Size(184, 32);
             this.btnSwitchConvolver.TabIndex = 9;
             this.btnSwitchConvolver.Text = "切换脉冲响应文件...";
+            this.toolTip1.SetToolTip(this.btnSwitchConvolver, "本软件通过对原始音频信号\r\n和”脉冲响应样本“进行卷积\r\n运算，实现虚拟环绕声。这\r\n是一种常见的技术。您可以\r\n从Hesuvi的仓库和论坛等途\r\n径获取更多环绕" +
+        "脉冲样本。\r\n环绕样本和Hesuvi兼容");
             this.btnSwitchConvolver.UseVisualStyleBackColor = true;
             this.btnSwitchConvolver.Click += new System.EventHandler(this.btnSwitchConvolver_Click);
             // 
@@ -913,6 +915,7 @@
             this.chkShowAllDevice.Size = new System.Drawing.Size(122, 25);
             this.chkShowAllDevice.TabIndex = 10;
             this.chkShowAllDevice.Text = "扫描所有设备";
+            this.toolTip1.SetToolTip(this.chkShowAllDevice, "强制列出所有可用输出设备\r\n如果再输出设备里找不到您使用的设备，\r\n或者使用的设备跑到了虚拟设备列表里，\r\n请启用此选项。");
             this.chkShowAllDevice.UseVisualStyleBackColor = false;
             this.chkShowAllDevice.CheckedChanged += new System.EventHandler(this.chkShowAllDevice_CheckedChanged);
             // 
