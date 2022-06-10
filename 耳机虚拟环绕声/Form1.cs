@@ -120,7 +120,7 @@ namespace 耳机虚拟环绕声
                     };
                     wasapiCapture.StartRecording();
                     WaveToSampleProvider waveToSampleProvider = new WaveToSampleProvider(bufferedWaveProvider);
-                    surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider); //实现算法
+                    surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider,Program.SurroundSettings.customIrPath); //实现算法
                     surroundToStereoSampleProvider.applySettings(Program.SurroundSettings, true);
 
                  
@@ -194,6 +194,7 @@ namespace 耳机虚拟环绕声
             numMasterGain_Scroll(null, null);
             chkLowLancey.Checked = Program.SurroundSettings.lowLancey;
             chkFc2F.Checked = Program.SurroundSettings.rerouteFrontCenter;
+            saveCustomIrConfig(Program.SurroundSettings.customIrPath);
             Program.needSave = false;
 
             lblVersion.Text ="v"+ Application.ProductVersion;
@@ -319,7 +320,6 @@ namespace 耳机虚拟环绕声
                 surroundIsOn = false;
                 mtmOutL.Reset();
                 mtmOutR.Reset();
-                numCompressOverflow.Reset();
                 for (int i = 0; i < bars.Length; i++)
                 {
                     bars[i].Reset();
@@ -333,7 +333,7 @@ namespace 耳机虚拟环绕声
         {
             mtmOutL.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.outLeft) + displayDbRange) / displayDbRange;
             mtmOutR.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.outRight) + displayDbRange) / displayDbRange;
-            this.numCompressOverflow1.Value =  this.numCompressOverflow.Value = (MathHelper.linear2db(surroundToStereoSampleProvider._compressorGain)) / displayDbRange;
+            this.numCompressOverflow1.Value =  (MathHelper.linear2db(surroundToStereoSampleProvider._compressorGain)) / displayDbRange;
             for (int i = 0; i < surroundToStereoSampleProvider.rawPeaks.Length; i++)
             {
                 bars[i].Value = (MathHelper.linear2db(surroundToStereoSampleProvider.rawPeaks[i]) + displayDbRange) / displayDbRange;
@@ -572,6 +572,8 @@ namespace 耳机虚拟环绕声
                 try
                 {
                     surroundToStereoSampleProvider?.switchIrFile(path);
+                   
+                    saveCustomIrConfig(path);
                 }
                 catch (Exception ex)
                 {
@@ -580,6 +582,17 @@ namespace 耳机虚拟环绕声
             }
         }
 
-        
+        private void saveCustomIrConfig(string path)
+        {
+            Program.SurroundSettings.customIrPath = path;
+            lblConvolver.Text = Program.SurroundSettings.customIrPath ?? "默认";
+            Program.needSave = true;
+        }
+
+        private void btnResetConvolver_Click(object sender, EventArgs e)
+        {
+            surroundToStereoSampleProvider?.switchIrFile(null);
+            saveCustomIrConfig(null);
+        }
     }
 }

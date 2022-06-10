@@ -6,9 +6,8 @@ using System.Windows.Forms;
 using NAudio.CoreAudioApi;
 using NAudio;
 using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 using System.IO;
-using NAudio.Dsp;
+using NAudio.Wave.SampleProviders;
 
 namespace 耳机虚拟环绕声
 {
@@ -130,6 +129,10 @@ namespace 耳机虚拟环绕声
         public bool lowLancey = false; // 低延迟模式
 
         public bool rerouteFrontCenter = false; // 将前置声道通入左前和右前
+
+        public bool ignoreOutputChannelCount = false; // 强制扫描所有设备
+
+        public string customIrPath = null;
     }
 
 
@@ -139,8 +142,9 @@ namespace 耳机虚拟环绕声
 
         const int bufferSize = 1024;
 
-        public SurroundToStereoSampleProvider(ISampleProvider sampleIn)
+        public SurroundToStereoSampleProvider(ISampleProvider sampleIn,string customIrPath = null)
         {
+            this.customIrPath = customIrPath;
             _sampleIn = sampleIn;
             _inWaveFormat = sampleIn.WaveFormat;
             _outWaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(_inWaveFormat.SampleRate, 2);
@@ -222,7 +226,16 @@ namespace 耳机虚拟环绕声
             bool _lastBypass = Bypass;
             Bypass = true;
             System.Threading.Thread.Sleep(500);
-            initIR();
+            try
+            {
+                initIR();
+            }catch (Exception e)
+            {
+                customIrPath=null;
+                initIR();
+                Bypass = _lastBypass;
+                throw e;
+            }
             Bypass = _lastBypass;
         }
 
@@ -239,21 +252,22 @@ namespace 耳机虚拟环绕声
             
             List<float>[] ret;
 
-            Stream irSource = null;
+            WaveStream irSource = null;
+            
             if (customIrPath != null) {
                 if (File.Exists(customIrPath)) { 
-                    irSource = File.OpenRead(customIrPath); 
+                    irSource = new WaveFileReader(customIrPath);
                 }
                 
             }
-
-            if(irSource == null)
+            MemoryStream internalIrStream = null;
+            if (irSource == null)
             {
-                irSource = new MemoryStream(Properties.Resources.fir);
+                internalIrStream = new MemoryStream(Properties.Resources.fir); 
+                irSource =new WaveFileReader(internalIrStream);
             }
 
-            using(Stream ms = irSource)
-            using(WaveFileReader irIn = new WaveFileReader(ms))
+            using (WaveStream irIn = irSource)
             {
                 ret = new List<float>[14];
                 int irChannels = irIn.WaveFormat.Channels;
@@ -261,17 +275,39 @@ namespace 耳机虚拟环绕声
                 {
                     ret[i] = new List<float>();
                 }
-                WaveToSampleProvider sampleReader = new WaveToSampleProvider(irIn);
-                ISampleProvider sampleProvider = sampleReader;
-                if(sampleRate != irIn.WaveFormat.SampleRate)
+
+                ISampleProvider sampleReader = null;
+                if (irIn.WaveFormat.BitsPerSample == 8)
                 {
-                    sampleProvider = new WdlResamplingSampleProvider(sampleProvider,sampleRate);
+                    sampleReader = new Pcm8BitToSampleProvider(irIn);
+                }
+                else if(irIn.WaveFormat.BitsPerSample == 16)
+                {
+                    sampleReader = new Pcm16BitToSampleProvider(irIn);
+                }
+                else if (irIn.WaveFormat.BitsPerSample == 24)
+                {
+                    sampleReader = new Pcm24BitToSampleProvider(irIn);
+                }
+                else if (irIn.WaveFormat.BitsPerSample == 32 && irIn.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
+                {
+                    sampleReader = new Pcm32BitToSampleProvider(irIn);
+                }
+                else
+                {
+                    sampleReader = new WaveToSampleProvider(irIn);
+                }
+
+                ISampleProvider sampleProvider = sampleReader;
+                if (sampleRate != irIn.WaveFormat.SampleRate)
+                {
+                    sampleProvider = new WdlResamplingSampleProvider(sampleProvider, sampleRate);
                 }
                 float[] buffer = new float[irChannels * 100];
                 int count = 0;
-                while((count = sampleProvider.Read(buffer,0,buffer.Length)) > 0)
+                while ((count = sampleProvider.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    if(irChannels == 14)
+                    if (irChannels == 14)
                     {
                         for (int i = 0; i < count; i += irChannels)
                         {
@@ -280,7 +316,7 @@ namespace 耳机虚拟环绕声
                                 ret[c].Add(buffer[i + c]);
                             }
                         }
-                    }else if(irChannels == 7)
+                    } else if (irChannels == 7)
                     {
                         for (int i = 0; i < count; i += irChannels)
                         {
@@ -304,9 +340,11 @@ namespace 耳机虚拟环绕声
                     {
                         throw new Exception("不是有效的7.1环绕脉冲响应文件");
                     }
-                    
+
                 }
+            
             }
+            internalIrStream?.Dispose();
             return ret.Select(r => r.ToArray()).ToArray();
         }
 

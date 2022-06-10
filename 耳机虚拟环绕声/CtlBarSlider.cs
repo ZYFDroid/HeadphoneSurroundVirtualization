@@ -120,7 +120,7 @@ namespace 耳机虚拟环绕声
                 _min = value;
                 if(_min >= _max)
                 {
-                    _min = _max - 1;
+                    _max = _min + 1;
                 }
                 if (_value < _min)
                 {
@@ -144,7 +144,7 @@ namespace 耳机虚拟环绕声
                 _max = value;
                 if(_max <= _min)
                 {
-                    _max = _min + 1;
+                    _min = _max - 1;
                 }
                 if (_value < _min)
                 {
