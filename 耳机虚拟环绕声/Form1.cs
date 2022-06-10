@@ -171,7 +171,9 @@ namespace 耳机虚拟环绕声
             deviceDecider = new DeviceDecider(Program.DevicePriorityList);
             deviceEnumerator = new MMDeviceEnumerator();
             loadData();
-
+            chkShowAllDevice.CheckedChanged -= chkShowAllDevice_CheckedChanged;
+            chkShowAllDevice.Checked = Program.SurroundSettings.ignoreOutputChannelCount;
+            chkShowAllDevice.CheckedChanged += chkShowAllDevice_CheckedChanged;
             if (cmbSrc.Enabled == false)
             {
                 var r = MessageBox.Show(this,"检测到未安装虚拟音频设备，是否打开安装向导？","",MessageBoxButtons.YesNo);
@@ -222,7 +224,7 @@ namespace 耳机虚拟环绕声
 
             cmbSrc.setDict(devices.Where(c => c.channels == 8).ToDictionary(d => d.name));
             
-            cmbDst.setDict(devices.Where(c => c.channels == 2).ToDictionary(d => d.name));
+            cmbDst.setDict(devices.Where(c => Program.SurroundSettings.ignoreOutputChannelCount || c.channels == 2).ToDictionary(d => d.name));
             if (cmbDst.Enabled)
             {
                 var defaultDeviceId = deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia).ID;
@@ -429,6 +431,7 @@ namespace 耳机虚拟环绕声
         private void btnHelp_Click(object sender, EventArgs e)
         {
             new FrmConfig().ShowDialog(this);
+            loadData();
         }
 
         private void chkLowLancey_CheckedChanged(object sender, EventArgs e)
@@ -593,6 +596,18 @@ namespace 耳机虚拟环绕声
         {
             surroundToStereoSampleProvider?.switchIrFile(null);
             saveCustomIrConfig(null);
+        }
+
+        private void btnRescan_Click(object sender, EventArgs e)
+        {
+            loadData();
+        }
+
+        private void chkShowAllDevice_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.SurroundSettings.ignoreOutputChannelCount = chkShowAllDevice.Checked;
+            loadData();
+            Program.needSave = true;
         }
     }
 }

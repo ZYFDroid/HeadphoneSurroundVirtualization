@@ -82,6 +82,9 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.panelPage3 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.chkShowAllDevice = new System.Windows.Forms.CheckBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -864,9 +867,12 @@
             // 
             this.panelPage3.BackColor = System.Drawing.Color.Transparent;
             this.panelPage3.Controls.Add(this.button1);
+            this.panelPage3.Controls.Add(this.button2);
             this.panelPage3.Controls.Add(this.btnHelp);
+            this.panelPage3.Controls.Add(this.chkShowAllDevice);
             this.panelPage3.Controls.Add(this.chkLowLancey);
             this.panelPage3.Controls.Add(this.cmbSrc);
+            this.panelPage3.Controls.Add(this.label28);
             this.panelPage3.Controls.Add(this.label2);
             this.panelPage3.Controls.Add(this.label1);
             this.panelPage3.Controls.Add(this.label15);
@@ -876,6 +882,51 @@
             this.panelPage3.Name = "panelPage3";
             this.panelPage3.Size = new System.Drawing.Size(647, 394);
             this.panelPage3.TabIndex = 15;
+            // 
+            // button2
+            // 
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
+            this.button2.Location = new System.Drawing.Point(453, 167);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(179, 38);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "重新扫描设备";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.btnRescan_Click);
+            // 
+            // chkShowAllDevice
+            // 
+            this.chkShowAllDevice.AutoSize = true;
+            this.chkShowAllDevice.BackColor = System.Drawing.Color.Black;
+            this.chkShowAllDevice.Checked = true;
+            this.chkShowAllDevice.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowAllDevice.FlatAppearance.CheckedBackColor = System.Drawing.Color.Black;
+            this.chkShowAllDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkShowAllDevice.Font = new System.Drawing.Font("微软雅黑 Light", 12F);
+            this.chkShowAllDevice.Location = new System.Drawing.Point(110, 173);
+            this.chkShowAllDevice.Name = "chkShowAllDevice";
+            this.chkShowAllDevice.Size = new System.Drawing.Size(122, 25);
+            this.chkShowAllDevice.TabIndex = 10;
+            this.chkShowAllDevice.Text = "扫描所有设备";
+            this.chkShowAllDevice.UseVisualStyleBackColor = false;
+            this.chkShowAllDevice.CheckedChanged += new System.EventHandler(this.chkShowAllDevice_CheckedChanged);
+            // 
+            // label28
+            // 
+            this.label28.BackColor = System.Drawing.Color.Transparent;
+            this.label28.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F);
+            this.label28.ForeColor = System.Drawing.Color.White;
+            this.label28.Location = new System.Drawing.Point(13, 172);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(91, 25);
+            this.label28.TabIndex = 7;
+            this.label28.Text = "实验选项";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
             // 
@@ -1306,6 +1357,9 @@
         private System.Windows.Forms.Button btnResetConvolver;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label lblConvolver;
+        private System.Windows.Forms.CheckBox chkShowAllDevice;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Button button2;
     }
 }
 
