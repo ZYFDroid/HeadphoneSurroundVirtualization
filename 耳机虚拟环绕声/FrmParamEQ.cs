@@ -84,6 +84,11 @@ namespace 耳机虚拟环绕声
 
         private void btnNew_Click(object sender, EventArgs e)
         {
+            if(peakEQParamList.Count > 30)
+            {
+                MessageBox.Show(this,"数量超过上限（30个）");
+                return;
+            }
             ctlEqView.SendToBack();
             PeakEQParam p = new PeakEQParam() { centerFrequent = 1000, gain = 0, Q = 1 };
             peakEQParamList.Add(p);

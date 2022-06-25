@@ -622,39 +622,16 @@ namespace 耳机虚拟环绕声
         float[][] _sampleInBuffer = null;
         float[][] _sampleOutBuffer = null;
 
-        public float outLeft = 0,outRight = 0;
-        public float displayLeft = 0,displayRight = 0;
-        private float _maxLeft = 0, _maxRight = 0;
-        private int cd = 500;
 
         public bool Bypass = false;
-        private float _gain = 1f;
 
 
-        private float _currentGain = 0f;
-        private float _MininumGain = 0f;
-        private float _gainAttackRate = 0f;
-        private float _gainDecayRate = 0f;
-        private float _gate;
-
-        private int _decayCd = 0;
-        private int _decayCds = 100;
+       
 
         public void applySettings(SurroundSettings settings,bool fullApply = false)
         {
             
-            _gain = MathHelper.db2linear(settings.masterGain);
             
-            _gate = MathHelper.db2linear(settings.cmpGate);
-            _MininumGain = settings.cmpRatio == 0 ? -150 : MathHelper.linear2db(1 / settings.cmpRatio);
-            float sampleRate = _outWaveFormat.SampleRate;
-            _gainAttackRate = (-_MininumGain) / (sampleRate * (settings.cmpAttack/1000f + 0.001f));
-            _gainDecayRate = (-_MininumGain) / (sampleRate * (settings.cmpRelease / 1000f + 0.001f));
-            _decayCds = _inWaveFormat.SampleRate / 1000 * 25;
-            if (settings.cmpAttack <= 0.000001f)
-            {
-                _currentGain = 0f;//disable compressor
-            }
             this.fc2f = settings.rerouteFrontCenter;
         }
 
@@ -665,8 +642,7 @@ namespace 耳机虚拟环绕声
         private float[] _rawMaxs;
         private float l, r;
         int ccd = 1000;
-
-        public float _compressorGain = 1f;
+        int cd = 1000;
 
         public int Read(float[] buffer, int offset, int count)
         {
@@ -830,18 +806,70 @@ namespace 耳机虚拟环绕声
                         r += _sampleOutBuffer[c * 2 + 1][i];
                     }
                 }
+                buffer[offset+i * 2] = l;
+                buffer[offset + i * 2 + 1] = r;
+            }
+
+            return monoCount * 2 ;
+        }
+
+
+        const float visualizerDownRate = 0.04f;
+    }
+
+    public class CompressorSampleProvider : ISampleProvider
+    {
+        const float visualizerDownRate = 0.04f;
+        public ISampleProvider baseProvider;
+        private float _currentGain = 0f;
+        private float _MininumGain = 0f;
+        private float _gainAttackRate = 0f;
+        private float _gainDecayRate = 0f;
+        private float _gate;
+
+        private int _decayCd = 0;
+        private int _decayCds = 100;
+        public void applySettings(SurroundSettings settings)
+        {
+            _gate = MathHelper.db2linear(settings.cmpGate);
+            _MininumGain = settings.cmpRatio == 0 ? -150 : MathHelper.linear2db(1 / settings.cmpRatio);
+            float sampleRate = baseProvider.WaveFormat.SampleRate;
+            _gainAttackRate = (-_MininumGain) / (sampleRate * (settings.cmpAttack / 1000f + 0.001f));
+            _gainDecayRate = (-_MininumGain) / (sampleRate * (settings.cmpRelease / 1000f + 0.001f));
+            _decayCds = baseProvider.WaveFormat.SampleRate / 1000 * 25;
+            if (settings.cmpAttack <= 0.000001f)
+            {
+                _currentGain = 0f;//disable compressor
+            }
+
+            _gain = MathHelper.db2linear(settings.masterGain);
+
+        }
+
+        public WaveFormat WaveFormat => baseProvider.WaveFormat;
+
+        public float _compressorGain = 1f;
+        private float _gain = 1f;
+        public int Read(float[] buffer, int offset, int count)
+        {
+            int samplesRead = baseProvider.Read(buffer, offset, count);
+
+            for (int i = offset; i < offset+samplesRead; i+=2)
+            {
+                float l = buffer[i];
+                float r = buffer[i + 1];
                 _compressorGain = -_currentGain;
                 float gainFactor = MathHelper.db2linear(_currentGain);
 
                 l = l * _gain * 0.9f * gainFactor;
-                r = r * _gain * 0.9f * gainFactor ;
+                r = r * _gain * 0.9f * gainFactor;
 
 
-                float dc = Math.Max(Math.Abs(l),Math.Abs(r));
-                if(dc > _gate)
+                float dc = Math.Max(Math.Abs(l), Math.Abs(r));
+                if (dc > _gate)
                 {
                     _currentGain -= _gainAttackRate;
-                    if(_currentGain < _MininumGain)
+                    if (_currentGain < _MininumGain)
                     {
                         _currentGain = _MininumGain;
                     }
@@ -868,8 +896,8 @@ namespace 耳机虚拟环绕声
                 _maxRight = _maxRight > r ? _maxRight : r;
 
 
-                buffer[offset + i * 2] = l;
-                buffer[offset + i * 2 + 1] = r;
+                buffer[i] = l;
+                buffer[i+1] = r;
                 cd--;
                 if (cd < 0)
                 {
@@ -878,11 +906,11 @@ namespace 耳机虚拟环绕声
                     outLeft -= visualizerDownRate;
                     outRight -= visualizerDownRate;
 
-                    if(outLeft < _maxLeft)
+                    if (outLeft < _maxLeft)
                     {
                         outLeft = _maxLeft;
                     }
-                    if(outRight < _maxRight)
+                    if (outRight < _maxRight)
                     {
                         outRight = _maxRight;
                     }
@@ -891,11 +919,20 @@ namespace 耳机虚拟环绕声
                 }
             }
 
-            return monoCount * 2 ;
+            return samplesRead;
         }
 
-        const float visualizerDownRate = 0.04f;
-       
+        int ccd = 1000;
+
+        public float outLeft = 0, outRight = 0;
+        public float displayLeft = 0, displayRight = 0;
+        private float _maxLeft = 0, _maxRight = 0;
+        private int cd = 500;
+
+        public CompressorSampleProvider(ISampleProvider baseProvider)
+        {
+            this.baseProvider = baseProvider;
+        }
     }
 
     public class LowLanceyLoopbackCapture : WasapiCapture
