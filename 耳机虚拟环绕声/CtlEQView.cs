@@ -32,11 +32,13 @@ namespace 耳机虚拟环绕声
 
         private void initMemoryDC()
         {
+            renderTimer.Enabled = false;
             renderBuffer?.Dispose();
             memoryDC?.Dispose();
             memoryDC = new Bitmap(this.Width, this.Height);
             renderBuffer = Graphics.FromImage(memoryDC);
             renderBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            renderTimer.Start();
         }
 
         private Bitmap memoryDC = null;
@@ -79,10 +81,7 @@ namespace 耳机虚拟环绕声
                 e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 DrawInternal(e.Graphics);
             }
-            else
-            {
-                Redraw();
-            }
+            
         }
         public void Redraw()
         {
@@ -205,4 +204,6 @@ namespace 耳机虚拟环绕声
             }
         }
     }
+
+    
 }

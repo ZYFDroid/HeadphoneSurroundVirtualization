@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -53,14 +53,14 @@
             this.btnEditEQ = new System.Windows.Forms.Button();
             this.tblParam = new System.Windows.Forms.Panel();
             this.txtName = new System.Windows.Forms.TextBox();
-            this.chtEq = new 耳机虚拟环绕声.CtlEQView();
-            this.numBalance = new 耳机虚拟环绕声.CtlBarSlider();
             this.btnApply = new System.Windows.Forms.Button();
-            this.numAntiCrossfeed = new 耳机虚拟环绕声.CtlBarSlider();
             this.label6 = new System.Windows.Forms.Label();
             this.btnImport = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.chtEq = new 耳机虚拟环绕声.CtlEQView();
+            this.numBalance = new 耳机虚拟环绕声.CtlBarSlider();
+            this.numAntiCrossfeed = new 耳机虚拟环绕声.CtlBarSlider();
             ((System.ComponentModel.ISupportInitialize)(this.tblData)).BeginInit();
             this.tblParam.SuspendLayout();
             this.SuspendLayout();
@@ -89,9 +89,9 @@
             this.label11.BackColor = System.Drawing.Color.White;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold);
             this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(24, 83);
+            this.label11.Location = new System.Drawing.Point(20, 79);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(103, 25);
+            this.label11.Size = new System.Drawing.Size(107, 32);
             this.label11.TabIndex = 5;
             this.label11.Text = "配置文件";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -108,14 +108,14 @@
             this.tblData.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.tblData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
             this.tblData.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tblData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tblData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.tblData.ColumnHeadersHeight = 40;
             this.tblData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.tblData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -124,14 +124,14 @@
             this.Column2,
             this.Column4,
             this.Column5});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.tblData.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tblData.DefaultCellStyle = dataGridViewCellStyle8;
             this.tblData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.tblData.EnableHeadersVisualStyles = false;
             this.tblData.GridColor = System.Drawing.Color.Black;
@@ -197,9 +197,9 @@
             this.label3.BackColor = System.Drawing.Color.White;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(608, 83);
+            this.label3.Location = new System.Drawing.Point(608, 79);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(103, 25);
+            this.label3.Size = new System.Drawing.Size(103, 32);
             this.label3.TabIndex = 5;
             this.label3.Text = "详情";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -236,8 +236,9 @@
             this.btnCreateByGuide.Name = "btnCreateByGuide";
             this.btnCreateByGuide.Size = new System.Drawing.Size(218, 32);
             this.btnCreateByGuide.TabIndex = 10;
-            this.btnCreateByGuide.Text = "给入门用户的创建向导";
+            this.btnCreateByGuide.Text = "👉给入门用户的创建向导";
             this.btnCreateByGuide.UseVisualStyleBackColor = true;
+            this.btnCreateByGuide.Click += new System.EventHandler(this.btnCreateByGuide_Click);
             // 
             // btnSave
             // 
@@ -339,12 +340,13 @@
             this.btnEditEQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditEQ.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnEditEQ.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnEditEQ.Location = new System.Drawing.Point(233, 179);
+            this.btnEditEQ.Location = new System.Drawing.Point(233, 183);
             this.btnEditEQ.Name = "btnEditEQ";
             this.btnEditEQ.Size = new System.Drawing.Size(79, 29);
             this.btnEditEQ.TabIndex = 10;
             this.btnEditEQ.Text = "编辑";
             this.btnEditEQ.UseVisualStyleBackColor = true;
+            this.btnEditEQ.Click += new System.EventHandler(this.btnEditEQ_Click);
             // 
             // tblParam
             // 
@@ -378,31 +380,6 @@
             this.txtName.Size = new System.Drawing.Size(227, 29);
             this.txtName.TabIndex = 15;
             // 
-            // chtEq
-            // 
-            this.chtEq.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chtEq.Location = new System.Drawing.Point(7, 216);
-            this.chtEq.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.chtEq.Name = "chtEq";
-            this.chtEq.Size = new System.Drawing.Size(305, 207);
-            this.chtEq.TabIndex = 14;
-            // 
-            // numBalance
-            // 
-            this.numBalance.BackColor = System.Drawing.Color.Black;
-            this.numBalance.BigStep = 5;
-            this.numBalance.Location = new System.Drawing.Point(81, 144);
-            this.numBalance.Max = 1000;
-            this.numBalance.Min = -1000;
-            this.numBalance.Name = "numBalance";
-            this.numBalance.Size = new System.Drawing.Size(227, 30);
-            this.numBalance.SmallStep = 3;
-            this.numBalance.TabIndex = 13;
-            this.numBalance.ThumbText = "0";
-            this.numBalance.ThumbWidth = 65;
-            this.numBalance.Value = 0;
-            this.numBalance.ValueChanged += new System.EventHandler<System.EventArgs>(this.numBalance_ValueChanged);
-            // 
             // btnApply
             // 
             this.btnApply.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -418,22 +395,6 @@
             this.btnApply.Text = "应用";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // numAntiCrossfeed
-            // 
-            this.numAntiCrossfeed.BackColor = System.Drawing.Color.Black;
-            this.numAntiCrossfeed.BigStep = 5;
-            this.numAntiCrossfeed.Location = new System.Drawing.Point(81, 110);
-            this.numAntiCrossfeed.Max = 1000;
-            this.numAntiCrossfeed.Min = -1000;
-            this.numAntiCrossfeed.Name = "numAntiCrossfeed";
-            this.numAntiCrossfeed.Size = new System.Drawing.Size(227, 30);
-            this.numAntiCrossfeed.SmallStep = 3;
-            this.numAntiCrossfeed.TabIndex = 13;
-            this.numAntiCrossfeed.ThumbText = "0.0 dB";
-            this.numAntiCrossfeed.ThumbWidth = 65;
-            this.numAntiCrossfeed.Value = 0;
-            this.numAntiCrossfeed.ValueChanged += new System.EventHandler<System.EventArgs>(this.numAntiCrossfeed_ValueChanged);
             // 
             // label6
             // 
@@ -470,6 +431,47 @@
             // saveFileDialog1
             // 
             this.saveFileDialog1.Filter = "配置文件|*.hsvc";
+            // 
+            // chtEq
+            // 
+            this.chtEq.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chtEq.Location = new System.Drawing.Point(7, 216);
+            this.chtEq.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.chtEq.Name = "chtEq";
+            this.chtEq.Size = new System.Drawing.Size(305, 207);
+            this.chtEq.TabIndex = 14;
+            // 
+            // numBalance
+            // 
+            this.numBalance.BackColor = System.Drawing.Color.Black;
+            this.numBalance.BigStep = 5;
+            this.numBalance.Location = new System.Drawing.Point(81, 144);
+            this.numBalance.Max = 1000;
+            this.numBalance.Min = -1000;
+            this.numBalance.Name = "numBalance";
+            this.numBalance.Size = new System.Drawing.Size(227, 30);
+            this.numBalance.SmallStep = 3;
+            this.numBalance.TabIndex = 13;
+            this.numBalance.ThumbText = "0";
+            this.numBalance.ThumbWidth = 65;
+            this.numBalance.Value = 0;
+            this.numBalance.ValueChanged += new System.EventHandler<System.EventArgs>(this.numBalance_ValueChanged);
+            // 
+            // numAntiCrossfeed
+            // 
+            this.numAntiCrossfeed.BackColor = System.Drawing.Color.Black;
+            this.numAntiCrossfeed.BigStep = 5;
+            this.numAntiCrossfeed.Location = new System.Drawing.Point(81, 110);
+            this.numAntiCrossfeed.Max = 1000;
+            this.numAntiCrossfeed.Min = -1000;
+            this.numAntiCrossfeed.Name = "numAntiCrossfeed";
+            this.numAntiCrossfeed.Size = new System.Drawing.Size(227, 30);
+            this.numAntiCrossfeed.SmallStep = 3;
+            this.numAntiCrossfeed.TabIndex = 13;
+            this.numAntiCrossfeed.ThumbText = "0.0 dB";
+            this.numAntiCrossfeed.ThumbWidth = 65;
+            this.numAntiCrossfeed.Value = 0;
+            this.numAntiCrossfeed.ValueChanged += new System.EventHandler<System.EventArgs>(this.numAntiCrossfeed_ValueChanged);
             // 
             // FrmEQManage
             // 

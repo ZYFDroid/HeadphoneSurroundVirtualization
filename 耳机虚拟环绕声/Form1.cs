@@ -108,7 +108,7 @@ namespace 耳机虚拟环绕声
                     surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider,Program.SurroundSettings.customIrPath); //实现算法
                     surroundToStereoSampleProvider.applySettings(Program.SurroundSettings, true);
                     
-                    audioEnchancementSampleProvider = new AudioEnchancementSampleProvider(surroundToStereoSampleProvider, Program.AudioEnchancementData.getDeviceParam(targetDevice.ID));
+                    audioEnchancementSampleProvider = new AudioEnchancementSampleProvider(surroundToStereoSampleProvider, Program.AudioEnchancementData.getDeviceParam(outDevice.ID));
                  
                     wasapiOut.Init(audioEnchancementSampleProvider);
                     wasapiOut.Play(); //开始环绕

@@ -21,6 +21,7 @@ namespace 耳机虚拟环绕声
         public FrmEQManage(AudioEnchancementSampleProvider sampleProvider,string currentGuid,DeviceDesc deviceGuid)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.processingProvider = sampleProvider;
             this.currentGuid = currentGuid;
             this.bindToDevice = deviceGuid;
@@ -80,8 +81,7 @@ namespace 耳机虚拟环绕声
             chkSwapChannel.Checked = SelectedObject.swapChannel;
             numAntiCrossfeed.Value = (int)(SelectedObject.antiCrossfeedLevel * 1000);
             numBalance.Value = (int)(SelectedObject.balanceLevel * 1000);
-            chtEq.PeakEQParams.Clear();
-            chtEq.PeakEQParams.AddRange(SelectedObject.peakEQParams);
+            chtEq.PeakEQParams = SelectedObject.peakEQParams;
             showingData = false;
         }
 
@@ -111,7 +111,7 @@ namespace 耳机虚拟环绕声
         {
             try
             {
-                processingProvider?.Apply(_selectedObject);
+                processingProvider?.Apply(p);
             }
             catch { }
         }
@@ -197,7 +197,12 @@ namespace 耳机虚拟环绕声
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            if(openFileDialog1.ShowDialog(this) == DialogResult.OK)
+            if (Program.AudioEnchancementData.audioEnchancementParameters.Count >= 30)
+            {
+                MessageBox.Show(this, "数量超过上限。");
+                return;
+            }
+            if (openFileDialog1.ShowDialog(this) == DialogResult.OK)
             {
                 try
                 {
@@ -214,6 +219,35 @@ namespace 耳机虚拟环绕声
                 }catch(Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
+                }
+            }
+        }
+
+        private void btnCreateByGuide_Click(object sender, EventArgs e)
+        {
+            if (Program.AudioEnchancementData.audioEnchancementParameters.Count >= 30)
+            {
+                MessageBox.Show(this, "数量超过上限。");
+                return;
+            }
+
+        }
+
+        private void btnEditEQ_Click(object sender, EventArgs e)
+        {
+            if (SelectedObject != null) {
+                FrmParamEQ frmParamEQ = new FrmParamEQ(SelectedObject.peakEQParams);
+                frmParamEQ.RequestUpdate += FrmParamEQ_RequestUpdate;
+                frmParamEQ.ShowDialog(this);
+            }
+        }
+
+        private void FrmParamEQ_RequestUpdate(object sender, EventArgs e)
+        {
+            if (SelectedObject != null) { 
+                if(SelectedObject.guid == currentGuid)
+                {
+                    tryUpdateParam(SelectedObject);
                 }
             }
         }
