@@ -23,23 +23,7 @@ namespace 耳机虚拟环绕声
 
         public int deviceLancey = 40;
 
-        class DeviceDesc
-        {
-            public string name;
-            public string id;
-            public int channels = 0;
-
-            public override bool Equals(object obj)
-            {
-                return obj is DeviceDesc desc &&
-                       id == desc.id;
-            }
-
-            public override int GetHashCode()
-            {
-                return 1877310944 + EqualityComparer<string>.Default.GetHashCode(id);
-            }
-        }
+       
         class StartParam
         {
             public DeviceDesc sourceDevice;
@@ -615,7 +599,14 @@ namespace 耳机虚拟环绕声
 
         private void btnEnchanceAudio__Click(object sender, EventArgs e)
         {
-            FrmEQManage frmEqManage = new FrmEQManage();
+            DeviceDesc dst = cmbDst.SelectedValue as DeviceDesc;
+            if (dst == null)
+            {
+                MessageBox.Show("请选择输出设备");
+                return;
+            }
+            string profileGuid = Program.AudioEnchancementData.getDeviceParam(dst.id) == null ? "" : Program.AudioEnchancementData.getDeviceParam(dst.id).guid;
+            FrmEQManage frmEqManage = new FrmEQManage(audioEnchancementSampleProvider, profileGuid, dst);
             frmEqManage.Show(this);
         }
 

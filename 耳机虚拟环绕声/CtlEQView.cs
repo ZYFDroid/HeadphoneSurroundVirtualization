@@ -89,26 +89,19 @@ namespace 耳机虚拟环绕声
             Draw();
         }
 
-        public override Color BackColor { get => base.BackColor; set  { base.BackColor = value;Invalidate(); } }
-        public override Color ForeColor { get => base.ForeColor;
-            set  {
-                base.ForeColor = value; 
-                forePen = new Pen(value,2);
-                gridPen = new Pen(Color.FromArgb(127,value),1);
-                Invalidate();
-            }
-        }
+
 
         private Pen forePen = new Pen(Color.White, 2);
         private Pen gridPen = new Pen(Color.Gray, 1);
-        
+        private Pen gridPenStroke = new Pen(Color.White, 1);
+
 
         public List<PeakEQParam> PeakEQParams = new List<PeakEQParam>();
 
 
         private void DrawInternal(Graphics g)
         {
-            g.Clear(BackColor);
+            g.Clear(Color.Black);
             float w = Width;
             float h = Height;
             g.DrawLine(gridPen, 0, h / 2, w, h / 2);
@@ -136,7 +129,7 @@ namespace 耳机虚拟环绕声
             Action<float, string> drawAtFreq = (freq, text) =>
              {
                  float x = Freq2Log((int)freq) * w;
-                 g.DrawLine(forePen, x, 0, x, Height);
+                 g.DrawLine(gridPenStroke, x, 0, x, Height);
                  RectangleF rect = new RectangleF(x, h - 30, 100, 30);
                  g.DrawString(text, Font, forePen.Brush, rect, bottomLeft);
              };

@@ -21,6 +21,7 @@ namespace 耳机虚拟环绕声
         private int dragX = 0;
         private void btnDragger_MouseDown(object sender, MouseEventArgs e)
         {
+            if (!Enabled) { return; }
             if(e.Button == MouseButtons.Left)
             {
                 dragging = true;
@@ -30,6 +31,7 @@ namespace 耳机虚拟环绕声
 
         private void btnDragger_MouseMove(object sender, MouseEventArgs e)
         {
+            if (!Enabled) { return; }
             if (dragging)
             {
                 int newWidth = panWidth.Width;
@@ -43,6 +45,7 @@ namespace 耳机虚拟环绕声
 
         private void btnDragger_MouseUp(object sender, MouseEventArgs e)
         {
+            if (!Enabled) { return; }
             if (e.Button == MouseButtons.Left)
             {
                 dragging = false;
@@ -51,11 +54,13 @@ namespace 耳机虚拟环绕声
 
         private void CtlBarSlider_Click(object sender, EventArgs e)
         {
+            if (!Enabled) { return; }
             Value += BigStep;
         }
 
         private void panWidth_Click(object sender, EventArgs e)
         {
+            if (!Enabled) { return; }
             Value -= BigStep;
         }
         Pen linePen = new Pen(Brushes.White, 2);
@@ -73,7 +78,8 @@ namespace 耳机虚拟环绕声
 
         private void BtnDragger_MouseWheel(object sender, MouseEventArgs e)
         {
-            if(e.Delta > 0)
+            if (!Enabled) { return; }
+            if (e.Delta > 0)
             {
                 Value += SmallStep;
             }

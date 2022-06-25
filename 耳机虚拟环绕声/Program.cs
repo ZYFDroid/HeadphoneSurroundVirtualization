@@ -64,6 +64,13 @@ namespace 耳机虚拟环绕声
             }
         }
 
+        public static void save()
+        {
+            File.WriteAllText(TuneConfigFile, JsonConvert.Serialize(SurroundSettings));
+            File.WriteAllText(DeviceConfigFile, JsonConvert.Serialize(DevicePriorityList));
+            File.WriteAllText(AudioEnchancementConfigFile, JsonConvert.Serialize(AudioEnchancementData));
+        }
+
         public static string UserDataDir
         {
             get
@@ -172,7 +179,23 @@ namespace 耳机虚拟环绕声
         /// </summary>
         public string customIrPath = null;
     }
+    public class DeviceDesc
+    {
+        public string name;
+        public string id;
+        public int channels = 0;
 
+        public override bool Equals(object obj)
+        {
+            return obj is DeviceDesc desc &&
+                   id == desc.id;
+        }
+
+        public override int GetHashCode()
+        {
+            return 1877310944 + EqualityComparer<string>.Default.GetHashCode(id);
+        }
+    }
     public class AudioEnchancementData
     {
         public List<DeviceParameterMapping> deviceParameterMappings = new List<DeviceParameterMapping>();
@@ -206,10 +229,12 @@ namespace 耳机虚拟环绕声
         }
         public void setDeviceParam(string deviceName,string deviceGuid,AudioEnchancementParameters param)
         {
-            audioEnchancementParameters.RemoveAll(d => d.guid == param.guid);
-            audioEnchancementParameters.Add(param);
+          
             deviceParameterMappings.RemoveAll(d => d.deviceGuid == deviceGuid);
-            deviceParameterMappings.Add(new DeviceParameterMapping() { deviceGuid = deviceGuid,deviceName = deviceName,parameterGuid = param.guid });
+            if (param != null)
+            {
+                deviceParameterMappings.Add(new DeviceParameterMapping() { deviceGuid = deviceGuid, deviceName = deviceName, parameterGuid = param.guid });
+            }
         }
     }
 
