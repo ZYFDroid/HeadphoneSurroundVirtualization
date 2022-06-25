@@ -20,7 +20,11 @@ namespace 耳机虚拟环绕声
     internal static class Program
     {
         public static List<DevicePriority> DevicePriorityList = new List<DevicePriority>();
+        
         internal static SurroundSettings SurroundSettings = new SurroundSettings();
+
+        public static AudioEnchancementData AudioEnchancementData = new AudioEnchancementData();
+
         public static bool needSave = false;
         /// <summary>
         /// 应用程序的主入口点。
@@ -37,6 +41,10 @@ namespace 耳机虚拟环绕声
             {
                 DevicePriorityList = JsonConvert.Deserialize<List<DevicePriority>>(File.ReadAllText(DeviceConfigFile));
             }
+            if (File.Exists(AudioEnchancementConfigFile))
+            {
+                AudioEnchancementData = JsonConvert.Deserialize<AudioEnchancementData>(File.ReadAllText(AudioEnchancementConfigFile));
+            }
             if (!File.Exists(FFTConvolverModule))
             {
                 string name = FFTConvolverModule;
@@ -52,6 +60,7 @@ namespace 耳机虚拟环绕声
             {
                 File.WriteAllText(TuneConfigFile, JsonConvert.Serialize(SurroundSettings));
                 File.WriteAllText(DeviceConfigFile, JsonConvert.Serialize(DevicePriorityList));
+                File.WriteAllText(AudioEnchancementConfigFile, JsonConvert.Serialize(AudioEnchancementData));
             }
         }
 
@@ -79,6 +88,10 @@ namespace 耳机虚拟环绕声
         public static string DeviceConfigFile
         {
             get => System.IO.Path.Combine(UserDataDir, "device.json");
+        }
+        public static string AudioEnchancementConfigFile
+        {
+            get => System.IO.Path.Combine(UserDataDir, "audioeq_v0.json");
         }
         public static string FFTConvolverModule
         {
@@ -119,22 +132,246 @@ namespace 耳机虚拟环绕声
 
     public class SurroundSettings
     {
-        public float masterGain = 0; // 主音量（增益）
+        /// <summary>
+        /// 主音量（增益）
+        /// </summary>
+        public float masterGain = 0;
+        /// <summary>
+        /// 压缩器 - 压缩比
+        /// </summary>
+        public float cmpRatio = 30;
+        /// <summary>
+        /// 压缩器 - 启动时间
+        /// </summary>
+        public float cmpAttack = 144;
+        /// <summary>
+        /// 压缩器 - 释放时间
+        /// </summary>
+        public float cmpRelease = 3200;
+        /// <summary>
+        /// 压缩器 - 噪音门限
+        /// </summary>
+        public float cmpGate = 0;
+        /// <summary>
+        /// 低延迟模式（不开这个延迟半秒多）
+        /// </summary>
+        public bool lowLancey = false;
+        /// <summary>
+        /// 将前置声道通入左前和右前
+        /// 如果觉得中置声道不太自然可以试试这个
+        /// </summary>
+        public bool rerouteFrontCenter = false;
+        /// <summary>
+        /// 强制扫描所有设备
+        /// 部分奇怪的电脑会强制所有设备都变成7.1声道的（例如戴尔外星人），导致无法正常开启环绕声
+        /// </summary>
+        public bool ignoreOutputChannelCount = false; 
 
-        public float cmpRatio = 30; // 压缩器 - 压缩比
-        public float cmpAttack = 144;// 压缩器 - 启动时间
-        public float cmpRelease = 3200; // 压缩器 - 释放时间
-        public float cmpGate = 0;// 压缩器 - 噪音门限
-
-        public bool lowLancey = false; // 低延迟模式
-
-        public bool rerouteFrontCenter = false; // 将前置声道通入左前和右前
-
-        public bool ignoreOutputChannelCount = false; // 强制扫描所有设备
-
+        /// <summary>
+        /// 自定义HRIR文件。
+        /// </summary>
         public string customIrPath = null;
     }
 
+    public class AudioEnchancementData
+    {
+        public List<DeviceParameterMapping> deviceParameterMappings = new List<DeviceParameterMapping>();
+        public List<AudioEnchancementParameters> audioEnchancementParameters = new List<AudioEnchancementParameters>();
+        /// <summary>
+        /// Fail-safe的获取模块
+        /// </summary>
+        /// <param name="deviceGuid"></param>
+        /// <returns></returns>
+        public AudioEnchancementParameters getDeviceParam(string deviceGuid)
+        {
+            DeviceParameterMapping dpm = null;
+            foreach (var item in deviceParameterMappings)
+            {
+                if(item.deviceGuid == deviceGuid)
+                {
+                    dpm = item;
+                }
+            }
+            if(dpm != null)
+            {
+                foreach (var item in audioEnchancementParameters)
+                {
+                    if(item.guid == dpm.parameterGuid)
+                    {
+                        return item;
+                    }
+                }
+            }
+            return null;
+        }
+        public void setDeviceParam(string deviceName,string deviceGuid,AudioEnchancementParameters param)
+        {
+            audioEnchancementParameters.RemoveAll(d => d.guid == param.guid);
+            audioEnchancementParameters.Add(param);
+            deviceParameterMappings.RemoveAll(d => d.deviceGuid == deviceGuid);
+            deviceParameterMappings.Add(new DeviceParameterMapping() { deviceGuid = deviceGuid,deviceName = deviceName,parameterGuid = param.guid });
+        }
+    }
+
+    public class DeviceParameterMapping
+    {
+        public string deviceGuid;
+        public string deviceName;
+        public string parameterGuid;
+    }
+
+    public class AudioEnchancementParameters
+    {
+        /// <summary>
+        /// 显示的名称
+        /// </summary>
+        public string DisplayName = "Default";
+        /// <summary>
+        /// 唯一标志
+        /// </summary>
+        public string guid = Guid.Empty.ToString();
+        /// <summary>
+        /// 是否交换左右声道
+        /// 这对于某些左右声道做反，但又必须区分左右耳的耳机来说有用
+        /// </summary>
+        public bool swapChannel = false; 
+        /// <summary>
+        /// 抗串扰
+        /// 范围是 -1 ~ 1
+        /// （但如果是1的时候
+        /// 部分奇怪的电脑（例如惠普的暗影精灵）在使用有线耳机的时候，一边声道的声音会有一部分跑到另一边。影响立体声分离度和效果
+        /// </summary>
+        public float antiCrossfeedLevel = 0; 
+        /// <summary>
+        /// 音量平衡
+        /// 范围是-1 ~ 1
+        /// 如果你的耳机一边声音大一边声音小，建议用这个
+        /// 但是更建议换个新的
+        /// </summary>
+        public float balanceLevel = 0;
+        /// <summary>
+        /// 界外立体声
+        /// 部分奇怪的耳机（例如淘宝某店买的蓝牙头带耳机），有一边的单元正负极接反了，导致音乐听起来不太好听，可以使用这个开关修复
+        /// </summary>
+        public bool invertOneSide = false;
+
+        /// <summary>
+        /// 用于均衡器的参数列表
+        /// </summary>
+        public List<PeakEQParam> peakEQParams = new List<PeakEQParam>();
+    }
+
+    public class PeakEQParam
+    {
+        public float centerFrequent;
+        public float gain;
+        public float Q;
+    }
+    
+    public class AudioEnchancementSampleProvider : ISampleProvider
+    {
+        private AudioEnchancementParameters param;
+        private ISampleProvider baseProvider;
+
+        public AudioEnchancementParameters AudioEnchancementParameters => param;
+
+        NAudio.Dsp.BiQuadFilter[,] biQuadFilters = null;
+        public WaveFormat WaveFormat => baseProvider.WaveFormat;
+
+
+        public AudioEnchancementSampleProvider(ISampleProvider baseProvider,AudioEnchancementParameters param)
+        {
+            if(baseProvider.WaveFormat.Channels != 2)
+            {
+                throw new ArgumentException("Channels must be stereo(two channel)");
+            }
+            this.baseProvider = baseProvider;
+            Apply(param);
+        }
+
+        public bool Bypass = false;
+
+        private object syncObj = new object();
+        public void Apply(AudioEnchancementParameters param)
+        {
+            lock (syncObj)
+            {
+                if(param == null)
+                {
+                    this.param = null;
+                    return;
+                }
+                float sampleRate = WaveFormat.SampleRate;
+                this.param = param;
+                biQuadFilters = new NAudio.Dsp.BiQuadFilter[param.peakEQParams.Count, WaveFormat.Channels];
+                peakEqCount = param.peakEQParams.Count;
+                for (int i = 0; i < param.peakEQParams.Count; i++)
+                {
+                    for (int c = 0; c < WaveFormat.Channels; c++)
+                    {
+                        PeakEQParam eq = param.peakEQParams[i];
+                        biQuadFilters[i, c] = NAudio.Dsp.BiQuadFilter.PeakingEQ(sampleRate, eq.centerFrequent, eq.Q, eq.gain);
+                    }
+                }
+                lDown = 1;
+                rDown = 1;
+                if(param.balanceLevel < 0)
+                {
+                    rDown = - (-1 - param.balanceLevel) / (1 - param.balanceLevel);
+                }
+                else
+                {
+                    lDown = - (1 - param.balanceLevel) / (-1 - param.balanceLevel);  
+                }
+            }
+        }
+        private int peakEqCount = 0;
+        float lDown = 1;
+        float rDown = 1;
+        public int Read(float[] buffer, int offset, int count)
+        {
+            int sampleReaded = baseProvider.Read(buffer, offset, count);
+            if (!Bypass && param != null)
+            {
+                lock (syncObj)
+                {
+                    int channel = 2;
+                    int end = offset + sampleReaded;
+                    for (int i = offset; i < end; i += channel)
+                    {
+                        // 均衡器
+                        for (int n = 0; n < peakEqCount; n++)
+                        {
+                            buffer[i] = biQuadFilters[n, 0].Transform(buffer[i]);
+                            buffer[i+1] = biQuadFilters[n, 0].Transform(buffer[i+1]);
+                        }
+                        // 交换左右声道
+                        if (param.swapChannel)
+                        {
+                            float t = buffer[i];
+                            buffer[i] = buffer[i+1];
+                            buffer[i+1] = t;
+                        }
+                        // 反转一边
+                        if (param.invertOneSide)
+                        {
+                            buffer[i] = -buffer[i];
+                        }
+                        // 抗串扰
+                        float l = buffer[i];
+                        float r = buffer[i+1];
+                        buffer[i + 1] += l * param.antiCrossfeedLevel;
+                        buffer[i] += r * param.antiCrossfeedLevel;
+
+                        // 声道平衡
+                        buffer[i] *= lDown;
+                        buffer[i + 1] *= rDown;
+                    }
+                }
+            }
+            return sampleReaded;
+        }
+    }
 
     public class SurroundToStereoSampleProvider : ISampleProvider
     {

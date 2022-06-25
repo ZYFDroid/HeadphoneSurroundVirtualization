@@ -155,6 +155,10 @@ namespace MP3模拟器
 
         private void renderTimer_Tick(object sender, EventArgs e)
         {
+            if(ParentForm.WindowState == FormWindowState.Minimized)
+            {
+                return;
+            }
             linearDownValue -= 0.016f;
             if (linearDownValue < _value)
             {

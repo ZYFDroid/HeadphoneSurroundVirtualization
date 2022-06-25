@@ -56,6 +56,7 @@ namespace 耳机虚拟环绕声
         }
 
         private SurroundToStereoSampleProvider surroundToStereoSampleProvider;
+        private AudioEnchancementSampleProvider audioEnchancementSampleProvider;
         private bool _notifyAudioDeviceChanged = false;
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -122,9 +123,10 @@ namespace 耳机虚拟环绕声
                     WaveToSampleProvider waveToSampleProvider = new WaveToSampleProvider(bufferedWaveProvider);
                     surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider,Program.SurroundSettings.customIrPath); //实现算法
                     surroundToStereoSampleProvider.applySettings(Program.SurroundSettings, true);
-
+                    
+                    audioEnchancementSampleProvider = new AudioEnchancementSampleProvider(surroundToStereoSampleProvider, Program.AudioEnchancementData.getDeviceParam(targetDevice.ID));
                  
-                    wasapiOut.Init(surroundToStereoSampleProvider);
+                    wasapiOut.Init(audioEnchancementSampleProvider);
                     wasapiOut.Play(); //开始环绕
                     while (!surroundProc.CancellationPending)
                     {
@@ -280,6 +282,7 @@ namespace 耳机虚拟环绕声
                 sp.targetDevice = dst;
                 deviceDecider.OnStart(dst.id,devices.Select(d => d.id).ToArray());
                 chkBypass.Checked = false;
+                chkBypassEq.Checked = false;
                 this.deviceLancey = chkLowLancey.Checked ? 40 : 160;
                 surroundProc.RunWorkerAsync(sp);
 
@@ -608,6 +611,20 @@ namespace 耳机虚拟环绕声
             Program.SurroundSettings.ignoreOutputChannelCount = chkShowAllDevice.Checked;
             loadData();
             Program.needSave = true;
+        }
+
+        private void btnEnchanceAudio__Click(object sender, EventArgs e)
+        {
+            FrmEQManage frmEqManage = new FrmEQManage();
+            frmEqManage.Show(this);
+        }
+
+        private void chkBypassEq_CheckedChanged(object sender, EventArgs e)
+        {
+            if (audioEnchancementSampleProvider != null)
+            {
+                audioEnchancementSampleProvider.Bypass = chkBypassEq.Checked;
+            }
         }
     }
 }
