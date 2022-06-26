@@ -269,7 +269,6 @@ namespace 耳机虚拟环绕声
                 sp.targetDevice = dst;
                 deviceDecider.OnStart(dst.id,devices.Select(d => d.id).ToArray());
                 chkBypass.Checked = false;
-                chkBypassEq.Checked = false;
                 this.deviceLancey = chkLowLancey.Checked ? 40 : 160;
                 surroundProc.RunWorkerAsync(sp);
 
@@ -615,12 +614,6 @@ namespace 耳机虚拟环绕声
             frmEqManage.Show(this);
         }
 
-        private void chkBypassEq_CheckedChanged(object sender, EventArgs e)
-        {
-            if (audioEnchancementSampleProvider != null)
-            {
-                audioEnchancementSampleProvider.Bypass = chkBypassEq.Checked;
-            }
-        }
+    
     }
 }

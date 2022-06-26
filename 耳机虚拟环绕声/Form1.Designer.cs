@@ -41,7 +41,6 @@
             this.btnSwitchConvolver = new System.Windows.Forms.Button();
             this.chkShowAllDevice = new System.Windows.Forms.CheckBox();
             this.btnEnchanceAudio = new System.Windows.Forms.Button();
-            this.chkBypassEq = new System.Windows.Forms.CheckBox();
             this.btnBegin = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.dragger = new System.Windows.Forms.PictureBox();
@@ -53,7 +52,6 @@
             this.panelPage1 = new System.Windows.Forms.Panel();
             this.btnTest = new System.Windows.Forms.Button();
             this.numMasterGain = new 耳机虚拟环绕声.CtlBarSlider();
-            this.label33 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -282,37 +280,21 @@
             // btnEnchanceAudio
             // 
             this.btnEnchanceAudio.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEnchanceAudio.FlatAppearance.BorderSize = 0;
             this.btnEnchanceAudio.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnEnchanceAudio.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnEnchanceAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEnchanceAudio.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btnEnchanceAudio.Font = new System.Drawing.Font("微软雅黑 Light", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnEnchanceAudio.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnEnchanceAudio.Location = new System.Drawing.Point(261, 284);
+            this.btnEnchanceAudio.Location = new System.Drawing.Point(233, 155);
             this.btnEnchanceAudio.Name = "btnEnchanceAudio";
-            this.btnEnchanceAudio.Size = new System.Drawing.Size(122, 32);
+            this.btnEnchanceAudio.Size = new System.Drawing.Size(122, 35);
             this.btnEnchanceAudio.TabIndex = 9;
-            this.btnEnchanceAudio.Text = "音质增强";
+            this.btnEnchanceAudio.Text = "音质增强 →";
+            this.btnEnchanceAudio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip1.SetToolTip(this.btnEnchanceAudio, "提升耳机的音质和表现效果");
             this.btnEnchanceAudio.UseVisualStyleBackColor = true;
             this.btnEnchanceAudio.Click += new System.EventHandler(this.btnEnchanceAudio__Click);
-            // 
-            // chkBypassEq
-            // 
-            this.chkBypassEq.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkBypassEq.FlatAppearance.CheckedBackColor = System.Drawing.Color.Green;
-            this.chkBypassEq.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.chkBypassEq.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.chkBypassEq.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chkBypassEq.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chkBypassEq.Location = new System.Drawing.Point(261, 322);
-            this.chkBypassEq.Name = "chkBypassEq";
-            this.chkBypassEq.Size = new System.Drawing.Size(122, 32);
-            this.chkBypassEq.TabIndex = 9;
-            this.chkBypassEq.Text = "旁路音质增强";
-            this.chkBypassEq.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolTip1.SetToolTip(this.chkBypassEq, "暂时关闭音质增强，可以对比开关音质增强的效果");
-            this.chkBypassEq.UseVisualStyleBackColor = true;
-            this.chkBypassEq.CheckedChanged += new System.EventHandler(this.chkBypassEq_CheckedChanged);
             // 
             // btnBegin
             // 
@@ -462,9 +444,7 @@
             this.panelPage1.Controls.Add(this.btnEnchanceAudio);
             this.panelPage1.Controls.Add(this.numMasterGain);
             this.panelPage1.Controls.Add(this.chkFc2F);
-            this.panelPage1.Controls.Add(this.chkBypassEq);
             this.panelPage1.Controls.Add(this.chkBypass);
-            this.panelPage1.Controls.Add(this.label33);
             this.panelPage1.Controls.Add(this.label6);
             this.panelPage1.Controls.Add(this.label5);
             this.panelPage1.Controls.Add(this.label4);
@@ -518,18 +498,6 @@
             this.numMasterGain.ThumbWidth = 80;
             this.numMasterGain.Value = 0;
             this.numMasterGain.ValueChanged += new System.EventHandler<System.EventArgs>(this.numMasterGain_Scroll);
-            // 
-            // label33
-            // 
-            this.label33.BackColor = System.Drawing.Color.Transparent;
-            this.label33.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F);
-            this.label33.ForeColor = System.Drawing.Color.White;
-            this.label33.Location = new System.Drawing.Point(256, 250);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(93, 25);
-            this.label33.TabIndex = 1;
-            this.label33.Text = "音质增强";
-            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label6
             // 
@@ -1416,8 +1384,6 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnEnchanceAudio;
-        private System.Windows.Forms.CheckBox chkBypassEq;
-        private System.Windows.Forms.Label label33;
     }
 }
 
