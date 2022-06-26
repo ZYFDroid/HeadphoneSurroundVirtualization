@@ -8,6 +8,7 @@ using NAudio;
 using NAudio.Wave;
 using System.IO;
 using NAudio.Wave.SampleProviders;
+using 耳机虚拟环绕声.ThirdParties.EqualizerAPO;
 
 namespace 耳机虚拟环绕声
 {
@@ -300,7 +301,7 @@ namespace 耳机虚拟环绕声
 
         public AudioEnchancementParameters AudioEnchancementParameters => param;
 
-        NAudio.Dsp.BiQuadFilter[,] biQuadFilters = null;
+        BiQuad[,] biQuadFilters = null;
         public WaveFormat WaveFormat => baseProvider.WaveFormat;
 
 
@@ -328,14 +329,14 @@ namespace 耳机虚拟环绕声
                 }
                 float sampleRate = WaveFormat.SampleRate;
                 this.param = param;
-                biQuadFilters = new NAudio.Dsp.BiQuadFilter[param.peakEQParams.Count, WaveFormat.Channels];
+                biQuadFilters = new BiQuad[param.peakEQParams.Count, WaveFormat.Channels];
                 peakEqCount = param.peakEQParams.Count;
                 for (int i = 0; i < param.peakEQParams.Count; i++)
                 {
                     for (int c = 0; c < WaveFormat.Channels; c++)
                     {
                         PeakEQParam eq = param.peakEQParams[i];
-                        biQuadFilters[i, c] = NAudio.Dsp.BiQuadFilter.PeakingEQ(sampleRate, eq.centerFrequent, eq.Q, eq.gain);
+                        biQuadFilters[i, c] = BiQuad.PeakEQ(sampleRate, eq.centerFrequent, eq.Q, eq.gain);
                     }
                 }
                 lDown = 1;
@@ -367,8 +368,9 @@ namespace 耳机虚拟环绕声
                         // 均衡器
                         for (int n = 0; n < peakEqCount; n++)
                         {
-                            buffer[i] = biQuadFilters[n, 0].Transform(buffer[i]);
-                            buffer[i+1] = biQuadFilters[n, 0].Transform(buffer[i+1]);
+                            buffer[i] = biQuadFilters[n, 0].process(buffer[i]);
+                            buffer[i+1] = biQuadFilters[n, 1].process(buffer[i+1]);
+                            
                         }
                         // 交换左右声道
                         if (param.swapChannel)

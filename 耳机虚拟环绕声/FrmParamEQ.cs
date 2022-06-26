@@ -90,7 +90,15 @@ namespace 耳机虚拟环绕声
                 return;
             }
             ctlEqView.SendToBack();
-            PeakEQParam p = new PeakEQParam() { centerFrequent = 1000, gain = 0, Q = 1 };
+            PeakEQParam p = null;
+            if (lastPointer == null)
+            {
+                p =  new PeakEQParam() { centerFrequent = (float)numFC.Value, gain = (float)numDBGain.Value, Q = (float)numFQ.Value };
+            }
+            else
+            {
+                p = new PeakEQParam() { centerFrequent = 1000, gain = 0, Q = 1 };
+            }
             peakEQParamList.Add(p);
             PeakeqPointer ptrCtl = new PeakeqPointer(p, ctlEqView);
             tblChartContainer.Controls.Add(ptrCtl);
@@ -98,6 +106,7 @@ namespace 耳机虚拟环绕声
             ptrCtl.Dragged += PtrCtl_Dragged;
             ptrCtl.initPosition();
             ptrCtl.BringToFront();
+            lastPointer = ptrCtl;
 
         }
         public event EventHandler RequestUpdate;

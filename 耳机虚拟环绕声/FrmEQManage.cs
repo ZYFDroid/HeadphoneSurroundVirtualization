@@ -239,6 +239,8 @@ namespace 耳机虚拟环绕声
                 FrmParamEQ frmParamEQ = new FrmParamEQ(SelectedObject.peakEQParams);
                 frmParamEQ.RequestUpdate += FrmParamEQ_RequestUpdate;
                 frmParamEQ.ShowDialog(this);
+                frmParamEQ.RequestUpdate -= FrmParamEQ_RequestUpdate;
+                frmParamEQ.Dispose();
             }
         }
 

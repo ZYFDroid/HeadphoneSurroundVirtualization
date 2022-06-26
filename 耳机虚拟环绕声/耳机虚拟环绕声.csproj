@@ -119,6 +119,7 @@
     <Compile Include="ThirdParties\EarTrumpet\ERole.cs" />
     <Compile Include="ThirdParties\EarTrumpet\IPolicyConfig.cs" />
     <Compile Include="ThirdParties\EarTrumpet\PolicyConfigClient.cs" />
+    <Compile Include="ThirdParties\EqualizerAPO\BiQuad.cs" />
     <EmbeddedResource Include="CtlBarMeter.resx">
       <DependentUpon>CtlBarMeter.cs</DependentUpon>
     </EmbeddedResource>
