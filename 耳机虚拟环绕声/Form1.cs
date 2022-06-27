@@ -37,7 +37,39 @@ namespace 耳机虚拟环绕声
             InitializeComponent();
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
             this.Size = Properties.Resources.bg_hesuvi2.Size;
+            enableShadow();
         }
+        #region window effect
+        const int WM_PAINT = 0x000F;
+        const int WM_SIZE = 0x0005;
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case WM_PAINT:
+                case WM_SIZE:
+                    SetWindowRgn(m.HWnd, CreateRoundRectRgn(0, 0, this.Width, this.Height,20, 20), true);
+                    break;
+            }
+            base.WndProc(ref m);
+        }
+        [DllImport("user32.dll")]
+        private static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
+
+        private const int CS_DropSHADOW = 0x20000;
+        private const int GCL_STYLE = (-26);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SetClassLong(IntPtr hwnd, int nIndex, int dwNewLong);
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetClassLong(IntPtr hwnd, int nIndex);
+
+        void enableShadow()=> SetClassLong(this.Handle, GCL_STYLE, GetClassLong(this.Handle, GCL_STYLE) | CS_DropSHADOW);
+
+        #endregion
+
+
 
         private SurroundToStereoSampleProvider surroundToStereoSampleProvider;
         private AudioEnchancementSampleProvider audioEnchancementSampleProvider;
@@ -269,7 +301,7 @@ namespace 耳机虚拟环绕声
                 sp.targetDevice = dst;
                 deviceDecider.OnStart(dst.id,devices.Select(d => d.id).ToArray());
                 chkBypass.Checked = false;
-                this.deviceLancey = chkLowLancey.Checked ? 40 : 160;
+                this.deviceLancey = chkLowLancey.Checked ? 40 : 200;
                 surroundProc.RunWorkerAsync(sp);
 
             }
@@ -280,6 +312,8 @@ namespace 耳机虚拟环绕声
             }
             
         }
+
+
 
         private void surroundProc_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {

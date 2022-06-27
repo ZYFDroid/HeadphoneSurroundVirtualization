@@ -253,5 +253,10 @@ namespace 耳机虚拟环绕声
                 }
             }
         }
+
+        private void FrmEQManage_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Program.save();
+        }
     }
 }

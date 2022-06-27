@@ -41,8 +41,6 @@
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnEasyEQ = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.tblChartContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFC)).BeginInit();
@@ -106,7 +104,7 @@
             this.numFC.Size = new System.Drawing.Size(203, 29);
             this.numFC.TabIndex = 13;
             this.numFC.Value = new decimal(new int[] {
-            20,
+            1000,
             0,
             0,
             0});
@@ -162,7 +160,7 @@
             1,
             0,
             0,
-            65536});
+            0});
             this.numFQ.ValueChanged += new System.EventHandler(this.numFC_ValueChanged);
             // 
             // label2
@@ -245,45 +243,14 @@
             this.panel2.Size = new System.Drawing.Size(220, 193);
             this.panel2.TabIndex = 15;
             // 
-            // btnEasyEQ
-            // 
-            this.btnEasyEQ.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEasyEQ.FlatAppearance.BorderSize = 2;
-            this.btnEasyEQ.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnEasyEQ.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnEasyEQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEasyEQ.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnEasyEQ.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnEasyEQ.Location = new System.Drawing.Point(636, 410);
-            this.btnEasyEQ.Name = "btnEasyEQ";
-            this.btnEasyEQ.Size = new System.Drawing.Size(203, 46);
-            this.btnEasyEQ.TabIndex = 11;
-            this.btnEasyEQ.Text = "简易版EQ";
-            this.btnEasyEQ.UseVisualStyleBackColor = true;
-            this.btnEasyEQ.Visible = false;
-            // 
-            // label4
-            // 
-            this.label4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label4.Location = new System.Drawing.Point(636, 284);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(203, 123);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "如果看不懂，或许\r\n你可以试试这个\r\n不过你更应该用外面的\r\n那个「创建向导」\r\n↓";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.label4.Visible = false;
-            // 
             // FrmParamEQ
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(860, 531);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnNew);
-            this.Controls.Add(this.btnEasyEQ);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -293,7 +260,7 @@
             this.MinimizeBox = false;
             this.Name = "FrmParamEQ";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "参数均衡器";
+            this.Text = "频响曲线校正 - 参数均衡器";
             this.Load += new System.EventHandler(this.FrmParamEQ_Load);
             this.panel1.ResumeLayout(false);
             this.tblChartContainer.ResumeLayout(false);
@@ -322,7 +289,5 @@
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button btnEasyEQ;
-        private System.Windows.Forms.Label label4;
     }
 }

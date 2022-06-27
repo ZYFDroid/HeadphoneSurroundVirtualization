@@ -363,15 +363,15 @@ namespace 耳机虚拟环绕声
                 {
                     int channel = 2;
                     int end = offset + sampleReaded;
+                    // 均衡器
+                    for (int n = 0; n < peakEqCount; n++)
+                    {
+                        biQuadFilters[n, 0].processBatch(buffer, offset, count, 2, 0);
+                        biQuadFilters[n, 1].processBatch(buffer, offset, count, 2, 1);
+                    }
                     for (int i = offset; i < end; i += channel)
                     {
-                        // 均衡器
-                        for (int n = 0; n < peakEqCount; n++)
-                        {
-                            buffer[i] = biQuadFilters[n, 0].process(buffer[i]);
-                            buffer[i+1] = biQuadFilters[n, 1].process(buffer[i+1]);
-                            
-                        }
+
                         // 交换左右声道
                         if (param.swapChannel)
                         {
