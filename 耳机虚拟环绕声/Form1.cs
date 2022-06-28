@@ -37,7 +37,6 @@ namespace 耳机虚拟环绕声
             InitializeComponent();
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
             this.Size = Properties.Resources.bg_hesuvi2.Size;
-            enableShadow();
         }
         #region window effect
         const int WM_PAINT = 0x000F;
@@ -48,7 +47,7 @@ namespace 耳机虚拟环绕声
             {
                 case WM_PAINT:
                 case WM_SIZE:
-                    SetWindowRgn(m.HWnd, CreateRoundRectRgn(0, 0, this.Width, this.Height,20, 20), true);
+                    SetWindowRgn(m.HWnd, CreateRoundRectRgn(0, 0, this.Width, this.Height,24, 24), true);
                     break;
             }
             base.WndProc(ref m);
@@ -82,14 +81,14 @@ namespace 耳机虚拟环绕声
             {
                 _notifyAudioDeviceChanged = false;
                 StartParam startParam = e.Argument as StartParam;
+                EarTrumpet.Interop.MMDeviceAPI.AutoPolicyConfigClientWin7 policyConfigClient = new EarTrumpet.Interop.MMDeviceAPI.AutoPolicyConfigClientWin7();
+
+                policyConfigClient.SetDefaultEndpoint(startParam.sourceDevice.id);
 
                 surroundProc.ReportProgress(10);
                 while (!surroundProc.CancellationPending)
                 {
-                    EarTrumpet.Interop.MMDeviceAPI.AutoPolicyConfigClientWin7 policyConfigClient = new EarTrumpet.Interop.MMDeviceAPI.AutoPolicyConfigClientWin7();
-
-                    policyConfigClient.SetDefaultEndpoint(startParam.sourceDevice.id);
-
+                   
 
                     MMDevice targetDevice = deviceEnumerator.GetDevice(startParam.sourceDevice.id); //要捕获的设备
                     MMDevice outDevice = deviceEnumerator.GetDevice(startParam.targetDevice.id); // 输出设备
@@ -152,13 +151,19 @@ namespace 耳机虚拟环绕声
                         surroundProc.ReportProgress(30);
                         if (_notifyAudioDeviceChanged)
                         {
+                            System.Threading.Thread.Sleep(114);
                             _notifyAudioDeviceChanged = false;
-                            DevicePriority newDevice = deviceDecider.OnDeviceChanged(startParam.targetDevice.id,devices.Select(d => d.id).ToArray());
-                            if(newDevice == null)
+
+                            DevicePriority newDevice = null;
+                            while(!surroundProc.CancellationPending && newDevice == null)
                             {
-                                surroundProc.CancelAsync();
-                                break;
+                                newDevice = deviceDecider.OnDeviceChanged(startParam.targetDevice.id,devices.Select(d => d.id).ToArray());
+                                if(newDevice == null)
+                                {
+                                    System.Threading.Thread.Sleep(514);
+                                }
                             }
+                            
                             if(newDevice.DeviceID != startParam.targetDevice.id) {
                                 startParam.targetDevice.id = newDevice.DeviceID;
                                 break;
@@ -172,9 +177,9 @@ namespace 耳机虚拟环绕声
                     wasapiCapture.Dispose();
                     surroundToStereoSampleProvider = null;
                     audioEnchancementSampleProvider = null;
-                    policyConfigClient.SetDefaultEndpoint(startParam.targetDevice.id);
+                    
                 }
-
+                policyConfigClient.SetDefaultEndpoint(startParam.targetDevice.id);
                 surroundProc.ReportProgress(99);
             }
             catch (Exception ex)
