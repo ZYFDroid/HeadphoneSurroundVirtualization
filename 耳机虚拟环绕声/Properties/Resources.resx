@@ -139,7 +139,16 @@
   <data name="rightIndicator" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\whitebg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="testsurround_wav0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\testsurround.wav0.gzip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="testsurround_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\testsurround_0.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="testsurround_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\testsurround_1.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="testsurround_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\testsurround_2.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="testsurround_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\testsurround_3.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

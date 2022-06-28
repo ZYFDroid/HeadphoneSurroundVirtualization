@@ -133,9 +133,39 @@ namespace 耳机虚拟环绕声.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
-        internal static byte[] testsurround_wav0 {
+        internal static byte[] testsurround_0 {
             get {
-                object obj = ResourceManager.GetObject("testsurround_wav0", resourceCulture);
+                object obj = ResourceManager.GetObject("testsurround_0", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] testsurround_1 {
+            get {
+                object obj = ResourceManager.GetObject("testsurround_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] testsurround_2 {
+            get {
+                object obj = ResourceManager.GetObject("testsurround_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] testsurround_3 {
+            get {
+                object obj = ResourceManager.GetObject("testsurround_3", resourceCulture);
                 return ((byte[])(obj));
             }
         }

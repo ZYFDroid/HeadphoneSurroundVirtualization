@@ -550,23 +550,67 @@ namespace 耳机虚拟环绕声
             }
         }
 
+        class TestSurroundSampleProvider : ISampleProvider, IDisposable
+        {
+            private NAudio.Vorbis.VorbisSampleProvider sampleProvider0;
+            private NAudio.Vorbis.VorbisSampleProvider sampleProvider1;
+            private NAudio.Vorbis.VorbisSampleProvider sampleProvider2;
+            private NAudio.Vorbis.VorbisSampleProvider sampleProvider3;
+            public TestSurroundSampleProvider()
+            {
+                sampleProvider0 = new NAudio.Vorbis.VorbisSampleProvider(new MemoryStream(Properties.Resources.testsurround_0), true);
+                sampleProvider1 = new NAudio.Vorbis.VorbisSampleProvider(new MemoryStream(Properties.Resources.testsurround_1), true);
+                sampleProvider2 = new NAudio.Vorbis.VorbisSampleProvider(new MemoryStream(Properties.Resources.testsurround_2), true);
+                sampleProvider3 = new NAudio.Vorbis.VorbisSampleProvider(new MemoryStream(Properties.Resources.testsurround_3), true);
+                _waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleProvider0.WaveFormat.SampleRate, 8);
+            }
+            private WaveFormat _waveFormat;
+            WaveFormat ISampleProvider.WaveFormat => _waveFormat;
+            float[] frame = new float[2];
+            int ISampleProvider.Read(float[] buffer, int offset, int count)
+            {
+                int read = 0;
+                for (int i = offset; i < offset+count; i+=8)
+                {
+                    if(sampleProvider0.Read(frame,0,2) <= 0) { return read; }
+                    buffer[i] = frame[0];
+                    buffer[i+1] = frame[1];
+                    if (sampleProvider1.Read(frame, 0, 2) <= 0) { return read; }
+                    buffer[i+2] = frame[0];
+                    buffer[i + 3] = frame[1];
+                    if (sampleProvider2.Read(frame, 0, 2) <= 0) { return read; }
+                    buffer[i+4] = frame[0];
+                    buffer[i + 5] = frame[1];
+                    if (sampleProvider3.Read(frame, 0, 2) <= 0) { return read; }
+                    buffer[i+6] = frame[0];
+                    buffer[i + 7] = frame[1];
+                    read += 8;
+                }
+                return read;
+            }
+
+            public void Dispose()
+            {
+                safeDispose(sampleProvider0,sampleProvider1,sampleProvider2,sampleProvider3);   
+            }
+            private void safeDispose(params IDisposable[] d)
+            {
+                foreach (var item in d)
+                {
+
+                    try { item?.Dispose(); } catch { }
+                }
+            }
+        }
         private WasapiOut waveOut = null;
-        private WaveFileReader waveFileReader = null;
-        private MemoryStream sourcefile = null;
+        private TestSurroundSampleProvider waveFileReader = null;
         private void btnTest_Click(object sender, EventArgs e)
         {
 
             btnTest.Enabled = false;
             if (waveOut == null)
             {
-                MemoryStream compressedFile = new MemoryStream(Properties.Resources.testsurround_wav0);
-                sourcefile = new MemoryStream();
-                GZipStream gZipStream = new GZipStream(compressedFile, CompressionMode.Decompress, false);
-                gZipStream.CopyTo(sourcefile);
-                gZipStream.Dispose();
-                compressedFile.Dispose();
-                sourcefile.Seek(0, SeekOrigin.Begin);
-                waveFileReader = new WaveFileReader(sourcefile);
+                waveFileReader = new TestSurroundSampleProvider();
                 waveOut = new WasapiOut();
                 waveOut.Init(waveFileReader);
                 waveOut.PlaybackStopped += WaveOut_PlaybackStopped;
@@ -582,9 +626,8 @@ namespace 耳机虚拟环绕声
 
         private void WaveOut_PlaybackStopped(object sender, StoppedEventArgs e)
         {
-            safeDispose(waveOut, waveFileReader, sourcefile);
+            safeDispose(waveOut, waveFileReader);
             waveOut = null;
-            sourcefile = null;
             waveFileReader = null;
         }
 
