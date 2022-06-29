@@ -36,8 +36,22 @@
 
                 y2 = y1;
                 y1 = result;
+
+                if (float.IsNaN(result)) { result = 0;resetState(); }
+                if (float.IsInfinity(result)) { result = 0;resetState(); }
+                
+                result = MathHelper.clamp(result, minOut, maxOut);
+
                 samples[ptr] = result;
             }
+        }
+
+        private float minOut = -MathHelper.db2linear(15);
+        private float maxOut = MathHelper.db2linear(15);
+
+        private void resetState()
+        {
+            x1 = 0;x2 = 0;y1 = 0;y2 = 0;
         }
 
 

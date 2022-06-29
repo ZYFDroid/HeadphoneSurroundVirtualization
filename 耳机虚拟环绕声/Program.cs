@@ -15,8 +15,9 @@ namespace 耳机虚拟环绕声
 
     /*
     To-Does:
-    TODO: 当无支持环绕的设备时则提示
-    TODO: 配置引导提示
+    TODO: 自动配置设备（需要管理员权限）
+    TODO: 耳机调音向导
+    TODO: 创建耳机调音基准数据
      */
     internal static class Program
     {

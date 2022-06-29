@@ -151,20 +151,34 @@ namespace 耳机虚拟环绕声
                         surroundProc.ReportProgress(30);
                         if (_notifyAudioDeviceChanged)
                         {
-                            System.Threading.Thread.Sleep(114);
+                            System.Threading.Thread.Sleep(  114  );
                             _notifyAudioDeviceChanged = false;
-
                             DevicePriority newDevice = null;
                             while(!surroundProc.CancellationPending && newDevice == null)
                             {
                                 newDevice = deviceDecider.OnDeviceChanged(startParam.targetDevice.id,devices.Select(d => d.id).ToArray());
                                 if(newDevice == null)
                                 {
-                                    System.Threading.Thread.Sleep(514);
+                                    System.Threading.Thread.Sleep(  514  );
+                                    /*
+                                    问：修复这个不稳定的问题花了多久
+                                    答：九时啊
+                                    问：修完bug要去吃什么庆祝
+                                    答：酒食啊
+                                    问：最初是怎样想到做这个软件的
+                                    答：旧事啊
+                                    问：帮忙编译fft_convolver的是你的什么人
+                                    答：旧识啊
+                                    问：平时有了写代码的灵感会怎么办
+                                    答：速打哟（指迅速将代码打出来）
+                                    问：你就会这一句是吗（恼）
+                                    答：就是啊
+                                    你是一个一个一个开发者啊啊啊
+                                     */
                                 }
                             }
                             
-                            if(newDevice.DeviceID != startParam.targetDevice.id) {
+                            if (newDevice.DeviceID != startParam.targetDevice.id) {
                                 startParam.targetDevice.id = newDevice.DeviceID;
                                 break;
                             }
@@ -692,10 +706,29 @@ namespace 耳机虚拟环绕声
                 return;
             }
             string profileGuid = Program.AudioEnchancementData.getDeviceParam(dst.id) == null ? "" : Program.AudioEnchancementData.getDeviceParam(dst.id).guid;
-            FrmEQManage frmEqManage = new FrmEQManage(audioEnchancementSampleProvider, profileGuid, dst);
-            frmEqManage.Show(this);
+            if (frmEqManage == null)
+            {
+                frmEqManage = new FrmEQManage(audioEnchancementSampleProvider, profileGuid, dst);
+                frmEqManage.FormClosed += FrmEqManage_FormClosed;
+                frmEqManage.Show(this);
+            }
+            else
+            {
+                frmEqManage.Activate();
+                if(frmEqManage.WindowState == FormWindowState.Minimized)
+                {
+                    frmEqManage.WindowState = FormWindowState.Normal;
+                }
+            }
         }
 
+        private void FrmEqManage_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            frmEqManage?.Dispose();
+            frmEqManage = null;
+        }
+
+        private FrmEQManage frmEqManage = null;
     
     }
 }

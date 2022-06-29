@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("耳机虚拟环绕声")]
-[assembly: AssemblyDescription("免费在耳机上体验7.1环绕的效果")]
+[assembly: AssemblyTitle("TestEQCreator")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ZYFDroid")]
-[assembly: AssemblyProduct("耳机虚拟环绕声")]
-[assembly: AssemblyCopyright("Copyright © ZYFDroid 2022")]
+[assembly: AssemblyCompany("HP")]
+[assembly: AssemblyProduct("TestEQCreator")]
+[assembly: AssemblyCopyright("Copyright © HP 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("d19f4977-b414-4a0d-aa9d-4d85c25676e3")]
+[assembly: Guid("02b8fc3a-ea6d-49d7-9c54-a03b24ecf9cb")]
 
 // 程序集的版本信息由下列四个值组成: 
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.0.0.7")]
-[assembly: AssemblyFileVersion("4.0.0.7")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
