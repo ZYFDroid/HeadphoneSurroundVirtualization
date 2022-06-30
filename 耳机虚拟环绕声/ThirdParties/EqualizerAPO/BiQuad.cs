@@ -37,11 +37,6 @@
                 y2 = y1;
                 y1 = result;
 
-                if (float.IsNaN(result)) { result = 0;resetState(); }
-                if (float.IsInfinity(result)) { result = 0;resetState(); }
-                
-                result = MathHelper.clamp(result, minOut, maxOut);
-
                 samples[ptr] = result;
             }
         }

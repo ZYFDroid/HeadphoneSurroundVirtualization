@@ -19,15 +19,26 @@ namespace TestEQCreator
 
         private void button1_Click(object sender, EventArgs e)
         {
+            button1.Enabled = false;
+            int requiredThreads = Environment.ProcessorCount + Environment.ProcessorCount / 2;
+            for (int i = 0; i < requiredThreads; i++)
+            {
+                startThreaad();
+            }
+            
+        }
+
+        private void startThreaad()
+        {
             System.Threading.Thread thread = new System.Threading.Thread(() =>
             {
-                float i = 114514f;
+                float p = 100000;
                 while (true)
                 {
-                    i *= 0.99999f;
-                    if(i < 1)
+                    p *= 0.99999f;
+                    if (p < 1)
                     {
-                        i += 114514f;
+                        p += 100000;
                     }
                 }
             });

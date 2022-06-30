@@ -349,18 +349,23 @@ namespace 耳机虚拟环绕声
                 MessageBox.Show(e.UserState.ToString(),"出错了");
                 btnBegin.Enabled = true;
                 btnBegin.Image = Properties.Resources.btnSurroundOn;
+                lblStatus.Text = "已关闭";
                 surroundIsOn = false;
             }
             if(e.ProgressPercentage == 10)
             {
                 btnBegin.Enabled = true;
                 btnBegin.Image = Properties.Resources.btnSurroundOff;
+
+                lblStatus.Text = "已开启";
                 surroundIsOn = true;
             }
             if (e.ProgressPercentage == 99)
             {
                 btnBegin.Enabled = true;
                 btnBegin.Image = Properties.Resources.btnSurroundOn;
+
+                lblStatus.Text = "已关闭";
                 surroundIsOn = false;
                 mtmOutL.Reset();
                 mtmOutR.Reset();

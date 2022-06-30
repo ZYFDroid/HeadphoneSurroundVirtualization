@@ -379,10 +379,11 @@ namespace 耳机虚拟环绕声
                     for (int i = offset; i < end; i += channel)
                     {
                         // 均衡器
-                        // 必须这样一个，一个一个处理每个sample
+                        // 必须这样一个一个一个处理每个sample
                         // 用上面注释掉的批量处理的方法也是可以的
                         // 但在电脑非常卡顿的时候，例如启动一个装了50多个Mod的Minecraft，有可能会输出NaN
-                        // 我怀疑是CPU的乱序执行在搞鬼
+                        // 试了下，别人的电脑上也有这个问题
+                        // 有没有大佬能解答一下
                         for (int n = 0; n < peakEqCount; n++)
                         {
                             buffer[i] = biQuadFilters[n, 0].process(buffer[i]);
