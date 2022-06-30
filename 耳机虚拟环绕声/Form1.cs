@@ -211,6 +211,7 @@ namespace 耳机虚拟环绕声
             deviceDecider = new DeviceDecider(Program.DevicePriorityList);
             deviceEnumerator = new MMDeviceEnumerator();
             loadData();
+            
             chkShowAllDevice.CheckedChanged -= chkShowAllDevice_CheckedChanged;
             chkShowAllDevice.Checked = Program.SurroundSettings.ignoreOutputChannelCount;
             chkShowAllDevice.CheckedChanged += chkShowAllDevice_CheckedChanged;
@@ -226,10 +227,17 @@ namespace 耳机虚拟环绕声
             bars = new MP3模拟器.CtlBarMeter[] {
                 barFL,barFR,barFC,barLF,barRL,barRR,barSL,barSR
             };
+            
+            
 
             numCompressAttack.Value = (int)Program.SurroundSettings.cmpAttack;
             numCompressGate.Value = (int)(Program.SurroundSettings.cmpGate * 10);
+
             numCompressRatio.Value = (int)(Program.SurroundSettings.cmpRatio *10);
+            if(Program.SurroundSettings.cmpRatio < 0.01)
+            {
+                numCompressRatio.Value = 800;
+            }
             numCompressRelease.Value = (int)Program.SurroundSettings.cmpRelease;
             numMasterGain.Value =(int)Math.Round(Program.SurroundSettings.masterGain * 100f);
             numCompress_ValueChanged(null, null);
@@ -240,8 +248,9 @@ namespace 耳机虚拟环绕声
             Program.needSave = false;
 
             lblVersion.Text ="v"+ Application.ProductVersion;
+            loaded = true;
         }
-
+        private bool loaded = false;
         private void loadData()
         {
             var result = deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active | DeviceState.Disabled);
@@ -417,14 +426,17 @@ namespace 耳机虚拟环绕声
         private void numCompress_ValueChanged(object sender, EventArgs e)
         {
             var s = Program.SurroundSettings;
-            s.cmpGate = numCompressGate.Value / 10f;
-            s.cmpRatio = (numCompressRatio.Value +10f) / 10f;
-            if(s.cmpRatio > 79.9)
+            if (loaded)
             {
-                s.cmpRatio = 0;
+                s.cmpGate = numCompressGate.Value / 10f;
+                s.cmpRatio = (numCompressRatio.Value + 10f) / 10f;
+                if (s.cmpRatio > 79.9)
+                {
+                    s.cmpRatio = 0;
+                }
+                s.cmpAttack = (float)Math.Round(numCompressAttack.Value / 1f);
+                s.cmpRelease = (float)Math.Round(numCompressRelease.Value / 1f);
             }
-            s.cmpAttack = (float)Math.Round(numCompressAttack.Value / 1f);
-            s.cmpRelease = (float)Math.Round(numCompressRelease.Value / 1f);
             numCompressAttack.ThumbText = $"{s.cmpAttack}ms";
             numCompressGate.ThumbText = $"{s.cmpGate}dB";
             numCompressRatio.ThumbText = (s.cmpRatio == 0 ? "∞" : s.cmpRatio.ToString())+":1";

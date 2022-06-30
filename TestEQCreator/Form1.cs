@@ -20,7 +20,7 @@ namespace TestEQCreator
         private void button1_Click(object sender, EventArgs e)
         {
             button1.Enabled = false;
-            int requiredThreads = Environment.ProcessorCount + Environment.ProcessorCount / 2;
+            int requiredThreads = Environment.ProcessorCount + Environment.ProcessorCount / 3;
             for (int i = 0; i < requiredThreads; i++)
             {
                 startThreaad();

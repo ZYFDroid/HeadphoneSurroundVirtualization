@@ -60,9 +60,7 @@ namespace 耳机虚拟环绕声
             Application.Run(new Form1());
             if (needSave)
             {
-                File.WriteAllText(TuneConfigFile, JsonConvert.Serialize(SurroundSettings));
-                File.WriteAllText(DeviceConfigFile, JsonConvert.Serialize(DevicePriorityList));
-                File.WriteAllText(AudioEnchancementConfigFile, JsonConvert.Serialize(AudioEnchancementData));
+                save();
             }
         }
 
