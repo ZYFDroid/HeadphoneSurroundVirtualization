@@ -15,6 +15,7 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using NAudio.CoreAudioApi.Interfaces;
 using System.Runtime.InteropServices;
+using AudioCommon;
 
 namespace 耳机虚拟环绕声
 {

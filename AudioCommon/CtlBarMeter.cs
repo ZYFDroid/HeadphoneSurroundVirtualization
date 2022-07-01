@@ -146,7 +146,7 @@ namespace MP3模拟器
                 DrawInternal(e.Graphics);
             }
         }
-        internal void Reset()
+        public void Reset()
         {
             //linearDownValue = 0;
             //animedValue = 0;
