@@ -132,7 +132,7 @@ namespace 耳机虚拟环绕声
 
         public void initPosition()
         {
-            this.Left = (int)(eqView.Freq2Log((int)peakEQParam.centerFrequent) * (float)eqView.Width)-4;
+            this.Left = (int)(CtlEQView.Freq2Log((int)peakEQParam.centerFrequent) * (float)eqView.Width)-4;
             this.Top = (int)((float)eqView.Height / 2f - (peakEQParam.gain / eqView.DisplayRange) * (float)eqView.Height / 2f)-4;
         }
 
@@ -176,7 +176,7 @@ namespace 耳机虚拟环绕声
                 this.Top = newTop;
                 this.Left = newLeft;
 
-                peakEQParam.centerFrequent = eqView.Log2Freq((this.Left + 4f) / (float)eqView.Width);
+                peakEQParam.centerFrequent = CtlEQView.Log2Freq((this.Left + 4f) / (float)eqView.Width);
                 peakEQParam.gain = eqView.DisplayRange * (((float)eqView.Height / 2f - ((float)this.Top + 4f)) / ((float)eqView.Height / 2f));
 
                 if(peakEQParam.centerFrequent < 20) { peakEQParam.centerFrequent = 20;}

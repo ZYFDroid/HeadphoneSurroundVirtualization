@@ -98,6 +98,9 @@ namespace 耳机虚拟环绕声
 
         public List<PeakEQParam> PeakEQParams = new List<PeakEQParam>();
 
+        // 凑出来的
+        private const float ndFactor = 3.5f;
+
 
         private void DrawInternal(Graphics g)
         {
@@ -173,16 +176,16 @@ namespace 耳机虚拟环绕声
         {
             // 下面的数据是我凑出来的。凑了半天，只要画出来的图像和EqualizerAPO里的看着很像就行了（
             float centerX = Freq2Log(freq);
-            float qMultiplier = 3 + Freq2Log(freq) * 2;
+            float qMultiplier = ndFactor;
             return GuarssianDistribution(gain, q * qMultiplier, xpos - centerX);
         }
 
-        public float Freq2Log(int freq)
+        public static float Freq2Log(int freq)
         {
             return (float)(Math.Log10(freq / 2) - 1f) / 3f;
         }
 
-        public int Log2Freq(float log)
+        public static int Log2Freq(float log)
         {
             return (int)Math.Round(Math.Pow(10, (log * 3) + 1) * 2d);
         }
