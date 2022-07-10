@@ -36,7 +36,7 @@ namespace EarTrumpet.Interop.MMDeviceAPI
     {
         void Unused1();
         void Unused2();
-        void Unused3();
+        void SetDeviceFormat([MarshalAs(UnmanagedType.LPWStr)] string wszDeviceId, ref WaveFormatEx arg0, ref WaveFormatEx arg1);
         void Unused4();
         void Unused5();
         void Unused6();
@@ -50,6 +50,34 @@ namespace EarTrumpet.Interop.MMDeviceAPI
 
 
     [StructLayout(LayoutKind.Sequential)]
+    public struct WaveFormatExtensible
+    {
+        public ushort wFormatTag;
+        public ushort nChannels;
+        public uint nSamplesPerSec;
+        public uint nAvgBytesPerSec;
+        public ushort nBlockAlign;
+        public ushort wBitsPerSample;
+        public ushort cbSize;
+        public ushort wValidBitsPerSample;
+        public uint dwChannelMask;
+        public Guid SubFormat;
+    }
+    [StructLayout(LayoutKind.Sequential)]
+
+    public struct WaveFormatEx
+    {
+
+        public short wFormatTag;
+        public short nChannels;
+        public int nSamplesPerSec;
+        public int nAvgBytesPerSec;
+        public short nBlockAlign;
+        public short wBitsPerSample;
+
+    }
+
+[StructLayout(LayoutKind.Sequential)]
     public struct PROPERTYKEY
     {
         public Guid fmtid;

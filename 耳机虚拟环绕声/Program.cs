@@ -44,7 +44,8 @@ namespace 耳机虚拟环绕声
                 {
                     try
                     {
-                        FrmConfig.ConfigDevice(); 
+                        FrmConfig.ConfigDevice();
+                        MessageBox.Show("配置成功。");
                         Environment.Exit(0);
                     }
                     catch (Exception ex)

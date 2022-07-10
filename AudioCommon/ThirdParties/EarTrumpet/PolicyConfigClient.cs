@@ -34,7 +34,6 @@ namespace EarTrumpet.Interop.MMDeviceAPI
     public class AutoPolicyConfigClientWin7
     {
         IPolicyConfigWin7 _policyClient = (IPolicyConfigWin7)new PolicyConfigClient();
-
         public void SetEndpointVisibility(string deviceId, bool isVisible)
         {
             _policyClient.SetEndpointVisibility(deviceId, isVisible ? (short)1 : (short)0);
@@ -43,6 +42,11 @@ namespace EarTrumpet.Interop.MMDeviceAPI
         public void SetDefaultEndpoint(string deviceId, ERole role = ERole.eMultimedia)
         {
             _policyClient.SetDefaultEndpoint(deviceId, role);
+        }
+
+        public void SetDeviceFormat(string deviceId,WaveFormatEx waveFormatEx)
+        {
+            _policyClient.SetDeviceFormat(deviceId, ref waveFormatEx, ref waveFormatEx);
         }
     }
 }
