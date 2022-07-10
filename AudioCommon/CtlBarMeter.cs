@@ -55,16 +55,50 @@ namespace MP3模拟器
             renderTimer.Enabled = false;
             renderBuffer?.Dispose();
             memoryDC?.Dispose();
+            backgroundBuffer?.Dispose();
+            backgroundDC?.Dispose();
+            backgroundDC = new Bitmap(this.Width, this.Height);
+            backgroundBuffer = Graphics.FromImage(backgroundDC);
             memoryDC = new Bitmap(this.Width,this.Height);
             renderBuffer = Graphics.FromImage(memoryDC);
             renderBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             renderBuffer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            backgroundBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            backgroundBuffer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            renderBackground();
             renderTimer.Enabled = true;
+
         }
 
         private Bitmap memoryDC = null;
+        private Bitmap backgroundDC = null;
+        private Graphics backgroundBuffer = null;
         private Graphics renderBuffer = null;
         private Graphics controlGraphics = null;
+
+        private void renderBackground()
+        {
+            Graphics g = backgroundBuffer;
+            g.DrawLine(pBorder, 1, 0, Width - 2, 0);
+            g.DrawLine(pBorder, 1, Height - 1, Width - 2, Height - 1);
+            g.DrawLine(pBorder, 0, 1, 0, Height - 2);
+            g.DrawLine(pBorder, Width - 1, 1, Width - 1, Height - 2);
+            clientRect.Width = this.Width;
+            clientRect.Height = this.Height;
+            if (DisplayText != null)
+            {
+                g.DrawString(DisplayText, this.Font, txtBrush, clientRect, centerStr);
+            }
+
+            float rectSize = this.Width * 1.2f;
+            float rectY = this.Height / 8f;
+            float rectCenterX = this.Width / 2;
+            float rectX = rectCenterX - rectSize / 2;
+
+
+            g.DrawArc(pCircle, rectX, rectY, rectSize, rectSize, 225, 90);
+
+        }
 
         private void Draw()
         {
@@ -99,27 +133,16 @@ namespace MP3模拟器
         void DrawInternal(Graphics g)
         {
             g.Clear(Color.Black);
-            g.DrawLine(pBorder, 1, 0, Width - 2, 0);
-            g.DrawLine(pBorder, 1, Height-1, Width - 2, Height-1);
-            g.DrawLine(pBorder, 0, 1, 0, Height-2);
-            g.DrawLine(pBorder, Width - 1, 1, Width - 1, Height-2);
-            clientRect.Width = this.Width;
-            clientRect.Height = this.Height;
-            if (DisplayText != null)
-            {
-                g.DrawString(DisplayText, this.Font,txtBrush,clientRect, centerStr);
-            }
-
+            g.DrawImage(backgroundDC, 0, 0);
+            
             float rectSize = this.Width * 1.2f;
             float rectY = this.Height / 8f;
             float rectCenterX = this.Width / 2;
             float rectCenterY = rectSize / 2 + rectY;
-            float rectX = rectCenterX - rectSize / 2;
 
             float handLength = rectSize / 2f * 0.98f;
 
-            g.DrawArc(pCircle, rectX, rectY, rectSize, rectSize, 225, 90);
-
+            
             float pointerAngle = -(float)Math.PI / 4f * 3f +  animedValue / 1 * (float)Math.PI /2 ;
 
             g.DrawLine(pHand, rectCenterX, rectCenterY, rectCenterX+(float)Math.Cos(pointerAngle) * handLength, rectCenterY+(float)Math.Sin(pointerAngle) * handLength);

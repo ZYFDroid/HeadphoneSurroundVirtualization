@@ -75,6 +75,8 @@ namespace 耳机虚拟环绕声
         private AudioEnchancementSampleProvider audioEnchancementSampleProvider;
         private CompressorSampleProvider compressorSampleProvider;
         private bool _notifyAudioDeviceChanged = false;
+        
+
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -465,11 +467,12 @@ namespace 耳机虚拟环绕声
 
         void notifyDeviceChanged()
         {
-            Invoke(new Action(loadData));
-            if(surroundProc.IsBusy && !surroundProc.CancellationPending)
+            Invoke(new Action(()=>
             {
-                _notifyAudioDeviceChanged = true;
-            }
+                updateDeviceCountdown = 10;
+                updateDeviceCountdownTimer.Enabled = true;
+            }));
+            
         }
 
         void IMMNotificationClient.OnDefaultDeviceChanged(DataFlow flow, Role role, string defaultDeviceId)
@@ -507,11 +510,6 @@ namespace 耳机虚拟环绕声
             Program.SurroundSettings.rerouteFrontCenter = chkFc2F.Checked;
             Program.needSave = true;
             surroundToStereoSampleProvider?.applySettings(Program.SurroundSettings);
-        }
-
-        private void numCompressRatio_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -747,6 +745,21 @@ namespace 耳机虚拟环绕声
         }
 
         private FrmEQManage frmEqManage = null;
-    
+
+
+        private int updateDeviceCountdown = 0;
+        private void updateDeviceCountdownTimer_Tick(object sender, EventArgs e)
+        {
+            updateDeviceCountdown--;
+            if(updateDeviceCountdown < 0)
+            {
+                if (surroundProc.IsBusy && !surroundProc.CancellationPending)
+                {
+                    _notifyAudioDeviceChanged = true;
+                }
+                loadData();
+                updateDeviceCountdownTimer.Stop();
+            }
+        }
     }
 }

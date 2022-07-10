@@ -36,15 +36,81 @@ namespace 耳机虚拟环绕声
             renderTimer.Enabled = false;
             renderBuffer?.Dispose();
             memoryDC?.Dispose();
+            backgroundBuffer?.Dispose();
+            backgroundDC?.Dispose();
+            backgroundDC = new Bitmap(this.Width, this.Height);
+            backgroundBuffer = Graphics.FromImage(backgroundDC);
             memoryDC = new Bitmap(this.Width, this.Height);
             renderBuffer = Graphics.FromImage(memoryDC);
             renderBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            renderTimer.Start();
+            renderBuffer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            backgroundBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            backgroundBuffer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            renderBackground();
+            renderTimer.Enabled = true;
         }
 
         private Bitmap memoryDC = null;
+        private Bitmap backgroundDC = null;
+        private Graphics backgroundBuffer = null;
         private Graphics renderBuffer = null;
         private Graphics controlGraphics = null;
+
+        private void renderBackground()
+        {
+            Graphics g = backgroundBuffer;
+            g.Clear(Color.Black);
+            float w = Width;
+            float h = Height;
+            g.DrawLine(gridPen, 0, h / 2, w, h / 2);
+            for (int i = 30; i < 100; i += 10)
+            {
+                float px = w * Freq2Log(i);
+                g.DrawLine(gridPen, px, 1, px, Height);
+            }
+            for (int i = 100; i < 1000; i += 100)
+            {
+                float px = w * Freq2Log(i);
+                g.DrawLine(gridPen, px, 0, px, Height);
+            }
+            for (int i = 1000; i < 10000; i += 1000)
+            {
+                float px = w * Freq2Log(i);
+                g.DrawLine(gridPen, px, 0, px, Height);
+            }
+            for (int i = 10000; i < 20000; i += 5000)
+            {
+                float px = w * Freq2Log(i);
+                g.DrawLine(gridPen, px, 0, px, Height);
+            }
+
+            Action<float, string> drawAtFreq = (freq, text) =>
+            {
+                float x = Freq2Log((int)freq) * w;
+                g.DrawLine(gridPenStroke, x, 0, x, Height);
+                RectangleF rect = new RectangleF(x, h - 30, 100, 30);
+                g.DrawString(text, Font, forePen.Brush, rect, bottomLeft);
+            };
+
+            Action<float, string> drawAtDb = (dB, text) =>
+            {
+                float y = h / 2 - (dB / DisplayRange) * (h / 2);
+                g.DrawLine(gridPen, 0, y, Width, y);
+                RectangleF rect = new RectangleF(0, y - 30, 1000, 30);
+                g.DrawString(text, Font, forePen.Brush, rect, bottomLeft);
+            };
+            drawAtFreq(20, "20Hz");
+            drawAtFreq(100, "100Hz");
+            drawAtFreq(1000, "1kHz");
+            drawAtFreq(10000, "10kHz");
+
+            float clippedRange = ((int)(DisplayRange / 3 - 1)) * 3f;
+
+            for (float d = -clippedRange; d <= clippedRange; d += 3)
+            {
+                drawAtDb(d, d + "dB");
+            }
+        }
 
         private void Draw()
         {
@@ -105,59 +171,13 @@ namespace 耳机虚拟环绕声
         private void DrawInternal(Graphics g)
         {
             g.Clear(Color.Black);
+            g.DrawImage(backgroundDC, 0, 0);
+
             float w = Width;
             float h = Height;
-            g.DrawLine(gridPen, 0, h / 2, w, h / 2);
-            for (int i = 30; i < 100; i+=10)
-            {
-                float px = w * Freq2Log(i);
-                g.DrawLine(gridPen, px, 1, px, Height);
-            }
-            for (int i = 100; i < 1000; i += 100)
-            {
-                float px = w * Freq2Log(i);
-                g.DrawLine(gridPen, px, 0, px, Height);
-            }
-            for (int i = 1000; i < 10000; i += 1000)
-            {
-                float px = w * Freq2Log(i);
-                g.DrawLine(gridPen, px, 0, px, Height);
-            }
-            for (int i = 10000; i < 20000; i += 5000)
-            {
-                float px = w * Freq2Log(i);
-                g.DrawLine(gridPen,  px, 0, px,Height);
-            }
-
-            Action<float, string> drawAtFreq = (freq, text) =>
-             {
-                 float x = Freq2Log((int)freq) * w;
-                 g.DrawLine(gridPenStroke, x, 0, x, Height);
-                 RectangleF rect = new RectangleF(x, h - 30, 100, 30);
-                 g.DrawString(text, Font, forePen.Brush, rect, bottomLeft);
-             };
-
-            Action<float, string> drawAtDb = (dB, text) =>
-            {
-                float y = h / 2 - (dB / DisplayRange) * (h / 2);
-                g.DrawLine(gridPen, 0,y,Width,y);
-                RectangleF rect = new RectangleF(0, y-30, 1000, 30);
-                g.DrawString(text, Font, forePen.Brush, rect, bottomLeft);
-            };
-            drawAtFreq(20, "20Hz");
-            drawAtFreq(100, "100Hz");
-            drawAtFreq(1000, "1kHz");
-            drawAtFreq(10000, "10kHz");
-
-            float clippedRange = ((int)(DisplayRange / 3 - 1)) * 3f;
-
-            for (float d = -clippedRange; d <= clippedRange; d+=3)
-            {
-                drawAtDb(d, d + "dB");
-            }
 
             float lastX = 0, lastY = h / 2;
-            for (float x = 0; x <= w; x++)
+            for (float x = 0; x <= w; x+=2)
             {
                 float pos = x / w;
                 float height = PeakEQParams.Select(s => evalEqParam((int)s.centerFrequent,s.Q,s.gain,pos)).Sum();

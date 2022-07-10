@@ -34,8 +34,27 @@ namespace 耳机虚拟环绕声
         /// </summary>
         /// 
         [STAThread]
-        static void Main()
+        static void Main(string[] param)
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            if (param.Length > 0)
+            {
+                if (param[0] == FrmConfig.PARAM_SETUP_DEVICE)
+                {
+                    try
+                    {
+                        FrmConfig.ConfigDevice(); 
+                        Environment.Exit(0);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.GetType().FullName+": "+ ex.Message,"配置失败");
+                        Environment.Exit(1);
+                    }
+                    return;
+                }
+            }
             if (File.Exists(TuneConfigFile))
             {
                 SurroundSettings = JsonConvert.Deserialize<SurroundSettings>(File.ReadAllText(TuneConfigFile));
@@ -56,8 +75,6 @@ namespace 耳机虚拟环绕声
                 File.Move(tempname, name);
             }
             FFTConvolver.FFTConvolver.Init();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
             if (needSave)
             {

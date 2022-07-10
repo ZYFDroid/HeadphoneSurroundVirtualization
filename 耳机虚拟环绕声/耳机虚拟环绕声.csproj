@@ -145,7 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\fir.dat" />
-    <None Include="Resources\install.pdf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\btnSurroundOff.png" />

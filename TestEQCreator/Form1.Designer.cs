@@ -29,20 +29,64 @@
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.ctlBarSlider2 = new 耳机虚拟环绕声.CtlBarSlider();
+            this.ctlBarSlider1 = new 耳机虚拟环绕声.CtlBarSlider();
             this.ctlEQView1 = new 耳机虚拟环绕声.CtlEQView();
-            this.ctlFQ = new 耳机虚拟环绕声.CtlBarSlider();
-            this.numDisplayFactor = new 耳机虚拟环绕声.CtlBarSlider();
+            this.ctlBarSlider3 = new 耳机虚拟环绕声.CtlBarSlider();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(198, 526);
+            this.button1.Location = new System.Drawing.Point(83, 491);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(96, 48);
             this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
+            this.button1.Text = "生成频率规范";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(185, 491);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(97, 48);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "输出EAPO配置";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // ctlBarSlider2
+            // 
+            this.ctlBarSlider2.BackColor = System.Drawing.Color.Black;
+            this.ctlBarSlider2.BigStep = 5;
+            this.ctlBarSlider2.Location = new System.Drawing.Point(83, 386);
+            this.ctlBarSlider2.Max = 1500;
+            this.ctlBarSlider2.Min = -1500;
+            this.ctlBarSlider2.Name = "ctlBarSlider2";
+            this.ctlBarSlider2.Size = new System.Drawing.Size(616, 30);
+            this.ctlBarSlider2.SmallStep = 3;
+            this.ctlBarSlider2.TabIndex = 5;
+            this.ctlBarSlider2.ThumbText = "0.0 dB";
+            this.ctlBarSlider2.ThumbWidth = 65;
+            this.ctlBarSlider2.Value = 0;
+            this.ctlBarSlider2.ValueChanged += new System.EventHandler<System.EventArgs>(this.ctlBarSlider2_ValueChanged);
+            // 
+            // ctlBarSlider1
+            // 
+            this.ctlBarSlider1.BackColor = System.Drawing.Color.Black;
+            this.ctlBarSlider1.BigStep = 5;
+            this.ctlBarSlider1.Location = new System.Drawing.Point(83, 349);
+            this.ctlBarSlider1.Max = 19;
+            this.ctlBarSlider1.Min = 0;
+            this.ctlBarSlider1.Name = "ctlBarSlider1";
+            this.ctlBarSlider1.Size = new System.Drawing.Size(616, 30);
+            this.ctlBarSlider1.SmallStep = 3;
+            this.ctlBarSlider1.TabIndex = 4;
+            this.ctlBarSlider1.ThumbText = "551 Hz";
+            this.ctlBarSlider1.ThumbWidth = 65;
+            this.ctlBarSlider1.Value = 7;
+            this.ctlBarSlider1.ValueChanged += new System.EventHandler<System.EventArgs>(this.ctlBarSlider1_Load);
             // 
             // ctlEQView1
             // 
@@ -51,39 +95,21 @@
             this.ctlEQView1.Size = new System.Drawing.Size(616, 305);
             this.ctlEQView1.TabIndex = 1;
             // 
-            // ctlFQ
+            // ctlBarSlider3
             // 
-            this.ctlFQ.BackColor = System.Drawing.Color.Black;
-            this.ctlFQ.BigStep = 5;
-            this.ctlFQ.Location = new System.Drawing.Point(83, 386);
-            this.ctlFQ.Max = 30000;
-            this.ctlFQ.Min = 100;
-            this.ctlFQ.Name = "ctlFQ";
-            this.ctlFQ.Size = new System.Drawing.Size(616, 30);
-            this.ctlFQ.SmallStep = 3;
-            this.ctlFQ.TabIndex = 2;
-            this.ctlFQ.ThumbText = "0.0 dB";
-            this.ctlFQ.ThumbWidth = 65;
-            this.ctlFQ.Value = 100;
-            this.ctlFQ.ValueChanged += new System.EventHandler<System.EventArgs>(this.ctlFQ_ValueChanged);
-            this.ctlFQ.Load += new System.EventHandler(this.ctlFQ_Load);
-            // 
-            // numDisplayFactor
-            // 
-            this.numDisplayFactor.BackColor = System.Drawing.Color.Black;
-            this.numDisplayFactor.BigStep = 5;
-            this.numDisplayFactor.Location = new System.Drawing.Point(83, 422);
-            this.numDisplayFactor.Max = 30000;
-            this.numDisplayFactor.Min = 100;
-            this.numDisplayFactor.Name = "numDisplayFactor";
-            this.numDisplayFactor.Size = new System.Drawing.Size(616, 30);
-            this.numDisplayFactor.SmallStep = 3;
-            this.numDisplayFactor.TabIndex = 2;
-            this.numDisplayFactor.ThumbText = "0.0 dB";
-            this.numDisplayFactor.ThumbWidth = 65;
-            this.numDisplayFactor.Value = 100;
-            this.numDisplayFactor.ValueChanged += new System.EventHandler<System.EventArgs>(this.numVD);
-            this.numDisplayFactor.Load += new System.EventHandler(this.ctlFQ_Load);
+            this.ctlBarSlider3.BackColor = System.Drawing.Color.Black;
+            this.ctlBarSlider3.BigStep = 5;
+            this.ctlBarSlider3.Location = new System.Drawing.Point(83, 422);
+            this.ctlBarSlider3.Max = 0;
+            this.ctlBarSlider3.Min = -7000;
+            this.ctlBarSlider3.Name = "ctlBarSlider3";
+            this.ctlBarSlider3.Size = new System.Drawing.Size(616, 30);
+            this.ctlBarSlider3.SmallStep = 3;
+            this.ctlBarSlider3.TabIndex = 6;
+            this.ctlBarSlider3.ThumbText = "0.0 dB";
+            this.ctlBarSlider3.ThumbWidth = 65;
+            this.ctlBarSlider3.Value = 0;
+            this.ctlBarSlider3.ValueChanged += new System.EventHandler<System.EventArgs>(this.ctlBarSlider3_ValueChanged);
             // 
             // Form1
             // 
@@ -91,8 +117,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(866, 572);
-            this.Controls.Add(this.numDisplayFactor);
-            this.Controls.Add(this.ctlFQ);
+            this.Controls.Add(this.ctlBarSlider3);
+            this.Controls.Add(this.ctlBarSlider2);
+            this.Controls.Add(this.ctlBarSlider1);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.ctlEQView1);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
@@ -106,8 +134,10 @@
 
         private System.Windows.Forms.Button button1;
         private 耳机虚拟环绕声.CtlEQView ctlEQView1;
-        private 耳机虚拟环绕声.CtlBarSlider ctlFQ;
-        private 耳机虚拟环绕声.CtlBarSlider numDisplayFactor;
+        private System.Windows.Forms.Button button2;
+        private 耳机虚拟环绕声.CtlBarSlider ctlBarSlider1;
+        private 耳机虚拟环绕声.CtlBarSlider ctlBarSlider2;
+        private 耳机虚拟环绕声.CtlBarSlider ctlBarSlider3;
     }
 }
 

@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="DSPUtils.cs" />
     <Compile Include="FrequentTestProvider.cs" />
+    <Compile Include="PinkNoiseGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThirdParties\EarTrumpet\ERole.cs" />
     <Compile Include="ThirdParties\EarTrumpet\IPolicyConfig.cs" />

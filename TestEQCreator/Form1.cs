@@ -1,4 +1,5 @@
 ﻿using AudioCommon;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,12 +30,14 @@ namespace TestEQCreator
         {
             InitializeComponent();
         }
+        // 测试频响曲线时使用的基准频率
+        public static int[] tests = { 80, 105, 138, 182, 240, 317, 418, 551, 726, 957, 1262, 1664, 2193, 2891, 3811, 5024, 6623, 8730, 11509, 15172 };
+        // 生成频响曲线校准的时候使用的Q值
+        public static float bandQ = 2f;
+        // 生成频响曲线校准时使用的Q值的倍数
+        public static float dbGainMultiplier = 3f / 7.6f;
 
-        public static int[] tests = {80, 105, 140, 180, 240, 320, 420, 550};
 
-        public static float testScale = 7f / 3f;
-
-        public static float testQ = 3.5f;
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -51,34 +54,59 @@ namespace TestEQCreator
         {
             for (int i = 0; i < tests.Length; i++)
             {
-                //eqs.Add(new PeakEQParam() { centerFrequent = tests[i], gain = 3, Q = 0.1f });
+                eqs.Add(new PeakEQParam() { centerFrequent = tests[i], gain = 0, Q = bandQ });
             }
-            eqs.Add(new PeakEQParam() { centerFrequent = 1210, gain =-5, Q = 0.9054f });
-            eqs.Add(new PeakEQParam() { centerFrequent = 2773, gain = -3.8f, Q = 1.2848f });
-            eqs.Add(new PeakEQParam() { centerFrequent = 13372, gain = 5.3f, Q = 0.24000f });
-            eqs.Add(new PeakEQParam() { centerFrequent = 48, gain = 2.4f, Q = 0.3333f });
-            eqs.Add(new PeakEQParam() { centerFrequent = 3758, gain = 1, Q = 0.9333f });
             ctlEQView1.PeakEQParams = eqs;
+            testProvider.freq0 = 551;
+            testProvider.freq1 = 551;
+            testProvider.Freq1Strength = -15;
+            testProvider.Freq2Strength = -15;
+            waveOut = new WaveOut();
+            waveOut.Init(testProvider);
+            waveOut.Play();
         }
+        private WaveOut waveOut;
+        private FrequentTestProvider testProvider = new FrequentTestProvider();
 
         private void ctlFQ_Load(object sender, EventArgs e)
         {
             
         }
 
-        private void ctlFQ_ValueChanged(object sender, EventArgs e)
+       
+
+        private void button2_Click(object sender, EventArgs e)
         {
-            ctlFQ.ThumbText =""+ ctlFQ.Value / 1000f;
-            foreach (var item in eqs)
+            foreach (var item in ctlEQView1.PeakEQParams)
             {
-                //item.Q = ctlFQ.Value / 1000f;
+                Console.WriteLine($"Filter: ON PK Fc {item.centerFrequent} Hz Gain {item.gain} dB Q {item.Q}");
             }
         }
 
-        private void numVD(object sender, EventArgs e)
+        private void ctlBarSlider1_Load(object sender, EventArgs e)
         {
-            numDisplayFactor.ThumbText =""+ numDisplayFactor.Value / 1000f;
-            ctlEQView1.ndFactor = numDisplayFactor.Value / 1000f;
+            ctlBarSlider1.ThumbText = tests[ctlBarSlider1.Value] + " Hz";
+            testProvider.freq1 = tests[ctlBarSlider1.Value];
+            ctlBarSlider2.Value = (int)Math.Round(ctlEQView1.PeakEQParams[ctlBarSlider1.Value].gain * 100f / dbGainMultiplier);
+        }
+
+        private void ctlBarSlider2_ValueChanged(object sender, EventArgs e)
+        {
+            float dB = (float)ctlBarSlider2.Value / 100f;
+            float dBDiff = (float)ctlBarSlider3.Value / 100f;
+            ctlBarSlider2.ThumbText = dB + " dB";
+            testProvider.Freq1Strength = dB - 15f + dBDiff;
+            testProvider.Freq2Strength = 0 - 15f + dBDiff;
+            ctlEQView1.PeakEQParams[ctlBarSlider1.Value].gain = dB * dbGainMultiplier;
+        }
+
+        private void ctlBarSlider3_ValueChanged(object sender, EventArgs e)
+        {
+            float dB = (float)ctlBarSlider2.Value / 100f;
+            float dBDiff = (float)ctlBarSlider3.Value / 100f;
+            ctlBarSlider3.ThumbText = dBDiff + " dB";
+            testProvider.Freq1Strength = dB - 15f + dBDiff;
+            testProvider.Freq2Strength = 0 - 15f + dBDiff;
         }
     }
 }

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NAudio.CoreAudioApi;
 
 namespace 耳机虚拟环绕声
 {
@@ -18,19 +20,66 @@ namespace 耳机虚拟环绕声
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        private void lnk_click(object sender, EventArgs e)
         {
-            string installdoc = System.IO.Path.Combine(Program.UserDataDir, "install_v10000.pdf");
-            if (!System.IO.File.Exists(installdoc))
+            Control which = sender as Control;
+            if (which.Tag != null)
             {
-                System.IO.File.WriteAllBytes(installdoc, Properties.Resources.install);
+                string text = which.Tag.ToString();
+                System.Diagnostics.Process.Start(text);
             }
-            System.Diagnostics.Process.Start(installdoc);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        public static void ConfigDevice()
         {
-            System.Diagnostics.Process.Start("mmsys.cpl");
+            MMDeviceEnumerator deviceEnumerator = new MMDeviceEnumerator();
+            var devices = deviceEnumerator.EnumerateAudioEndPoints(DataFlow.Render,DeviceState.Active);
+            foreach (var device in devices)
+            {
+                var property = device.Properties;
+                for (int i = 0; i < property.Count; i++)
+                {
+                    var key = property.Get(i);
+                    if(key.formatId == PropertyKeys.PKEY_AudioEndpoint_PhysicalSpeakers.formatId)
+                    {
+                        var value = property.GetValue(i);
+                        MessageBox.Show("Test: "+value.ToString(),device.DeviceFriendlyName);
+                        
+                    }
+                }
+            }
+
+        }
+
+        public const string PARAM_SETUP_DEVICE = "--setup-device";
+
+        private void btnOnekeyConfig_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            ProcessStartInfo psi = new ProcessStartInfo(Application.ExecutablePath,PARAM_SETUP_DEVICE);
+            psi.UseShellExecute = true;
+            psi.Verb = "runas";
+            psi.WorkingDirectory = Environment.CurrentDirectory;
+            try
+            {
+                var process = Process.Start(psi);
+                while (!process.WaitForExit(20))
+                {
+                    Application.DoEvents();
+                }
+            }catch(Exception ex)
+            {
+                // Windows的bug，每次弹出窗口都会吧窗口弄到最底下去
+                this.TopMost = true;
+                this.TopMost = false;
+                MessageBox.Show(ex.GetType().FullName+": "+ex.Message,"配置失败");
+                this.TopMost = true;
+                this.TopMost = false;
+            }
+            this.TopMost = true;
+            this.TopMost = false;
+            this.Enabled = true;
         }
     }
 }
