@@ -761,5 +761,13 @@ namespace 耳机虚拟环绕声
                 updateDeviceCountdownTimer.Stop();
             }
         }
+
+        private void btnResetDevicePriority_Click(object sender, EventArgs e)
+        {
+            Program.DevicePriorityList.Clear();
+            Program.save();
+            loadData();
+            MessageBox.Show(this,"已清除设备优先级配置");
+        }
     }
 }

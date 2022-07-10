@@ -160,5 +160,48 @@ namespace 耳机虚拟环绕声
             // 摆烂了
             Process.Start("mmsys.cpl");
         }
+
+        private void btnConfigByHand_Click(object sender, EventArgs e)
+        {
+            string VBCABLE_NAME = "VB-Audio Virtual Cable".ToLower();
+            bool found = false;
+            bool configured = false;
+            using(NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new MMDeviceEnumerator())
+            {
+                foreach (var item in enumerator.EnumerateAudioEndPoints(DataFlow.Render,DeviceState.Active))
+                {
+                    if (item.DeviceFriendlyName.ToLower().Contains(VBCABLE_NAME))
+                    {
+                        found = true;
+                    }
+                    using (AudioClient ac = item.AudioClient)
+                    {
+                        if (ac.MixFormat.Channels == 8)
+                        {
+                            configured = true;
+                        }
+                    }
+                }
+            }
+            lblConfigStatus.Text = "当前状态：";
+            if (found && configured)
+            {
+                lblConfigStatus.Text += "配置成功";
+                return;
+            }
+            if(!found && !configured)
+            {
+                lblConfigStatus.Text += "未安装";
+            }
+            if(found && !configured)
+            {
+                lblConfigStatus.Text += "未配置，请参考第二步";
+            }
+            if(!found && configured)
+            {
+                MessageBox.Show(this,"未找到已安装的VB Cable虚拟设备，但找到了其它可用于耳机虚拟环绕声的设备。");
+                lblConfigStatus.Text += "找到其它可用设备";
+            }
+        }
     }
 }

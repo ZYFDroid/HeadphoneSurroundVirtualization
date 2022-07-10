@@ -153,6 +153,7 @@
             this.btnConfigByHand.TabIndex = 11;
             this.btnConfigByHand.Text = "检查配置状态";
             this.btnConfigByHand.UseVisualStyleBackColor = true;
+            this.btnConfigByHand.Click += new System.EventHandler(this.btnConfigByHand_Click);
             // 
             // label7
             // 
@@ -183,9 +184,9 @@
             this.lblConfigStatus.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblConfigStatus.Location = new System.Drawing.Point(15, 428);
             this.lblConfigStatus.Name = "lblConfigStatus";
-            this.lblConfigStatus.Size = new System.Drawing.Size(299, 35);
+            this.lblConfigStatus.Size = new System.Drawing.Size(358, 35);
             this.lblConfigStatus.TabIndex = 3;
-            this.lblConfigStatus.Text = "当前状态：已配置";
+            this.lblConfigStatus.Text = "当前状态：--";
             this.lblConfigStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label9

@@ -111,6 +111,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.lblStatus = new System.Windows.Forms.Label();
             this.updateDeviceCountdownTimer = new System.Windows.Forms.Timer(this.components);
+            this.btnResetDevicePriority = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dragger)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -909,6 +910,7 @@
             // panelPage3
             // 
             this.panelPage3.BackColor = System.Drawing.Color.Transparent;
+            this.panelPage3.Controls.Add(this.btnResetDevicePriority);
             this.panelPage3.Controls.Add(this.btnEnchanceAudio_);
             this.panelPage3.Controls.Add(this.button2);
             this.panelPage3.Controls.Add(this.btnHelp);
@@ -1278,10 +1280,28 @@
             this.lblStatus.TabIndex = 1;
             this.lblStatus.Text = "已关闭";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblStatus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragger_MouseDown);
             // 
             // updateDeviceCountdownTimer
             // 
             this.updateDeviceCountdownTimer.Tick += new System.EventHandler(this.updateDeviceCountdownTimer_Tick);
+            // 
+            // btnResetDevicePriority
+            // 
+            this.btnResetDevicePriority.FlatAppearance.BorderSize = 0;
+            this.btnResetDevicePriority.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnResetDevicePriority.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnResetDevicePriority.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnResetDevicePriority.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
+            this.btnResetDevicePriority.Location = new System.Drawing.Point(238, 167);
+            this.btnResetDevicePriority.Name = "btnResetDevicePriority";
+            this.btnResetDevicePriority.Size = new System.Drawing.Size(179, 38);
+            this.btnResetDevicePriority.TabIndex = 11;
+            this.btnResetDevicePriority.Text = "重置设备优先级";
+            this.btnResetDevicePriority.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip1.SetToolTip(this.btnResetDevicePriority, "如果开启时总是自动选择错误的设备，请尝试这个选项\r\n");
+            this.btnResetDevicePriority.UseVisualStyleBackColor = true;
+            this.btnResetDevicePriority.Click += new System.EventHandler(this.btnResetDevicePriority_Click);
             // 
             // Form1
             // 
@@ -1309,6 +1329,7 @@
             this.Text = "耳机虚拟环绕声";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragger_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dragger)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -1405,6 +1426,7 @@
         private System.Windows.Forms.Button btnEnchanceAudio;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Timer updateDeviceCountdownTimer;
+        private System.Windows.Forms.Button btnResetDevicePriority;
     }
 }
 
