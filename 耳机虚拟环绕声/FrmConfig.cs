@@ -35,6 +35,13 @@ namespace 耳机虚拟环绕声
             }
         }
 
+
+        /// <summary>
+        /// 没用
+        /// 🔈↓↑微软不给开放api
+        /// 要么自己写驱动，但是给驱动签名要钱
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public static void ConfigDevice()
         {
             string VBCABLE_NAME = "VB-Audio Virtual Cable".ToLower();
@@ -150,30 +157,8 @@ namespace 耳机虚拟环绕声
 
         private void btnOnekeyConfig_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
-            ProcessStartInfo psi = new ProcessStartInfo(Application.ExecutablePath,PARAM_SETUP_DEVICE);
-            psi.UseShellExecute = true;
-            psi.Verb = "runas";
-            psi.WorkingDirectory = Environment.CurrentDirectory;
-            try
-            {
-                var process = Process.Start(psi);
-                while (!process.WaitForExit(20))
-                {
-                    Application.DoEvents();
-                }
-            }catch(Exception ex)
-            {
-                // Windows的bug，每次弹出窗口都会吧窗口弄到最底下去
-                this.TopMost = true;
-                this.TopMost = false;
-                MessageBox.Show(ex.GetType().FullName+": "+ex.Message,"配置失败");
-                this.TopMost = true;
-                this.TopMost = false;
-            }
-            this.TopMost = true;
-            this.TopMost = false;
-            this.Enabled = true;
+            // 摆烂了
+            Process.Start("mmsys.cpl");
         }
     }
 }

@@ -40,6 +40,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblConfigStatus = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -119,7 +120,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(299, 35);
             this.label6.TabIndex = 3;
-            this.label6.Text = "第 2 步： 一键配置 →";
+            this.label6.Text = "第 2 步： 配置环绕声";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnOnekeyConfig
@@ -134,7 +135,7 @@
             this.btnOnekeyConfig.Name = "btnOnekeyConfig";
             this.btnOnekeyConfig.Size = new System.Drawing.Size(193, 32);
             this.btnOnekeyConfig.TabIndex = 11;
-            this.btnOnekeyConfig.Text = "一键配置";
+            this.btnOnekeyConfig.Text = "打开音频控制面板";
             this.btnOnekeyConfig.UseVisualStyleBackColor = true;
             this.btnOnekeyConfig.Click += new System.EventHandler(this.btnOnekeyConfig_Click);
             // 
@@ -146,9 +147,9 @@
             this.btnConfigByHand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConfigByHand.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.btnConfigByHand.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnConfigByHand.Location = new System.Drawing.Point(374, 347);
+            this.btnConfigByHand.Location = new System.Drawing.Point(374, 421);
             this.btnConfigByHand.Name = "btnConfigByHand";
-            this.btnConfigByHand.Size = new System.Drawing.Size(193, 63);
+            this.btnConfigByHand.Size = new System.Drawing.Size(193, 50);
             this.btnConfigByHand.TabIndex = 11;
             this.btnConfigByHand.Text = "检查配置状态";
             this.btnConfigByHand.UseVisualStyleBackColor = true;
@@ -180,23 +181,34 @@
             // lblConfigStatus
             // 
             this.lblConfigStatus.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblConfigStatus.Location = new System.Drawing.Point(15, 360);
+            this.lblConfigStatus.Location = new System.Drawing.Point(15, 428);
             this.lblConfigStatus.Name = "lblConfigStatus";
             this.lblConfigStatus.Size = new System.Drawing.Size(299, 35);
             this.lblConfigStatus.TabIndex = 3;
             this.lblConfigStatus.Text = "当前状态：已配置";
             this.lblConfigStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // label9
+            // 
+            this.label9.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label9.Location = new System.Drawing.Point(16, 308);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(357, 113);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "1. 打开音频控制面板\r\n2. 找到「Cable Input」\r\n3. 右键选择「配置扬声器」\r\n4. 选择「7.1环绕」，然后一路下一步";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // FrmConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(579, 422);
+            this.ClientSize = new System.Drawing.Size(579, 481);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btnConfigByHand);
             this.Controls.Add(this.btnOnekeyConfig);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lblVersion);
@@ -229,5 +241,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblConfigStatus;
+        private System.Windows.Forms.Label label9;
     }
 }
