@@ -54,9 +54,9 @@ namespace TestEQCreator
         {
             for (int i = 0; i < tests.Length; i++)
             {
-                eqs.Add(new PeakEQParam() { centerFrequent = tests[i], gain = 0, Q = bandQ });
+                eqs.Add(new PeakEQParam() { centerFrequent = tests[i], gain = 3, Q = bandQ });
             }
-            ctlEQView1.PeakEQParams = eqs;
+            //ctlEQView1.PeakEQParams = eqs;
             testProvider.freq0 = 551;
             testProvider.freq1 = 551;
             testProvider.Freq1Strength = -15;
@@ -79,7 +79,7 @@ namespace TestEQCreator
         {
             foreach (var item in ctlEQView1.PeakEQParams)
             {
-                Console.WriteLine($"Filter: ON PK Fc {item.centerFrequent} Hz Gain {item.gain} dB Q {item.Q}");
+                //Console.WriteLine($"Filter: ON PK Fc {item.centerFrequent} Hz Gain {item.gain} dB Q {item.Q}");
             }
         }
 
@@ -87,7 +87,7 @@ namespace TestEQCreator
         {
             ctlBarSlider1.ThumbText = tests[ctlBarSlider1.Value] + " Hz";
             testProvider.freq1 = tests[ctlBarSlider1.Value];
-            ctlBarSlider2.Value = (int)Math.Round(ctlEQView1.PeakEQParams[ctlBarSlider1.Value].gain * 100f / dbGainMultiplier);
+            //ctlBarSlider2.Value = (int)Math.Round(ctlEQView1.PeakEQParams[ctlBarSlider1.Value].gain * 100f / dbGainMultiplier);
         }
 
         private void ctlBarSlider2_ValueChanged(object sender, EventArgs e)
@@ -97,7 +97,7 @@ namespace TestEQCreator
             ctlBarSlider2.ThumbText = dB + " dB";
             testProvider.Freq1Strength = dB - 15f + dBDiff;
             testProvider.Freq2Strength = 0 - 15f + dBDiff;
-            ctlEQView1.PeakEQParams[ctlBarSlider1.Value].gain = dB * dbGainMultiplier;
+            //ctlEQView1.PeakEQParams[ctlBarSlider1.Value].gain = dB * dbGainMultiplier;
         }
 
         private void ctlBarSlider3_ValueChanged(object sender, EventArgs e)

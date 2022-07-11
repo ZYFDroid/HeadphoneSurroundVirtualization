@@ -34,9 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.numFC = new System.Windows.Forms.NumericUpDown();
             this.numDBGain = new System.Windows.Forms.NumericUpDown();
-            this.numFQ = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.btnNew = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
@@ -45,7 +43,6 @@
             this.tblChartContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDBGain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numFQ)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -134,35 +131,6 @@
             this.numDBGain.TabIndex = 13;
             this.numDBGain.ValueChanged += new System.EventHandler(this.numFC_ValueChanged);
             // 
-            // numFQ
-            // 
-            this.numFQ.DecimalPlaces = 3;
-            this.numFQ.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numFQ.Location = new System.Drawing.Point(3, 120);
-            this.numFQ.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.numFQ.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numFQ.Name = "numFQ";
-            this.numFQ.Size = new System.Drawing.Size(203, 29);
-            this.numFQ.TabIndex = 13;
-            this.numFQ.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numFQ.ValueChanged += new System.EventHandler(this.numFC_ValueChanged);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -172,15 +140,6 @@
             this.label2.TabIndex = 12;
             this.label2.Text = "增益（dB）";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(-1, 96);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(135, 21);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "品质因数（Q值）";
-            // 
             // btnNew
             // 
             this.btnNew.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -189,7 +148,7 @@
             this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNew.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnNew.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnNew.Location = new System.Drawing.Point(636, 246);
+            this.btnNew.Location = new System.Drawing.Point(637, 194);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(202, 35);
             this.btnNew.TabIndex = 11;
@@ -205,7 +164,7 @@
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemove.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnRemove.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnRemove.Location = new System.Drawing.Point(3, 155);
+            this.btnRemove.Location = new System.Drawing.Point(4, 97);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(202, 35);
             this.btnRemove.TabIndex = 11;
@@ -234,13 +193,11 @@
             // 
             this.panel2.Controls.Add(this.numFC);
             this.panel2.Controls.Add(this.btnRemove);
-            this.panel2.Controls.Add(this.numFQ);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.numDBGain);
-            this.panel2.Controls.Add(this.label3);
             this.panel2.Location = new System.Drawing.Point(633, 50);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(220, 193);
+            this.panel2.Size = new System.Drawing.Size(220, 138);
             this.panel2.TabIndex = 15;
             // 
             // FrmParamEQ
@@ -266,7 +223,6 @@
             this.tblChartContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numFC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDBGain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numFQ)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -282,9 +238,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numFC;
         private System.Windows.Forms.NumericUpDown numDBGain;
-        private System.Windows.Forms.NumericUpDown numFQ;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnUpdate;

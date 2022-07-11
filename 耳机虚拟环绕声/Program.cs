@@ -10,6 +10,8 @@ using System.IO;
 using NAudio.Wave.SampleProviders;
 using 耳机虚拟环绕声.ThirdParties.EqualizerAPO;
 using AudioCommon;
+using System.Runtime.InteropServices;
+using System.IO.Compression;
 
 namespace 耳机虚拟环绕声
 {
@@ -74,6 +76,30 @@ namespace 耳机虚拟环绕声
                 File.WriteAllBytes(tempname, Properties.Resources.FFTConvolver_dll);
                 File.Move(tempname, name);
             }
+            if (!File.Exists(FFTWLibModule))
+            {
+                string name = FFTWLibModule;
+                string tempname = FFTWLibModule + ".tmp";
+
+                using(MemoryStream fromFile = new MemoryStream(AudioCommon.Properties.Resources.libfftw3f_3_dll))
+                {
+                    using (GZipStream gz = new GZipStream(fromFile, CompressionMode.Decompress))
+                    {
+                        using(FileStream dllout = File.OpenWrite(tempname))
+                        {
+                            gz.CopyTo(dllout);
+                        }
+                        File.Move(tempname, name);
+                    }
+                   
+                }
+
+            }
+            if(!SetDllDirectory(UserDataDir))
+            {
+                MessageBox.Show("加载音频处理模块失败。");
+                throw new Exception();
+            }
             FFTConvolver.FFTConvolver.Init();
             Application.Run(new Form1());
             if (needSave)
@@ -120,9 +146,17 @@ namespace 耳机虚拟环绕声
         }
         public static string FFTConvolverModule
         {
-            get => System.IO.Path.Combine(UserDataDir, "FFTConvolver02.dll");
+            get => System.IO.Path.Combine(UserDataDir, FFTConvolver.FFTConvolver.dllName);
         }
 
+        public static string FFTWLibModule
+        {
+            get => System.IO.Path.Combine(UserDataDir, "libfftw3f-3.dll");
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetDllDirectory(string lpPathName);
         public class JsonConvert
         {
             private static System.Web.Script.Serialization.JavaScriptSerializer serializer;

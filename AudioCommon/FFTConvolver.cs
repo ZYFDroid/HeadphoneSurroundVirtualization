@@ -20,14 +20,17 @@ namespace FFTConvolver
         private extern static bool FreeLibrary(IntPtr lib);
 
         private static IntPtr _dllHandle = IntPtr.Zero;
+
+        public const string dllName = "fftconvolver_03.dll";
+
         public static void Init()
         {
             if(_dllHandle == IntPtr.Zero)
             {
-                IntPtr dllHandle = LoadLibrary(Program.FFTConvolverModule);
+                IntPtr dllHandle = LoadLibrary(dllName);
                 if(dllHandle == IntPtr.Zero)
                 {
-                    System.Windows.Forms.MessageBox.Show("加载DLL失败："+Program.FFTConvolverModule);
+                    System.Windows.Forms.MessageBox.Show("加载环绕引擎失败");
                     throw new Exception("加载DLL失败");
                 }
                 IntPtr exportAddress = IntPtr.Zero;
@@ -129,6 +132,18 @@ namespace FFTConvolver
                 exportAddress = GetProcAddress(dllHandle, "con16_reset");
                 con16_reset = Marshal.GetDelegateForFunctionPointer<ConvolverReset>(exportAddress);
 
+                exportAddress = GetProcAddress(dllHandle, "conOL_init");
+                conOL_init = Marshal.GetDelegateForFunctionPointer<ConvolverInitCall>(exportAddress);
+                exportAddress = GetProcAddress(dllHandle, "conOL_process");
+                conOL_process = Marshal.GetDelegateForFunctionPointer<ConvolverProcess>(exportAddress);
+                exportAddress = GetProcAddress(dllHandle, "conOL_reset");
+                conOL_reset = Marshal.GetDelegateForFunctionPointer<ConvolverReset>(exportAddress);
+                exportAddress = GetProcAddress(dllHandle, "conOR_init");
+                conOR_init = Marshal.GetDelegateForFunctionPointer<ConvolverInitCall>(exportAddress);
+                exportAddress = GetProcAddress(dllHandle, "conOR_process");
+                conOR_process = Marshal.GetDelegateForFunctionPointer<ConvolverProcess>(exportAddress);
+                exportAddress = GetProcAddress(dllHandle, "conOR_reset");
+                conOR_reset = Marshal.GetDelegateForFunctionPointer<ConvolverReset>(exportAddress);
 
                 _dllHandle = dllHandle;
             }
@@ -182,6 +197,14 @@ namespace FFTConvolver
         public static ConvolverInitCall con16_init;
         public static ConvolverProcess con16_process;
         public static ConvolverReset con16_reset;
+
+
+        public static ConvolverInitCall conOL_init;
+        public static ConvolverProcess conOL_process;
+        public static ConvolverReset conOL_reset;
+        public static ConvolverInitCall conOR_init;
+        public static ConvolverProcess conOR_process;
+        public static ConvolverReset conOR_reset;
 
     }
 

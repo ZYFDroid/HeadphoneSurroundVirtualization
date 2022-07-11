@@ -76,7 +76,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FFTConvolver.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,7 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="doubi.ico" />
-    <Content Include="FFTConvolver.dll" />
     <None Include="Resources\testsurround_3.ogg" />
     <None Include="Resources\testsurround_2.ogg" />
     <None Include="Resources\testsurround_1.ogg" />

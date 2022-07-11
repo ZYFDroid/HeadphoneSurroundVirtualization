@@ -162,7 +162,7 @@ namespace 耳机虚拟环绕声
         private Pen gridPenStroke = new Pen(Color.White, 1);
 
 
-        public List<PeakEQParam> PeakEQParams = new List<PeakEQParam>();
+        public List<EqualizerAPO.FilterNode> PeakEQParams = new List<EqualizerAPO.FilterNode>();
 
         // 凑出来的
         private const float ndFactor = 3.5f;
@@ -180,7 +180,7 @@ namespace 耳机虚拟环绕声
             for (float x = 0; x <= w; x+=2)
             {
                 float pos = x / w;
-                float height = PeakEQParams.Select(s => evalEqParam((int)s.centerFrequent,s.Q,s.gain,pos)).Sum();
+                float height = 0;
                 float cx = x;
                 float cy = h / 2 - height / DisplayRange * (h / 2);
                 g.DrawLine(forePen, cx, cy, lastX, lastY);

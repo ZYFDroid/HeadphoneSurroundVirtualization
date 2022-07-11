@@ -13,8 +13,8 @@ namespace 耳机虚拟环绕声
 {
     public partial class FrmParamEQ : Form
     {
-        private List<PeakEQParam> peakEQParamList = null;
-        public FrmParamEQ(List<PeakEQParam> data)
+        private List<EqualizerAPO.FilterNode> peakEQParamList = null;
+        public FrmParamEQ(List<EqualizerAPO.FilterNode> data)
         {
             this.peakEQParamList = data;
             InitializeComponent();
@@ -51,9 +51,8 @@ namespace 耳机虚拟环绕声
         {
             lastPointer = sender as PeakeqPointer;
             numIsFromUser = false;
-            numFC.Value = (decimal)lastPointer.peakEQParam.centerFrequent;
-            numDBGain.Value = (decimal)lastPointer.peakEQParam.gain;
-            numFQ.Value = (decimal)lastPointer.peakEQParam.Q;
+            numFC.Value = (decimal)lastPointer.peakEQParam.freq;
+            numDBGain.Value = (decimal)lastPointer.peakEQParam.dbGain;
             numIsFromUser = true;
         }
 
@@ -64,9 +63,8 @@ namespace 耳机虚拟环绕声
             }
             if(lastPointer != null)
             {
-                lastPointer.peakEQParam.centerFrequent =(float) numFC.Value;
-                lastPointer.peakEQParam.Q = (float)numFQ.Value;
-                lastPointer.peakEQParam.gain = (float)numDBGain.Value;
+                lastPointer.peakEQParam.freq =(float) numFC.Value;
+                lastPointer.peakEQParam.dbGain = (float)numDBGain.Value;
                 lastPointer.initPosition();
             }
         }
@@ -91,14 +89,14 @@ namespace 耳机虚拟环绕声
                 return;
             }
             ctlEqView.SendToBack();
-            PeakEQParam p = null;
+            EqualizerAPO.FilterNode p = null;
             if (lastPointer == null)
             {
-                p =  new PeakEQParam() { centerFrequent = (float)numFC.Value, gain = (float)numDBGain.Value, Q = (float)numFQ.Value };
+                p =  new EqualizerAPO.FilterNode() { freq = (float)numFC.Value, dbGain = (float)numDBGain.Value };
             }
             else
             {
-                p = new PeakEQParam() { centerFrequent = 1000, gain = 0, Q = 1 };
+                p = new EqualizerAPO.FilterNode() { freq = 1000, dbGain = 0 };
             }
             peakEQParamList.Add(p);
             PeakeqPointer ptrCtl = new PeakeqPointer(p, ctlEqView);
@@ -120,9 +118,9 @@ namespace 耳机虚拟环绕声
 
     internal class PeakeqPointer : UserControl
     {
-        public PeakEQParam peakEQParam;
+        public EqualizerAPO.FilterNode peakEQParam;
         private CtlEQView eqView;
-        public PeakeqPointer(PeakEQParam peakEQParam, CtlEQView eqView)
+        public PeakeqPointer(EqualizerAPO.FilterNode peakEQParam, CtlEQView eqView)
         {
             this.peakEQParam = peakEQParam;
             this.eqView = eqView;
@@ -132,8 +130,8 @@ namespace 耳机虚拟环绕声
 
         public void initPosition()
         {
-            this.Left = (int)(CtlEQView.Freq2Log((int)peakEQParam.centerFrequent) * (float)eqView.Width)-4;
-            this.Top = (int)((float)eqView.Height / 2f - (peakEQParam.gain / eqView.DisplayRange) * (float)eqView.Height / 2f)-4;
+            this.Left = (int)(CtlEQView.Freq2Log((int)peakEQParam.freq) * (float)eqView.Width)-4;
+            this.Top = (int)((float)eqView.Height / 2f - (peakEQParam.dbGain / eqView.DisplayRange) * (float)eqView.Height / 2f)-4;
         }
 
         private bool isDragging = false;
@@ -176,13 +174,13 @@ namespace 耳机虚拟环绕声
                 this.Top = newTop;
                 this.Left = newLeft;
 
-                peakEQParam.centerFrequent = CtlEQView.Log2Freq((this.Left + 4f) / (float)eqView.Width);
-                peakEQParam.gain = eqView.DisplayRange * (((float)eqView.Height / 2f - ((float)this.Top + 4f)) / ((float)eqView.Height / 2f));
+                peakEQParam.freq = CtlEQView.Log2Freq((this.Left + 4f) / (float)eqView.Width);
+                peakEQParam.dbGain = eqView.DisplayRange * (((float)eqView.Height / 2f - ((float)this.Top + 4f)) / ((float)eqView.Height / 2f));
 
-                if(peakEQParam.centerFrequent < 20) { peakEQParam.centerFrequent = 20;}
-                if(peakEQParam.centerFrequent > 20000) { peakEQParam.centerFrequent = 20000; }
-                if(peakEQParam.gain < -15) { peakEQParam.gain = -15;}
-                if(peakEQParam.gain > 15) { peakEQParam.gain = 15; }
+                if(peakEQParam.freq < 20) { peakEQParam.freq = 20;}
+                if(peakEQParam.freq > 20000) { peakEQParam.freq = 20000; }
+                if(peakEQParam.dbGain < -15) { peakEQParam.dbGain = -15;}
+                if(peakEQParam.dbGain > 15) { peakEQParam.dbGain = 15; }
 
 
                 Dragged?.Invoke(this, EventArgs.Empty);

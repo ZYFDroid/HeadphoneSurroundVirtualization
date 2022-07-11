@@ -41,6 +41,7 @@
             this.btnSwitchConvolver = new System.Windows.Forms.Button();
             this.chkShowAllDevice = new System.Windows.Forms.CheckBox();
             this.btnEnchanceAudio = new System.Windows.Forms.Button();
+            this.btnResetDevicePriority = new System.Windows.Forms.Button();
             this.btnBegin = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.dragger = new System.Windows.Forms.PictureBox();
@@ -111,7 +112,9 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.lblStatus = new System.Windows.Forms.Label();
             this.updateDeviceCountdownTimer = new System.Windows.Forms.Timer(this.components);
-            this.btnResetDevicePriority = new System.Windows.Forms.Button();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dragger)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -298,6 +301,23 @@
             this.toolTip1.SetToolTip(this.btnEnchanceAudio, "提升耳机的音质和表现效果");
             this.btnEnchanceAudio.UseVisualStyleBackColor = true;
             this.btnEnchanceAudio.Click += new System.EventHandler(this.btnEnchanceAudio__Click);
+            // 
+            // btnResetDevicePriority
+            // 
+            this.btnResetDevicePriority.FlatAppearance.BorderSize = 0;
+            this.btnResetDevicePriority.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnResetDevicePriority.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnResetDevicePriority.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnResetDevicePriority.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
+            this.btnResetDevicePriority.Location = new System.Drawing.Point(238, 167);
+            this.btnResetDevicePriority.Name = "btnResetDevicePriority";
+            this.btnResetDevicePriority.Size = new System.Drawing.Size(179, 38);
+            this.btnResetDevicePriority.TabIndex = 11;
+            this.btnResetDevicePriority.Text = "重置设备优先级";
+            this.btnResetDevicePriority.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip1.SetToolTip(this.btnResetDevicePriority, "如果开启时总是自动选择错误的设备，请尝试这个选项\r\n");
+            this.btnResetDevicePriority.UseVisualStyleBackColor = true;
+            this.btnResetDevicePriority.Click += new System.EventHandler(this.btnResetDevicePriority_Click);
             // 
             // btnBegin
             // 
@@ -1012,7 +1032,10 @@
             this.panelPage4.Controls.Add(this.label19);
             this.panelPage4.Controls.Add(this.label31);
             this.panelPage4.Controls.Add(this.label18);
+            this.panelPage4.Controls.Add(this.label33);
             this.panelPage4.Controls.Add(this.label27);
+            this.panelPage4.Controls.Add(this.label35);
+            this.panelPage4.Controls.Add(this.label34);
             this.panelPage4.Controls.Add(this.label26);
             this.panelPage4.Controls.Add(this.label25);
             this.panelPage4.Controls.Add(this.label24);
@@ -1062,7 +1085,7 @@
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(91, 25);
             this.label19.TabIndex = 7;
-            this.label19.Text = "主页";
+            this.label19.Text = "作者主页";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label31
@@ -1097,10 +1120,10 @@
             this.label27.ForeColor = System.Drawing.Color.White;
             this.label27.Location = new System.Drawing.Point(118, 275);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(136, 25);
+            this.label27.Size = new System.Drawing.Size(286, 25);
             this.label27.TabIndex = 7;
             this.label27.Tag = "https://github.com/File-New-Project/EarTrumpet";
-            this.label27.Text = "EarTrumpet";
+            this.label27.Text = "EarTrumpet (设备自动切换实现)";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label27.Click += new System.EventHandler(this.aboutClick);
             // 
@@ -1112,10 +1135,10 @@
             this.label26.ForeColor = System.Drawing.Color.White;
             this.label26.Location = new System.Drawing.Point(118, 250);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(136, 25);
+            this.label26.Size = new System.Drawing.Size(291, 25);
             this.label26.TabIndex = 7;
             this.label26.Tag = "https://github.com/naudio/NAudio";
-            this.label26.Text = "NAudio";
+            this.label26.Text = "NAudio (音频处理框架)";
             this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label26.Click += new System.EventHandler(this.aboutClick);
             // 
@@ -1127,10 +1150,10 @@
             this.label25.ForeColor = System.Drawing.Color.White;
             this.label25.Location = new System.Drawing.Point(118, 225);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(136, 25);
+            this.label25.Size = new System.Drawing.Size(338, 25);
             this.label25.TabIndex = 7;
             this.label25.Tag = "https://github.com/HiFi-LoFi/FFTConvolver";
-            this.label25.Text = "FFTConvolver";
+            this.label25.Text = "FFTConvolver (卷积环绕声的核心)";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label25.Click += new System.EventHandler(this.aboutClick);
             // 
@@ -1142,10 +1165,10 @@
             this.label24.ForeColor = System.Drawing.Color.White;
             this.label24.Location = new System.Drawing.Point(118, 200);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(216, 25);
+            this.label24.Size = new System.Drawing.Size(322, 25);
             this.label24.TabIndex = 7;
             this.label24.Tag = "https://sourceforge.net/projects/hesuvi/";
-            this.label24.Text = "HeSuVi (脉冲响应样本)";
+            this.label24.Text = "HeSuVi (脉冲响应样本，设计思路)";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label24.Click += new System.EventHandler(this.aboutClick);
             // 
@@ -1286,28 +1309,57 @@
             // 
             this.updateDeviceCountdownTimer.Tick += new System.EventHandler(this.updateDeviceCountdownTimer_Tick);
             // 
-            // btnResetDevicePriority
+            // label33
             // 
-            this.btnResetDevicePriority.FlatAppearance.BorderSize = 0;
-            this.btnResetDevicePriority.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnResetDevicePriority.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnResetDevicePriority.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnResetDevicePriority.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
-            this.btnResetDevicePriority.Location = new System.Drawing.Point(238, 167);
-            this.btnResetDevicePriority.Name = "btnResetDevicePriority";
-            this.btnResetDevicePriority.Size = new System.Drawing.Size(179, 38);
-            this.btnResetDevicePriority.TabIndex = 11;
-            this.btnResetDevicePriority.Text = "重置设备优先级";
-            this.btnResetDevicePriority.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip1.SetToolTip(this.btnResetDevicePriority, "如果开启时总是自动选择错误的设备，请尝试这个选项\r\n");
-            this.btnResetDevicePriority.UseVisualStyleBackColor = true;
-            this.btnResetDevicePriority.Click += new System.EventHandler(this.btnResetDevicePriority_Click);
+            this.label33.BackColor = System.Drawing.Color.Transparent;
+            this.label33.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label33.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
+            this.label33.ForeColor = System.Drawing.Color.White;
+            this.label33.Location = new System.Drawing.Point(118, 300);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(420, 25);
+            this.label33.TabIndex = 7;
+            this.label33.Tag = "https://sourceforge.net/projects/equalizerapo/";
+            this.label33.Text = "EqualizerAPO (用C#照着抄了里面的算法)";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label33.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label34
+            // 
+            this.label34.BackColor = System.Drawing.Color.Transparent;
+            this.label34.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label34.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
+            this.label34.ForeColor = System.Drawing.Color.White;
+            this.label34.Location = new System.Drawing.Point(118, 325);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(291, 25);
+            this.label34.TabIndex = 7;
+            this.label34.Tag = "http://fftw.org/";
+            this.label34.Text = "fftw  (最好的FFT信号处理库)";
+            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label34.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label35
+            // 
+            this.label35.BackColor = System.Drawing.Color.Transparent;
+            this.label35.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label35.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
+            this.label35.ForeColor = System.Drawing.Color.White;
+            this.label35.Location = new System.Drawing.Point(118, 350);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(291, 25);
+            this.label35.TabIndex = 7;
+            this.label35.Tag = "https://github.com/tszalay/FFTWSharp/";
+            this.label35.Text = "FFTWSharp (fftw的C#接口)";
+            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label35.Click += new System.EventHandler(this.aboutClick);
             // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::耳机虚拟环绕声.Properties.Resources.bg_hesuvi2;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1486, 934);
             this.Controls.Add(this.panelPage4);
             this.Controls.Add(this.panelPage3);
@@ -1427,6 +1479,9 @@
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Timer updateDeviceCountdownTimer;
         private System.Windows.Forms.Button btnResetDevicePriority;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label34;
     }
 }
 

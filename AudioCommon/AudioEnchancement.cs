@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 耳机虚拟环绕声.ThirdParties.EqualizerAPO;
 
 namespace AudioCommon
 {
@@ -96,7 +95,7 @@ namespace AudioCommon
         /// <summary>
         /// 用于均衡器的参数列表
         /// </summary>
-        public List<PeakEQParam> peakEQParams = new List<PeakEQParam>();
+        public List<EqualizerAPO.FilterNode> peakEQParams = new List<EqualizerAPO.FilterNode>();
     }
 
     public class PeakEQParam
@@ -113,7 +112,6 @@ namespace AudioCommon
 
         public AudioEnchancementParameters AudioEnchancementParameters => param;
 
-        BiQuad[,] biQuadFilters = null;
         public WaveFormat WaveFormat => baseProvider.WaveFormat;
 
 
@@ -124,10 +122,13 @@ namespace AudioCommon
                 throw new ArgumentException("Channels must be stereo(two channel)");
             }
             this.baseProvider = baseProvider;
+            graphicEQFilter = new EqualizerAPO.GraphicEQFilter(baseProvider.WaveFormat.SampleRate);
             Apply(param);
         }
 
         public bool Bypass = false;
+
+        private EqualizerAPO.GraphicEQFilter graphicEQFilter = null;
 
         private object syncObj = new object();
         public void Apply(AudioEnchancementParameters param)
@@ -141,14 +142,23 @@ namespace AudioCommon
                 }
                 float sampleRate = WaveFormat.SampleRate;
                 this.param = param;
-                biQuadFilters = new BiQuad[param.peakEQParams.Count, WaveFormat.Channels];
-                peakEqCount = param.peakEQParams.Count;
-                for (int i = 0; i < param.peakEQParams.Count; i++)
+
+                graphicEQFilter.UpdateFreqNodes(param.peakEQParams);
+
+                float[] fir = graphicEQFilter.GenerateInpulseResponse();
+
+                lock (syncObj)
                 {
-                    for (int c = 0; c < WaveFormat.Channels; c++)
-                    {
-                        PeakEQParam eq = param.peakEQParams[i];
-                        biQuadFilters[i, c] = BiQuad.PeakEQ(sampleRate, eq.centerFrequent, eq.Q, eq.gain);
+                    FFTConvolver.FFTConvolver.conOL_reset();
+                    FFTConvolver.FFTConvolver.conOR_reset();
+                    unsafe { 
+                        fixed(float* ptrToConv = fir)
+                        {
+                            FFTConvolver.FFTConvolver.conOL_init(2048, ptrToConv, fir.Length);
+                            FFTConvolver.FFTConvolver.conOR_init(2048, ptrToConv, fir.Length);
+                        }
+
+                        
                     }
                 }
                 lDown = 1;
