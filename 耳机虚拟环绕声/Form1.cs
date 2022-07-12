@@ -19,7 +19,7 @@ using AudioCommon;
 
 namespace 耳机虚拟环绕声
 {
-    public partial class Form1 : Form,NAudio.CoreAudioApi.Interfaces.IMMNotificationClient
+    public partial class btnExportIR : Form,NAudio.CoreAudioApi.Interfaces.IMMNotificationClient
     {
 
         public int deviceLancey = 40;
@@ -33,7 +33,7 @@ namespace 耳机虚拟环绕声
 
         List<DeviceDesc> devices = new List<DeviceDesc>();
 
-        public Form1()
+        public btnExportIR()
         {
             InitializeComponent();
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
@@ -150,7 +150,7 @@ namespace 耳机虚拟环绕声
                     wasapiOut.Play(); //开始环绕
                     while (!surroundProc.CancellationPending)
                     {
-                        System.Threading.Thread.Sleep(20);
+                        System.Threading.Thread.Sleep(16);
                         surroundProc.ReportProgress(30);
                         if (_notifyAudioDeviceChanged)
                         {
@@ -159,7 +159,7 @@ namespace 耳机虚拟环绕声
                             DevicePriority newDevice = null;
                             while(!surroundProc.CancellationPending && newDevice == null)
                             {
-                                newDevice = deviceDecider.OnDeviceChanged(startParam.targetDevice.id,devices.Select(d => d.id).ToArray());
+                                newDevice = deviceDecider.OnDeviceChanged(outDevice.ID,devices.Where(d => d.id != targetDevice.ID).Select(d => d.id).ToArray());
                                 if(newDevice == null)
                                 {
                                     System.Threading.Thread.Sleep(  514  );
@@ -769,5 +769,100 @@ namespace 耳机虚拟环绕声
             loadData();
             MessageBox.Show(this,"已清除设备优先级配置");
         }
+
+        private void btnExportIR__Click(object sender, EventArgs e)
+        {
+            if (surroundIsOn)
+            {
+                MessageBox.Show("关闭环绕声之后才可以进行导出。");
+                return;
+            }
+            DeviceDesc targetDevice = (cmbDst.SelectedValue) as DeviceDesc;
+
+            if(targetDevice == null)
+            {
+                MessageBox.Show("未选择要创建的目标设备。");
+                return;
+            }
+            var deviceParam = Program.AudioEnchancementData.getDeviceParam(targetDevice.id);
+            var shouldCreate = MessageBox.Show(this, $"是否创建脉冲样本？以下是创建配置：\r\n\r\n环绕样本：{lblConvolver.Text}\r\n目标设备：{targetDevice.name}\r\n配置文件：{deviceParam.DisplayName}", "创建脉冲样本",MessageBoxButtons.YesNo);
+            if(shouldCreate != DialogResult.Yes) { return; }
+
+            if(saveFileDialog1.ShowDialog(this) != DialogResult.OK) { return; }
+
+            string savePath = saveFileDialog1.FileName;
+
+            var irgen = new IRGen();
+            var stage1 = new SurroundToStereoSampleProvider(irgen, Program.SurroundSettings.customIrPath); //实现算法
+            stage1.applySettings(Program.SurroundSettings, true);
+            var stage2 = new AudioEnchancementSampleProvider(stage1, deviceParam);
+
+            var channels = new float[48000 * 2 * 2];
+
+            int required = channels.Length;
+            int offset = 0;
+            while(required > 0)
+            {
+                int len = stage2.Read(channels, offset, required);
+                required -= len;
+                offset += len;
+            }
+            var tempfile = Path.GetTempFileName();
+            
+            WaveFileWriter wfw = new WaveFileWriter(savePath, WaveFormat.CreateIeeeFloatWaveFormat(48000,4));
+            float[] singleSample = new float[4];
+            for (int i = 0; i < 48000; i++)
+            {
+                singleSample[0] = channels[i * 2];
+                singleSample[1] = channels[i * 2+1];
+                singleSample[2] = channels[96000 + i * 2];
+                singleSample[3] = channels[96000 + i * 2+1];
+                wfw.WriteSamples(singleSample, 0, 4);
+            }
+            wfw.Dispose();
+            MessageBox.Show(this,"创建成功！");
+        }
+
+        private class IRGen : ISampleProvider
+        {
+            private WaveFormat _waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(48000, 8);
+            public WaveFormat WaveFormat => _waveFormat;
+
+            private int ptr = 0;
+            private int max = 96000;
+            public int Read(float[] buffer, int offset, int count)
+            {
+                int readed = 0;
+                for (int i = offset; i < count + offset; i+=8)
+                {
+                    buffer[i + 0] = 0;
+                    buffer[i + 1] = 0;
+                    buffer[i + 2] = 0;
+                    buffer[i + 3] = 0;
+                    buffer[i + 4] = 0;
+                    buffer[i + 5] = 0;
+                    buffer[i + 6] = 0;
+                    buffer[i + 7] = 0;
+
+
+                    if (ptr == 1)
+                    {
+                        buffer[i] = 0.9f;
+                    }
+                    if(ptr == 48000 + 1)
+                    {
+                        buffer[i + 1] = 0.9f;
+                    }
+
+                    readed += 8;
+
+                    ptr++;
+
+                }
+                return readed;
+            }
+
+        }
+
     }
 }

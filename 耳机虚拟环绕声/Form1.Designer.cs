@@ -1,6 +1,6 @@
 ﻿namespace 耳机虚拟环绕声
 {
-    partial class Form1
+    partial class btnExportIR
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -42,6 +42,7 @@
             this.chkShowAllDevice = new System.Windows.Forms.CheckBox();
             this.btnEnchanceAudio = new System.Windows.Forms.Button();
             this.btnResetDevicePriority = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnBegin = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.dragger = new System.Windows.Forms.PictureBox();
@@ -97,7 +98,10 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -112,9 +116,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.lblStatus = new System.Windows.Forms.Label();
             this.updateDeviceCountdownTimer = new System.Windows.Forms.Timer(this.components);
-            this.label33 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dragger)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -294,9 +296,9 @@
             this.btnEnchanceAudio.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnEnchanceAudio.Location = new System.Drawing.Point(233, 155);
             this.btnEnchanceAudio.Name = "btnEnchanceAudio";
-            this.btnEnchanceAudio.Size = new System.Drawing.Size(122, 35);
+            this.btnEnchanceAudio.Size = new System.Drawing.Size(91, 35);
             this.btnEnchanceAudio.TabIndex = 9;
-            this.btnEnchanceAudio.Text = "音质增强 →";
+            this.btnEnchanceAudio.Text = "音质增强";
             this.btnEnchanceAudio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip1.SetToolTip(this.btnEnchanceAudio, "提升耳机的音质和表现效果");
             this.btnEnchanceAudio.UseVisualStyleBackColor = true;
@@ -318,6 +320,25 @@
             this.toolTip1.SetToolTip(this.btnResetDevicePriority, "如果开启时总是自动选择错误的设备，请尝试这个选项\r\n");
             this.btnResetDevicePriority.UseVisualStyleBackColor = true;
             this.btnResetDevicePriority.Click += new System.EventHandler(this.btnResetDevicePriority_Click);
+            // 
+            // button1
+            // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("微软雅黑 Light", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.button1.Location = new System.Drawing.Point(325, 155);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(214, 35);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "导出脉冲响应文件";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip1.SetToolTip(this.button1, "将当前使用的环绕声，音质增强导出为wav格式\r\n的脉冲响应样本，该样本可以在Viper4Android\r\n或者JamesDSPManager中使用。");
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btnExportIR__Click);
             // 
             // btnBegin
             // 
@@ -464,6 +485,7 @@
             // 
             this.panelPage1.BackColor = System.Drawing.Color.Transparent;
             this.panelPage1.Controls.Add(this.btnTest);
+            this.panelPage1.Controls.Add(this.button1);
             this.panelPage1.Controls.Add(this.btnEnchanceAudio);
             this.panelPage1.Controls.Add(this.numMasterGain);
             this.panelPage1.Controls.Add(this.chkFc2F);
@@ -1112,6 +1134,21 @@
             this.label18.Text = "源代码";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // label33
+            // 
+            this.label33.BackColor = System.Drawing.Color.Transparent;
+            this.label33.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label33.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
+            this.label33.ForeColor = System.Drawing.Color.White;
+            this.label33.Location = new System.Drawing.Point(118, 300);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(420, 25);
+            this.label33.TabIndex = 7;
+            this.label33.Tag = "https://sourceforge.net/projects/equalizerapo/";
+            this.label33.Text = "EqualizerAPO (用C#照着抄了里面的算法)";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label33.Click += new System.EventHandler(this.aboutClick);
+            // 
             // label27
             // 
             this.label27.BackColor = System.Drawing.Color.Transparent;
@@ -1126,6 +1163,36 @@
             this.label27.Text = "EarTrumpet (设备自动切换实现)";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label27.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label35
+            // 
+            this.label35.BackColor = System.Drawing.Color.Transparent;
+            this.label35.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label35.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
+            this.label35.ForeColor = System.Drawing.Color.White;
+            this.label35.Location = new System.Drawing.Point(118, 350);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(291, 25);
+            this.label35.TabIndex = 7;
+            this.label35.Tag = "https://github.com/tszalay/FFTWSharp/";
+            this.label35.Text = "FFTWSharp (fftw的C#接口)";
+            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label35.Click += new System.EventHandler(this.aboutClick);
+            // 
+            // label34
+            // 
+            this.label34.BackColor = System.Drawing.Color.Transparent;
+            this.label34.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label34.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
+            this.label34.ForeColor = System.Drawing.Color.White;
+            this.label34.Location = new System.Drawing.Point(118, 325);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(291, 25);
+            this.label34.TabIndex = 7;
+            this.label34.Tag = "http://fftw.org/";
+            this.label34.Text = "fftw  (最好的FFT信号处理库)";
+            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label34.Click += new System.EventHandler(this.aboutClick);
             // 
             // label26
             // 
@@ -1309,52 +1376,11 @@
             // 
             this.updateDeviceCountdownTimer.Tick += new System.EventHandler(this.updateDeviceCountdownTimer_Tick);
             // 
-            // label33
+            // saveFileDialog1
             // 
-            this.label33.BackColor = System.Drawing.Color.Transparent;
-            this.label33.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label33.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
-            this.label33.ForeColor = System.Drawing.Color.White;
-            this.label33.Location = new System.Drawing.Point(118, 300);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(420, 25);
-            this.label33.TabIndex = 7;
-            this.label33.Tag = "https://sourceforge.net/projects/equalizerapo/";
-            this.label33.Text = "EqualizerAPO (用C#照着抄了里面的算法)";
-            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label33.Click += new System.EventHandler(this.aboutClick);
+            this.saveFileDialog1.Filter = "Wave文件|*.wav";
             // 
-            // label34
-            // 
-            this.label34.BackColor = System.Drawing.Color.Transparent;
-            this.label34.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label34.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
-            this.label34.ForeColor = System.Drawing.Color.White;
-            this.label34.Location = new System.Drawing.Point(118, 325);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(291, 25);
-            this.label34.TabIndex = 7;
-            this.label34.Tag = "http://fftw.org/";
-            this.label34.Text = "fftw  (最好的FFT信号处理库)";
-            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label34.Click += new System.EventHandler(this.aboutClick);
-            // 
-            // label35
-            // 
-            this.label35.BackColor = System.Drawing.Color.Transparent;
-            this.label35.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label35.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
-            this.label35.ForeColor = System.Drawing.Color.White;
-            this.label35.Location = new System.Drawing.Point(118, 350);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(291, 25);
-            this.label35.TabIndex = 7;
-            this.label35.Tag = "https://github.com/tszalay/FFTWSharp/";
-            this.label35.Text = "FFTWSharp (fftw的C#接口)";
-            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label35.Click += new System.EventHandler(this.aboutClick);
-            // 
-            // Form1
+            // btnExportIR
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
@@ -1376,7 +1402,7 @@
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "btnExportIR";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "耳机虚拟环绕声";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -1482,6 +1508,8 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

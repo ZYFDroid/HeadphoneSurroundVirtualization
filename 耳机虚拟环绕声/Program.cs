@@ -8,7 +8,6 @@ using NAudio;
 using NAudio.Wave;
 using System.IO;
 using NAudio.Wave.SampleProviders;
-using 耳机虚拟环绕声.ThirdParties.EqualizerAPO;
 using AudioCommon;
 using System.Runtime.InteropServices;
 using System.IO.Compression;
@@ -73,7 +72,7 @@ namespace 耳机虚拟环绕声
             {
                 string name = FFTConvolverModule;
                 string tempname = FFTConvolverModule+".tmp";
-                File.WriteAllBytes(tempname, Properties.Resources.FFTConvolver_dll);
+                File.WriteAllBytes(tempname, AudioCommon.Properties.Resources.FFTConvolver_dll);
                 File.Move(tempname, name);
             }
             if (!File.Exists(FFTWLibModule))
@@ -101,7 +100,7 @@ namespace 耳机虚拟环绕声
                 throw new Exception();
             }
             FFTConvolver.FFTConvolver.Init();
-            Application.Run(new Form1());
+            Application.Run(new btnExportIR());
             if (needSave)
             {
                 save();
@@ -142,7 +141,7 @@ namespace 耳机虚拟环绕声
         }
         public static string AudioEnchancementConfigFile
         {
-            get => System.IO.Path.Combine(UserDataDir, "audioeq_v0.json");
+            get => System.IO.Path.Combine(UserDataDir, "audioeq_v1.json");
         }
         public static string FFTConvolverModule
         {

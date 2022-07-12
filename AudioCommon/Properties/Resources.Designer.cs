@@ -63,9 +63,9 @@ namespace AudioCommon.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
-        public static byte[] FFTConvolver {
+        public static byte[] FFTConvolver_dll {
             get {
-                object obj = ResourceManager.GetObject("FFTConvolver", resourceCulture);
+                object obj = ResourceManager.GetObject("FFTConvolver_dll", resourceCulture);
                 return ((byte[])(obj));
             }
         }

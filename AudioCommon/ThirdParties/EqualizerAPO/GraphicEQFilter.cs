@@ -27,7 +27,7 @@ namespace EqualizerAPO
         public void UpdateFreqNodes(List<FilterNode> nodes)
         {
             filterNodes.Clear();
-            filterNodes.AddRange(nodes.OrderBy(o => o.freq));
+            filterNodes.AddRange(nodes.OrderBy(o => o.freq).Select(o => o.Copy()));
             if (filterNodes.Count == 0)
             {
                 filterNodes.Add(new FilterNode() { freq = 11451.4f, dbGain = 0 });
@@ -36,6 +36,8 @@ namespace EqualizerAPO
             filterNodes.Insert(0, new FilterNode() { freq = 20, dbGain = filterNodes.First().dbGain });
             filterNodes.Insert(0, new FilterNode() { freq = 20000, dbGain = filterNodes.Last().dbGain });
 
+            // float max = nodes.Select(f => f.dbGain).Max();
+            // filterNodes.ForEach(f => f.dbGain -= max);
         }
 
 
@@ -183,11 +185,22 @@ namespace EqualizerAPO
             freqData.Apply();
         }
 
+
+
     }
 
     public class FilterNode
     {
         public float freq;
         public float dbGain;
+
+        internal FilterNode Copy()
+        {
+            return new FilterNode()
+            {
+                freq = this.freq,
+                dbGain = this.dbGain
+            };
+        }
     }
 }

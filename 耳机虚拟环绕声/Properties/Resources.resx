@@ -124,9 +124,6 @@
   <data name="btnSurroundOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btnSurroundOn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="FFTConvolver_dll" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\FFTConvolver.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="btnSurroundOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btnSurroundOff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

@@ -217,7 +217,7 @@
             this.MinimizeBox = false;
             this.Name = "FrmParamEQ";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "频响曲线校正 - 参数均衡器";
+            this.Text = "频响曲线校正 - FIR图形均衡器";
             this.Load += new System.EventHandler(this.FrmParamEQ_Load);
             this.panel1.ResumeLayout(false);
             this.tblChartContainer.ResumeLayout(false);

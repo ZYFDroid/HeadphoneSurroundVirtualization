@@ -110,6 +110,9 @@ namespace 耳机虚拟环绕声
             {
                 drawAtDb(d, d + "dB");
             }
+
+
+            g.DrawRectangle(forePen, 0, 0, Width - 1, Height - 1);
         }
 
         private void Draw()
@@ -176,18 +179,25 @@ namespace 耳机虚拟环绕声
             float w = Width;
             float h = Height;
 
-            float lastX = 0, lastY = h / 2;
-            for (float x = 0; x <= w; x+=2)
+            if(PeakEQParams.Count == 0)
             {
-                float pos = x / w;
-                float height = 0;
-                float cx = x;
-                float cy = h / 2 - height / DisplayRange * (h / 2);
-                g.DrawLine(forePen, cx, cy, lastX, lastY);
-                lastX = cx;
-                lastY = cy;
+                g.DrawLine(forePen, 0, h / 2, w, h / 2);
+                return;
             }
-            g.DrawRectangle(forePen, 0, 0, Width - 1, Height - 1);
+
+            var list = PeakEQParams.OrderBy(p => p.freq).ToArray();
+            float lastX = 0;
+            float lastY = h / 2 - h / 2 * (list[0].dbGain / DisplayRange);
+            foreach (var item in list)
+            {
+                float lx = w * Freq2Log((int)item.freq);
+                float ly = h / 2 - h / 2 * (item.dbGain / DisplayRange);
+                g.DrawLine(forePen, lastX, lastY, lx, ly);
+                lastX = lx;
+                lastY = ly;
+            }
+            g.DrawLine(forePen,lastX,lastY,w,lastY);
+
         }
 
         public float DisplayRange = 15f;//dB

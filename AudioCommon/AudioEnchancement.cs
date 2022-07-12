@@ -123,6 +123,11 @@ namespace AudioCommon
             }
             this.baseProvider = baseProvider;
             graphicEQFilter = new EqualizerAPO.GraphicEQFilter(baseProvider.WaveFormat.SampleRate);
+            int bufferSample = baseProvider.WaveFormat.SampleRate;
+            lBufferIn = new float[bufferSample];
+            lBufferOut = new float[bufferSample];
+            rBufferIn = new float[bufferSample];
+            rBufferOut = new float[bufferSample];
             Apply(param);
         }
 
@@ -138,6 +143,12 @@ namespace AudioCommon
                 if (param == null)
                 {
                     this.param = null;
+                    lock (syncObj)
+                    {
+                        FFTConvolver.FFTConvolver.conOL_reset();
+                        FFTConvolver.FFTConvolver.conOR_reset();
+                        
+                    }
                     return;
                 }
                 float sampleRate = WaveFormat.SampleRate;
@@ -154,11 +165,9 @@ namespace AudioCommon
                     unsafe { 
                         fixed(float* ptrToConv = fir)
                         {
-                            FFTConvolver.FFTConvolver.conOL_init(2048, ptrToConv, fir.Length);
-                            FFTConvolver.FFTConvolver.conOR_init(2048, ptrToConv, fir.Length);
+                            test(FFTConvolver.FFTConvolver.conOL_init(2048, ptrToConv, fir.Length));
+                            test(FFTConvolver.FFTConvolver.conOR_init(2048, ptrToConv, fir.Length));
                         }
-
-                        
                     }
                 }
                 lDown = 1;
@@ -173,9 +182,17 @@ namespace AudioCommon
                 }
             }
         }
+
+        void test(bool b)
+        {
+            if (!b) { throw new Exception("Operation failed!"); }
+        }
         private int peakEqCount = 0;
         float lDown = 1;
         float rDown = 1;
+
+        float[] lBufferIn,lBufferOut,rBufferIn,rBufferOut;
+
         public int Read(float[] buffer, int offset, int count)
         {
             int sampleReaded = baseProvider.Read(buffer, offset, count);
@@ -191,25 +208,59 @@ namespace AudioCommon
                     //    buffer[i+1] = 0.1f;
                     //}
 
+
+
                     // 均衡器
-                    //for (int n = 0; n < peakEqCount; n++)
-                    //{
-                    //    biQuadFilters[n, 0].processBatch(buffer, offset, count, 2, 0);
-                    //    biQuadFilters[n, 1].processBatch(buffer, offset, count, 2, 1);
-                    //}
+
+                    int remain = count / 2;
+                    int beginPtr = offset;
+                    while (remain > 0)
+                    {
+                        int toProcess = lBufferIn.Length < remain ? lBufferIn.Length : remain;
+                        for (int i = 0; i < toProcess; i++)
+                        {
+                            int lInd = beginPtr + i * 2;
+                            int rInd = lInd+1;
+                            lBufferIn[i] = buffer[lInd];
+                            rBufferIn[i] = buffer[rInd];
+                        }
+                        unsafe
+                        {
+                            fixed (float* lin = lBufferIn)
+                            {
+                                fixed (float* lout = lBufferOut)
+                                {
+                                    FFTConvolver.FFTConvolver.conOL_process(lin, lout, toProcess);
+                                }
+                            }
+                            fixed (float* rin = rBufferIn)
+                            {
+                                fixed (float* rout = rBufferOut)
+                                {
+                                    FFTConvolver.FFTConvolver.conOR_process(rin, rout, toProcess);
+                                }
+                            }
+                        }
+
+                        //Array.Copy(lBufferIn, lBufferOut, 48000);
+                        //Array.Copy(lBufferIn, rBufferOut, 48000);
+
+                        for (int i = 0; i < toProcess; i++)
+                        {
+                            int lInd = beginPtr + i * 2;
+                            int rInd = lInd + 1;
+                            buffer[lInd]=  lBufferOut[i] ;
+                            buffer[rInd] = rBufferOut[i] ;
+                        }
+
+                        remain -= toProcess;
+                        beginPtr += toProcess * 2;
+                    }
+
+
                     for (int i = offset; i < end; i += channel)
                     {
-                        // 均衡器
-                        // 必须这样一个一个一个处理每个sample
-                        // 用上面注释掉的批量处理的方法也是可以的
-                        // 但在电脑非常卡顿的时候，例如启动一个装了50多个Mod的Minecraft，有可能会输出NaN
-                        // 试了下，别人的电脑上也有这个问题
-                        // 有没有大佬能解答一下
-                        for (int n = 0; n < peakEqCount; n++)
-                        {
-                            buffer[i] = biQuadFilters[n, 0].process(buffer[i]);
-                            buffer[i + 1] = biQuadFilters[n, 1].process(buffer[i + 1]);
-                        }
+                        
                         // 交换左右声道
                         if (param.swapChannel)
                         {
