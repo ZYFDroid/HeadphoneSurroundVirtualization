@@ -42,11 +42,40 @@ namespace FFTConvolver
 
 
 
-        [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool pro_call(float* input, float* output, float* meters, int offset,int outOffset, int len);
 
+        public delegate void pro_call_(float* input, float* output, float* meters, int offset, int outOffset, int len);
 
+        public static pro_call_ pro_call;
 
+        [DllImport("kernel32.dll")]
+        private extern static IntPtr LoadLibrary(String path);
+
+        [DllImport("kernel32.dll")]
+        private extern static IntPtr GetProcAddress(IntPtr lib, String funcName);
+
+        [DllImport("kernel32.dll")]
+        private extern static bool FreeLibrary(IntPtr lib);
+
+        private static IntPtr _dllHandle = IntPtr.Zero;
+        public static void Init()
+        {
+            if (_dllHandle == IntPtr.Zero)
+            {
+                IntPtr dllHandle = LoadLibrary(dllName);
+                if (dllHandle == IntPtr.Zero)
+                {
+                    System.Windows.Forms.MessageBox.Show("加载环绕引擎失败");
+                    throw new Exception("加载DLL失败");
+                }
+                IntPtr exportAddress = IntPtr.Zero;
+
+                exportAddress = GetProcAddress(dllHandle, "pro_call");
+                pro_call = Marshal.GetDelegateForFunctionPointer<pro_call_>(exportAddress);
+                
+
+                _dllHandle = dllHandle;
+            }
+        }
     }
 
 }

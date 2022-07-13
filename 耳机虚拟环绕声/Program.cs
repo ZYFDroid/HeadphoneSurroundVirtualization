@@ -91,6 +91,7 @@ namespace 耳机虚拟环绕声
                 MessageBox.Show("加载音频处理模块失败。");
                 throw new Exception();
             }
+            FFTConvolver.FFTConvolver.Init();
             FFTConvolver.FFTConvolver.init_mem();
             Application.Run(new btnExportIR());
             if (needSave)
@@ -277,10 +278,6 @@ namespace 耳机虚拟环绕声
         public void switchIrFile(string irPath)
         {
             customIrPath = irPath;
-            bool _lastBypass = Bypass;
-            Bypass = true;
-           
-            System.Threading.Thread.Sleep(500);
             try
             {
                 initIR();
@@ -288,10 +285,8 @@ namespace 耳机虚拟环绕声
             {
                 customIrPath=null;
                 initIR();
-                Bypass = _lastBypass;
                 throw e;
             }
-            Bypass = _lastBypass;
         }
 
         const int OffsetFrontLeft = 0; // 左前

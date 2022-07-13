@@ -148,7 +148,7 @@ namespace 耳机虚拟环绕声
                     wasapiOut.Play(); //开始环绕
                     while (!surroundProc.CancellationPending)
                     {
-                        System.Threading.Thread.Sleep(16);
+                        System.Threading.Thread.Sleep(20);
                         surroundProc.ReportProgress(30);
                         if (_notifyAudioDeviceChanged)
                         {
