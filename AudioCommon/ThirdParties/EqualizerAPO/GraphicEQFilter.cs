@@ -4,10 +4,12 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using FFTWSharp;
 /*
-CSharp Reimplemention of EqualizerAPO Graphics EQ Filter
+CSharp Reimplemention of EqualizerAPO's Graphics EQ Filter 
 The orignal C++ version at https://sourceforge.net/projects/equalizerapo/
+
+DFT-1D Forward and Backward from NAudio (Modified from inverse to backward)
+
  */
 
 namespace EqualizerAPO
@@ -91,11 +93,8 @@ namespace EqualizerAPO
 
         public float[] GenerateInpulseResponse()
         {
-            fftwf_complexarray timeData = new fftwf_complexarray(filterLength * 2);
-            fftwf_complexarray freqData = new fftwf_complexarray(filterLength * 2);
-            fftwf_plan planForward = fftwf_plan.dft_1d(filterLength * 2, timeData, freqData, fftw_direction.Forward, fftw_flags.Estimate);
-            fftwf_plan planReverse = fftwf_plan.dft_1d(filterLength * 2, freqData, timeData, fftw_direction.Backward, fftw_flags.Estimate);
-            freqData.Cache();
+            ComplexArray timeData = new ComplexArray(filterLength * 2);
+            ComplexArray freqData = new ComplexArray(filterLength * 2);
             for (int i = 0; i < filterLength; i++)
             {
                 double freq = i * 1.0 * sampleRate / (filterLength * 2);
@@ -107,13 +106,12 @@ namespace EqualizerAPO
                 freqData[2 * filterLength - i - 1,0] = gain;
                 freqData[2 * filterLength - i - 1,1] = 0;
             }
-            freqData.Apply();
 
-            mps(timeData, freqData, planForward, planReverse);
+            mps(timeData, freqData);
 
-            planReverse.Execute();
+            //planReverse.Execute();
+            FFT(false, 10+1+1+1, freqData, timeData);
 
-            timeData.Cache();
 
             for (int i = 0; i < 2 * filterLength; i++)
             {
@@ -136,11 +134,10 @@ namespace EqualizerAPO
             return buf;
         }
         const int filterLength = 4096;
-        private void mps(fftwf_complexarray timeData, fftwf_complexarray freqData,fftwf_plan planForward, fftwf_plan planReverse)
+        private void mps(ComplexArray timeData, ComplexArray freqData)
         {
             double threshold = Math.Pow(10.0, -100.0 / 20.0);
             float logThreshold = (float)Math.Log(threshold);
-            freqData.Cache();
             for (int i = 0; i < filterLength * 2; i++)
             {
                 if (freqData[i,0] < threshold)
@@ -150,10 +147,8 @@ namespace EqualizerAPO
 
                 freqData[i,1] = 0;
             }
-            freqData.Apply();
-            planReverse.Execute();
+            FFT(false, 10 + 1 + 1 + 1, freqData, timeData);
 
-            timeData.Cache();
             for (int i = 0; i < filterLength * 2; i++)
             {
                 timeData[i,0] /= filterLength * 2;
@@ -172,23 +167,125 @@ namespace EqualizerAPO
 
             timeData[filterLength,1] *= -1;
 
-            timeData.Apply();
 
-            planForward.Execute();
-            freqData.Cache();
+            FFT(true, 10 + 1 + 1 + 1, timeData, freqData);
+
             for (int i = 0; i < filterLength * 2; i++)
             {
                 double eR = Math.Exp(freqData[i,0]);
                 freqData[i,0] = (float)(eR * Math.Cos(freqData[i,1]));
                 freqData[i,1] = (float)(eR * Math.Sin(freqData[i,1]));
             }
-            freqData.Apply();
         }
 
 
+        public static void FFT(bool forward, int m, ComplexArray data0, ComplexArray data)
+        {
+            int n, i, i1, j, k, i2, l, l1, l2;
+            float c1, c2, tx, ty, t1, t2, u1, u2, z;
 
+
+            for (int iccc = 0; iccc < data.Length; iccc++)
+            {
+                data[iccc,0] = data0[iccc,0];
+                data[iccc,1] = data0[iccc,1];
+            }
+
+
+            // Calculate the number of points
+            n = 1;
+            for (i = 0; i < m; i++)
+                n *= 2;
+
+            // Do the bit reversal
+            i2 = n >> 1;
+            j = 0;
+            for (i = 0; i < n - 1; i++)
+            {
+                if (i < j)
+                {
+                    tx = data[i,0];
+                    ty = data[i,1];
+                    data[i,0] = data[j,0];
+                    data[i,1] = data[j,1];
+                    data[j,0] = tx;
+                    data[j,1] = ty;
+                }
+                k = i2;
+
+                while (k <= j)
+                {
+                    j -= k;
+                    k >>= 1;
+                }
+                j += k;
+            }
+
+            // Compute the FFT 
+            c1 = -1.0f;
+            c2 = 0.0f;
+            l2 = 1;
+            for (l = 0; l < m; l++)
+            {
+                l1 = l2;
+                l2 <<= 1;
+                u1 = 1.0f;
+                u2 = 0.0f;
+                for (j = 0; j < l1; j++)
+                {
+                    for (i = j; i < n; i += l2)
+                    {
+                        i1 = i + l1;
+                        t1 = u1 * data[i1,0] - u2 * data[i1,1];
+                        t2 = u1 * data[i1,1] + u2 * data[i1,0];
+                        data[i1,0] = data[i,0] - t1;
+                        data[i1,1] = data[i,1] - t2;
+                        data[i,0] += t1;
+                        data[i,1] += t2;
+                    }
+                    z = u1 * c1 - u2 * c2;
+                    u2 = u1 * c2 + u2 * c1;
+                    u1 = z;
+                }
+                c2 = (float)Math.Sqrt((1.0f - c1) / 2.0f);
+                if (forward)
+                    c2 = -c2;
+                c1 = (float)Math.Sqrt((1.0f + c1) / 2.0f);
+            }
+
+        }
+        
     }
 
+    public class ComplexArray
+    {
+        public int Length => buffer.Length / 2;
+
+        private float[] buffer = null;
+
+        public ComplexArray(int length)
+        {
+            buffer = new float[length * 2];
+        }
+
+
+        private float get(int index, int part)
+        {
+            return buffer[index * 2 + part];
+        }
+
+        private void set(int index, int part, float value)
+        {
+            buffer[index * 2 + part] = value;
+        }
+
+        public float this[int index, int part]
+        {
+            get { return get(index, part); }
+            set { set(index, part, value); }
+        }
+
+    }
     public class FilterNode
     {
         public float freq;

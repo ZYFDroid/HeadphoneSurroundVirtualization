@@ -121,7 +121,4 @@
   <data name="FFTConvolver_dll" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FFTConvolver.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="libfftw3f_3_dll" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\libfftw3f-3.dll.gz;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
 </root>

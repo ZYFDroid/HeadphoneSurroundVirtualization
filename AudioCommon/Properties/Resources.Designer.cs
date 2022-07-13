@@ -69,15 +69,5 @@ namespace AudioCommon.Properties {
                 return ((byte[])(obj));
             }
         }
-        
-        /// <summary>
-        ///   查找 System.Byte[] 类型的本地化资源。
-        /// </summary>
-        public static byte[] libfftw3f_3_dll {
-            get {
-                object obj = ResourceManager.GetObject("libfftw3f_3_dll", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

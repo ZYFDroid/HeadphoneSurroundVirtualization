@@ -98,10 +98,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -296,7 +293,7 @@
             this.btnEnchanceAudio.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnEnchanceAudio.Location = new System.Drawing.Point(233, 155);
             this.btnEnchanceAudio.Name = "btnEnchanceAudio";
-            this.btnEnchanceAudio.Size = new System.Drawing.Size(91, 35);
+            this.btnEnchanceAudio.Size = new System.Drawing.Size(86, 35);
             this.btnEnchanceAudio.TabIndex = 9;
             this.btnEnchanceAudio.Text = "音质增强";
             this.btnEnchanceAudio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -330,7 +327,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("微软雅黑 Light", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button1.Location = new System.Drawing.Point(325, 155);
+            this.button1.Location = new System.Drawing.Point(309, 155);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(214, 35);
             this.button1.TabIndex = 9;
@@ -1054,10 +1051,7 @@
             this.panelPage4.Controls.Add(this.label19);
             this.panelPage4.Controls.Add(this.label31);
             this.panelPage4.Controls.Add(this.label18);
-            this.panelPage4.Controls.Add(this.label33);
             this.panelPage4.Controls.Add(this.label27);
-            this.panelPage4.Controls.Add(this.label35);
-            this.panelPage4.Controls.Add(this.label34);
             this.panelPage4.Controls.Add(this.label26);
             this.panelPage4.Controls.Add(this.label25);
             this.panelPage4.Controls.Add(this.label24);
@@ -1134,21 +1128,6 @@
             this.label18.Text = "源代码";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label33
-            // 
-            this.label33.BackColor = System.Drawing.Color.Transparent;
-            this.label33.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label33.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
-            this.label33.ForeColor = System.Drawing.Color.White;
-            this.label33.Location = new System.Drawing.Point(118, 300);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(420, 25);
-            this.label33.TabIndex = 7;
-            this.label33.Tag = "https://sourceforge.net/projects/equalizerapo/";
-            this.label33.Text = "EqualizerAPO (用C#照着抄了里面的算法)";
-            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label33.Click += new System.EventHandler(this.aboutClick);
-            // 
             // label27
             // 
             this.label27.BackColor = System.Drawing.Color.Transparent;
@@ -1163,36 +1142,6 @@
             this.label27.Text = "EarTrumpet (设备自动切换实现)";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label27.Click += new System.EventHandler(this.aboutClick);
-            // 
-            // label35
-            // 
-            this.label35.BackColor = System.Drawing.Color.Transparent;
-            this.label35.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label35.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
-            this.label35.ForeColor = System.Drawing.Color.White;
-            this.label35.Location = new System.Drawing.Point(118, 350);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(291, 25);
-            this.label35.TabIndex = 7;
-            this.label35.Tag = "https://github.com/tszalay/FFTWSharp/";
-            this.label35.Text = "FFTWSharp (fftw的C#接口)";
-            this.label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label35.Click += new System.EventHandler(this.aboutClick);
-            // 
-            // label34
-            // 
-            this.label34.BackColor = System.Drawing.Color.Transparent;
-            this.label34.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label34.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
-            this.label34.ForeColor = System.Drawing.Color.White;
-            this.label34.Location = new System.Drawing.Point(118, 325);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(291, 25);
-            this.label34.TabIndex = 7;
-            this.label34.Tag = "http://fftw.org/";
-            this.label34.Text = "fftw  (最好的FFT信号处理库)";
-            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label34.Click += new System.EventHandler(this.aboutClick);
             // 
             // label26
             // 
@@ -1505,9 +1454,6 @@
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Timer updateDeviceCountdownTimer;
         private System.Windows.Forms.Button btnResetDevicePriority;
-        private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }

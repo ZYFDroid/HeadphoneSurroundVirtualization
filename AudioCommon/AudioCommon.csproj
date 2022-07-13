@@ -87,8 +87,6 @@
     <Compile Include="ThirdParties\EarTrumpet\IPolicyConfig.cs" />
     <Compile Include="ThirdParties\EarTrumpet\PolicyConfigClient.cs" />
     <Compile Include="ThirdParties\EqualizerAPO\GraphicEQFilter.cs" />
-    <Compile Include="ThirdParties\FFTWSharp\Interop.cs" />
-    <Compile Include="ThirdParties\FFTWSharp\Managed.cs" />
     <Compile Include="ThirdParties\NAudio\VorbisSampleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -108,7 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\libfftw3f-3.dll.gz" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FFTConvolver.dll" />

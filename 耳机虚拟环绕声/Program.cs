@@ -19,6 +19,10 @@ namespace 耳机虚拟环绕声
     To-Does:
     TODO: 耳机调音向导
     TODO: 创建耳机调音基准数据
+    TODO: 把处理环绕数据的部分也做进C++好了
+    TODO: C++部分新功能：输入环绕数据，直接输出立体声数据
+    TODO: 干脆把平衡，翻转声道，抗串扰也做进脉冲响应里好了
+    TODO: 反正都是一些简单的数学运算
      */
     internal static class Program
     {
@@ -75,25 +79,7 @@ namespace 耳机虚拟环绕声
                 File.WriteAllBytes(tempname, AudioCommon.Properties.Resources.FFTConvolver_dll);
                 File.Move(tempname, name);
             }
-            if (!File.Exists(FFTWLibModule))
-            {
-                string name = FFTWLibModule;
-                string tempname = FFTWLibModule + ".tmp";
-
-                using(MemoryStream fromFile = new MemoryStream(AudioCommon.Properties.Resources.libfftw3f_3_dll))
-                {
-                    using (GZipStream gz = new GZipStream(fromFile, CompressionMode.Decompress))
-                    {
-                        using(FileStream dllout = File.OpenWrite(tempname))
-                        {
-                            gz.CopyTo(dllout);
-                        }
-                        File.Move(tempname, name);
-                    }
-                   
-                }
-
-            }
+            
             if(!SetDllDirectory(UserDataDir))
             {
                 MessageBox.Show("加载音频处理模块失败。");
