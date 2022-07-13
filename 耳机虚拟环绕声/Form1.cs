@@ -73,7 +73,6 @@ namespace 耳机虚拟环绕声
 
         private SurroundToStereoSampleProvider surroundToStereoSampleProvider;
         private AudioEnchancementSampleProvider audioEnchancementSampleProvider;
-        private CompressorSampleProvider compressorSampleProvider;
         private bool _notifyAudioDeviceChanged = false;
         
 
@@ -144,9 +143,8 @@ namespace 耳机虚拟环绕声
                     surroundToStereoSampleProvider.applySettings(Program.SurroundSettings, true);
                     
                     audioEnchancementSampleProvider = new AudioEnchancementSampleProvider(surroundToStereoSampleProvider, Program.AudioEnchancementData.getDeviceParam(outDevice.ID));
-                    compressorSampleProvider = new CompressorSampleProvider(audioEnchancementSampleProvider);
-                    compressorSampleProvider.applySettings(Program.SurroundSettings);
-                    wasapiOut.Init(compressorSampleProvider);
+                    
+                    wasapiOut.Init(audioEnchancementSampleProvider);
                     wasapiOut.Play(); //开始环绕
                     while (!surroundProc.CancellationPending)
                     {
@@ -392,9 +390,9 @@ namespace 耳机虚拟环绕声
 
         private void doTimer()
         {
-            mtmOutL.Value = (MathHelper.linear2db(compressorSampleProvider.outLeft) + displayDbRange) / displayDbRange;
-            mtmOutR.Value = (MathHelper.linear2db(compressorSampleProvider.outRight) + displayDbRange) / displayDbRange;
-            this.numCompressOverflow1.Value =  (MathHelper.linear2db(compressorSampleProvider._compressorGain)) / displayDbRange;
+            mtmOutL.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.outLeft) + displayDbRange) / displayDbRange;
+            mtmOutR.Value = (MathHelper.linear2db(surroundToStereoSampleProvider.outRight) + displayDbRange) / displayDbRange;
+            this.numCompressOverflow1.Value =  (MathHelper.linear2db(surroundToStereoSampleProvider._compressorGain)) / displayDbRange;
             for (int i = 0; i < surroundToStereoSampleProvider.rawPeaks.Length; i++)
             {
                 bars[i].Value = (MathHelper.linear2db(surroundToStereoSampleProvider.rawPeaks[i]) + displayDbRange) / displayDbRange;
@@ -421,7 +419,7 @@ namespace 耳机虚拟环绕声
         {
             Program.SurroundSettings.masterGain = numMasterGain.Value / 100f;
             surroundToStereoSampleProvider?.applySettings(Program.SurroundSettings); 
-            compressorSampleProvider?.applySettings(Program.SurroundSettings);
+            surroundToStereoSampleProvider?.applySettings(Program.SurroundSettings);
             numMasterGain.ThumbText = $"{Program.SurroundSettings.masterGain.ToString("00.00")}dB";
             Program.needSave = true;
         }
@@ -445,7 +443,7 @@ namespace 耳机虚拟环绕声
             numCompressRatio.ThumbText = (s.cmpRatio == 0 ? "∞" : s.cmpRatio.ToString())+":1";
             numCompressRelease.ThumbText = $"{s.cmpRelease}ms";
             surroundToStereoSampleProvider?.applySettings(s);
-            compressorSampleProvider?.applySettings(Program.SurroundSettings);
+            surroundToStereoSampleProvider?.applySettings(Program.SurroundSettings);
             Program.needSave = true;
 
         }

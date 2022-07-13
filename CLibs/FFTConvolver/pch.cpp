@@ -2,7 +2,7 @@
 
 #include "pch.h"
 using namespace fftconvolver;
-
+using namespace ap;
 // 当使用预编译的头时，需要使用此源文件，编译才能成功。
 
 
@@ -44,6 +44,9 @@ Sample* st1_SL_R = NULL;
 Sample* st1_SR_L = NULL;
 Sample* st1_SR_R = NULL;
 
+Sample* st1_L = NULL;
+Sample* st1_R = NULL;
+
 Sample* st2_L = NULL;
 Sample* st2_R = NULL;
 
@@ -51,300 +54,286 @@ Sample* st3_L = NULL;
 Sample* st3_R = NULL;
 
 
-bool __stdcall con01_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv01->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con01_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv01->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con01_reset()
-{
-    conv01->reset();
-}
-bool __stdcall con02_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv02->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con02_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv02->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con02_reset()
-{
-    conv02->reset();
-}
-bool __stdcall con03_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv03->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con03_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv03->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con03_reset()
-{
-    conv03->reset();
-}
-bool __stdcall con04_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv04->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con04_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv04->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con04_reset()
-{
-    conv04->reset();
-}
-bool __stdcall con05_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv05->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con05_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv05->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con05_reset()
-{
-    conv05->reset();
-}
-bool __stdcall con06_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv06->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con06_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv06->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con06_reset()
-{
-    conv06->reset();
-}
-bool __stdcall con07_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv07->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con07_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv07->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con07_reset()
-{
-    conv07->reset();
-}
-bool __stdcall con08_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv08->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con08_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv08->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con08_reset()
-{
-    conv08->reset();
-}
-bool __stdcall con09_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv09->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con09_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv09->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con09_reset()
-{
-    conv09->reset();
-}
-bool __stdcall con10_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv10->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con10_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv10->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con10_reset()
-{
-    conv10->reset();
-}
-bool __stdcall con11_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv11->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con11_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv11->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con11_reset()
-{
-    conv11->reset();
-}
-bool __stdcall con12_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv12->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con12_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv12->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con12_reset()
-{
-    conv12->reset();
-}
-bool __stdcall con13_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv13->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con13_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv13->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con13_reset()
-{
-    conv13->reset();
-}
-bool __stdcall con14_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv14->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con14_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv14->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con14_reset()
-{
-    conv14->reset();
-}
-bool __stdcall con15_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv15->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con15_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv15->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con15_reset()
-{
-    conv15->reset();
-}
-bool __stdcall con16_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return conv16->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall con16_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    conv16->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall con16_reset()
-{
-    conv16->reset();
-}
-// begin of stage2
-bool __stdcall conOLL_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return convOLL->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall conOLL_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    convOLL->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall conOLL_reset()
-{
-    convOLL->reset();
-}
-
-bool __stdcall conOLR_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return convOLR->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall conOLR_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    convOLR->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall conOLR_reset()
-{
-    convOLR->reset();
-}
+std::mutex hrirMutex;
+std::mutex enchMutex;
 
 
-
-
-bool __stdcall conORL_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return convORL->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall conORL_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    convORL->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall conORL_reset()
-{
-    convORL->reset();
-}
-
-bool __stdcall conORR_init(int blockSize, const fftconvolver::Sample* ir, int irLen)
-{
-    return convORR->init((size_t)blockSize, ir, (size_t)irLen);
-}
-
-void __stdcall conORR_process(const fftconvolver::Sample* input, const fftconvolver::Sample* output, int len)
-{
-    convORR->process(input, (Sample*)output, (size_t)len);
-}
-
-void __stdcall conORR_reset()
-{
-    convORR->reset();
-}
-
-
+bool inited = false;
+/// <summary>
+/// 初始化内存，分配用于计算的内存区域
+/// </summary>
+/// <returns></returns>
 bool __stdcall init_mem()
 {
+    if (inited) {
+        return true;
+    }
+
     bool result = true;
 
-    result &= (st1_FL_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != 0;
-
+    result &= (st1_FL_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_FL_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_FR_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_FR_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_FC_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_FC_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_LF_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_LF_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_SL_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_SL_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_SR_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_SR_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_RL_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_RL_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_RR_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_RR_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_L = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_R = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st2_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st2_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st3_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st3_R = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    if (result) {
+        inited = true;
+    }
     return result;
+}
+
+/// <summary>
+/// 设置环绕声的IR
+/// </summary>
+/// <param name="ir">和输入音频相同采样率的卷积</param>
+/// <param name="irLen">样本长度（浮点数数量）</param>
+/// <param name="chanCount">频道数量（7或14）</param>
+/// <returns></returns>
+bool __stdcall set_sr_ir(const fftconvolver::Sample* ir, int irLen, int chanCount)
+{
+    int frameCount = irLen / chanCount;
+    fftconvolver::Sample* tempBuffer = (fftconvolver::Sample*) malloc(sizeof(float) * frameCount);
+    if (tempBuffer == NULL) { return false; }
+    bool result = true;
+    hrirMutex.lock();
+    
+    result &= initOneIr(ir, frameCount, chanCount, 0 , conv01, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 1 , conv02, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 8 , conv03, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 9 , conv04, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 6 , conv05, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 7 , conv06, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 6 , conv07, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 7 , conv08, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 4 , conv09, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 5 , conv10, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 12, conv11, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 13, conv12, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 2 , conv13, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 3 , conv14, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 10, conv15, tempBuffer);
+    result &= initOneIr(ir, frameCount, chanCount, 11, conv16, tempBuffer);
+    hrirMutex.unlock();
+    free(tempBuffer);
+    return result;
+}
+
+bool __stdcall set_en_ir(const fftconvolver::Sample* ll, const fftconvolver::Sample* lr, const fftconvolver::Sample* rl, const fftconvolver::Sample* rr, int irLen)
+{
+    bool result = true;
+    enchMutex.lock();
+    convOLL->reset();
+    convOLR->reset();
+    convORL->reset();
+    convORR->reset();
+
+    convOLL->init(2048,ll,irLen);
+    convOLR->init(2048,lr,irLen);
+    convORL->init(2048,rl,irLen);
+    convORR->init(2048,rr,irLen);
+    enchMutex.unlock();
+    return result;
+}
+
+compressor* _comp = new compressor();
+
+void __stdcall set_cmp_param(float srate,float gate, float ratio, float attack, float release)
+{
+    _comp->setParam(srate, gate, ratio, attack, release);
+}
+
+bool _sr_bypass = false;
+
+void __stdcall set_bypass(bool bypass)
+{
+    _sr_bypass = bypass;
+}
+
+void __stdcall set_master_gain(float gain)
+{
+    _comp->setMasterGain(gain);
+}
+
+bool initOneIr(const fftconvolver::Sample* ir, int frameCount, int chanCount, int chanOffset, FFTConvolver* target, fftconvolver::Sample* tempBuffer) {
+    int i;
+    chanOffset = 0;
+    target = conv01;
+
+    if (chanOffset >= chanCount) {
+        chanOffset = 13 - chanOffset;
+    }
+
+    for (i = 0; i < frameCount; i++) {
+        tempBuffer[i] = ir[i * chanCount + chanOffset];
+    }
+
+    target->reset();
+    return target->init(2048, tempBuffer, frameCount);
+}
+
+
+float _rawMaxs[8];
+float rawPeaks[8]; // out to the displayer
+
+int ccd = 1000;
+int cd = 1000;
+
+int _channels = 8;
+
+bool fc2f = false;
+
+void __stdcall set_fc2f(bool val)
+{
+    fc2f = val;
+}
+float visualizerDownRate = 0.04f;
+
+/// <summary>
+/// 一站式处理所有的数据
+/// 包含：卷积，增强，压缩
+/// </summary>
+/// <param name="input">指向原始的8通道音频数据的指针</param>
+/// <param name="output">指向输出缓冲区的指针</param>
+/// <param name="len">输入的音频帧长度（长度除以频道数量），不得超过48000</param>
+/// <returns></returns>
+
+void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample* output,fftconvolver::Sample* meters,int offset,int outOffset,int len)
+{
+    int i;
+    int begin = offset;
+    int end = offset + len * 8;
+    int ptr = begin;
+    // 拷贝数据
+    for (i = 0; i < len; i++)
+    {
+        st1_FL_L[i] = input[ptr + 0];
+        st1_FL_R[i] = input[ptr + 0];
+        st1_FR_L[i] = input[ptr + 1];
+        st1_FR_R[i] = input[ptr + 1];
+        st1_FC_L[i] = input[ptr + 2];
+        st1_FC_R[i] = input[ptr + 2];
+        st1_LF_L[i] = input[ptr + 3];
+        st1_LF_R[i] = input[ptr + 3];
+        st1_RL_L[i] = input[ptr + 4];
+        st1_RL_R[i] = input[ptr + 4];
+        st1_RR_L[i] = input[ptr + 5];
+        st1_RR_R[i] = input[ptr + 5];
+        st1_SL_L[i] = input[ptr + 6];
+        st1_SL_R[i] = input[ptr + 6];
+        st1_SR_L[i] = input[ptr + 7];
+        st1_SR_R[i] = input[ptr + 7];
+
+        if (fc2f) {
+            st1_FL_L[i] += st1_FC_L[i] * 0.75f;
+            st1_FL_R[i] += st1_FC_L[i] * 0.75f;
+            st1_FR_L[i] += st1_FC_L[i] * 0.75f;
+            st1_FR_R[i] += st1_FC_L[i] * 0.75f;
+
+            st1_FC_L[i] = 0;
+            st1_FC_R[i] = 0;
+        }
+
+        for (int c = 0; c < _channels; c++)
+        {
+            float sample = input[ptr + c];
+            if (_rawMaxs[c] < sample)
+            {
+                _rawMaxs[c] = sample;
+            }
+
+        }
+        cd--;
+        if (cd < 0)
+        {
+            cd = ccd;
+            for (int c = 0; c < 8; c++)
+            {
+                rawPeaks[c] -= visualizerDownRate;
+                if (rawPeaks[c] < _rawMaxs[c])
+                {
+                    rawPeaks[c] = _rawMaxs[c];
+                    meters[c] = rawPeaks[c];
+                }
+                _rawMaxs[c] = 0;
+
+            }
+        }
+
+        ptr += 8;
+    }
+
+
+    memset(st2_L, 0, len * sizeof(float));
+    memset(st2_R, 0, len * sizeof(float));
+    if (!_sr_bypass) {
+        hrirMutex.lock();
+
+        conv01->process(st1_FL_L, st1_L, len); sumData(st1_L, st2_L, len);
+        conv02->process(st1_FL_R, st1_R, len); sumData(st1_R, st2_R, len);
+        conv03->process(st1_FR_L, st1_L, len); sumData(st1_L, st2_L, len);
+        conv04->process(st1_FR_R, st1_R, len); sumData(st1_R, st2_R, len);
+        conv05->process(st1_FC_L, st1_L, len); sumData(st1_L, st2_L, len);
+        conv06->process(st1_FC_R, st1_R, len); sumData(st1_R, st2_R, len);
+        conv07->process(st1_LF_L, st1_L, len); sumData(st1_L, st2_L, len);
+        conv08->process(st1_LF_R, st1_R, len); sumData(st1_R, st2_R, len);
+        conv09->process(st1_RL_L, st1_L, len); sumData(st1_L, st2_L, len);
+        conv10->process(st1_RL_R, st1_R, len); sumData(st1_R, st2_R, len);
+        conv11->process(st1_RR_L, st1_L, len); sumData(st1_L, st2_L, len);
+        conv12->process(st1_RR_R, st1_R, len); sumData(st1_R, st2_R, len);
+        conv13->process(st1_SL_L, st1_L, len); sumData(st1_L, st2_L, len);
+        conv14->process(st1_SL_R, st1_R, len); sumData(st1_R, st2_R, len);
+        conv15->process(st1_SR_L, st1_L, len); sumData(st1_L, st2_L, len);
+        conv16->process(st1_SR_R, st1_R, len); sumData(st1_R, st2_R, len);
+
+        hrirMutex.unlock();
+    }
+    // 目前st2 中是卷积后的数据
+
+    enchMutex.lock();
+
+    memset(st3_L, 0, len * sizeof(float));
+    memset(st3_R, 0, len * sizeof(float));
+    convOLL->process(st2_L, st1_L, len); sumData(st1_L, st3_L, len);
+    convOLR->process(st2_L, st1_R, len); sumData(st1_R, st3_R, len);
+
+    convORL->process(st2_R, st1_L, len); sumData(st1_L, st3_L, len);
+    convORR->process(st2_R, st1_R, len); sumData(st1_R, st3_R, len);
+
+    enchMutex.unlock();
+    // 目前st3 中是音频增强后的数据
+    // 拷贝到输出，然后做一下压缩
+
+    for (i = 0; i < len; i++)
+    {
+        output[outOffset + i * 2] = st3_L[i];
+        output[outOffset + i * 2+1] = st3_L[i+1];
+    }
+
+    _comp->process(output,outOffset, len * 2, meters);
+}
+
+
+
+void sumData(const fftconvolver::Sample* src,fftconvolver::Sample* dst, int len) {
+    for (int i = 0; i < len; i++)
+    {
+        dst[i] += src[i];
+    }
 }

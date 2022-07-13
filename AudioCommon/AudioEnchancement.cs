@@ -136,58 +136,89 @@ namespace AudioCommon
         private EqualizerAPO.GraphicEQFilter graphicEQFilter = null;
 
         private object syncObj = new object();
+
+        private float[] empty = new float[] {1,0,0,0,0,0,0,0};
+
         public void Apply(AudioEnchancementParameters param)
         {
-            lock (syncObj)
+            
+
+
+            if (param == null)
             {
-                if (param == null)
+                unsafe
                 {
-                    this.param = null;
-                    lock (syncObj)
+                    fixed(float* pEmpty = empty)
                     {
-                        FFTConvolver.FFTConvolver.conOL_reset();
-                        FFTConvolver.FFTConvolver.conOR_reset();
-                        
-                    }
-                    return;
-                }
-                float sampleRate = WaveFormat.SampleRate;
-                this.param = param;
-
-                graphicEQFilter.UpdateFreqNodes(param.peakEQParams);
-
-                float[] fir = graphicEQFilter.GenerateInpulseResponse();
-
-                lock (syncObj)
-                {
-                    FFTConvolver.FFTConvolver.conOL_reset();
-                    FFTConvolver.FFTConvolver.conOR_reset();
-                    unsafe { 
-                        fixed(float* ptrToConv = fir)
-                        {
-                            test(FFTConvolver.FFTConvolver.conOL_init(2048, ptrToConv, fir.Length));
-                            test(FFTConvolver.FFTConvolver.conOR_init(2048, ptrToConv, fir.Length));
-                        }
+                        FFTConvolver.FFTConvolver.set_en_ir(pEmpty, pEmpty, pEmpty, pEmpty, 8);
                     }
                 }
-                lDown = 1;
-                rDown = 1;
-                if (param.balanceLevel < 0)
+            
+                return;
+            }
+            float sampleRate = WaveFormat.SampleRate;
+            this.param = param;
+
+            graphicEQFilter.UpdateFreqNodes(param.peakEQParams);
+
+            float[] firLL = graphicEQFilter.GenerateInpulseResponse();
+            float[] firLR = new float[firLL.Length];
+            float[] firRL = new float[firLL.Length];
+            float[] firRR = graphicEQFilter.GenerateInpulseResponse();
+
+            if (param.swapChannel)
+            {
+                var temp = firLL;
+                firLL = firRR;
+                firRR = temp;
+            }
+
+            if (param.invertOneSide)
+            {
+                for (int i = 0; i < firLL.Length; i++)
                 {
-                    rDown = -(-1 - param.balanceLevel) / (1 - param.balanceLevel);
-                }
-                else
-                {
-                    lDown = -(1 - param.balanceLevel) / (-1 - param.balanceLevel);
+                    firLL[i] = -firLL[i];
                 }
             }
+
+            for (int i = 0; i < firLL.Length; i++)
+            {
+                firLR[i] = param.antiCrossfeedLevel * firLL[i];
+                firRL[i] = param.antiCrossfeedLevel * firRR[i];
+            }
+
+            
+            lDown = 1;
+            rDown = 1;
+            if (param.balanceLevel < 0)
+            {
+                rDown = -(-1 - param.balanceLevel) / (1 - param.balanceLevel);
+            }
+            else
+            {
+                lDown = -(1 - param.balanceLevel) / (-1 - param.balanceLevel);
+            }
+            for (int i = 0; i < firLL.Length; i++)
+            {
+                firLR[i] *= rDown;
+                firRR[i] *= rDown;
+                firRL[i] *= lDown;
+                firLL[i] *= lDown;
+            }
+
+            unsafe
+            {
+                fixed(float* pLL = firLL) 
+                fixed(float* pLR = firLR) 
+                fixed(float* pRL = firRL) 
+                fixed(float* pRR = firRR)
+                {
+                    FFTConvolver.FFTConvolver.set_en_ir(pLL, pLR, pRL, pLR, firLL.Length);
+                }
+            }
+
         }
 
-        void test(bool b)
-        {
-            if (!b) { throw new Exception("Operation failed!"); }
-        }
-        private int peakEqCount = 0;
         float lDown = 1;
         float rDown = 1;
 
@@ -196,6 +227,7 @@ namespace AudioCommon
         public int Read(float[] buffer, int offset, int count)
         {
             int sampleReaded = baseProvider.Read(buffer, offset, count);
+            return sampleReaded;
             if (!Bypass && param != null)
             {
                 lock (syncObj)
@@ -212,67 +244,14 @@ namespace AudioCommon
 
                     // 均衡器
 
-                    int remain = count / 2;
-                    int beginPtr = offset;
-                    while (remain > 0)
-                    {
-                        int toProcess = lBufferIn.Length < remain ? lBufferIn.Length : remain;
-                        for (int i = 0; i < toProcess; i++)
-                        {
-                            int lInd = beginPtr + i * 2;
-                            int rInd = lInd+1;
-                            lBufferIn[i] = buffer[lInd];
-                            rBufferIn[i] = buffer[rInd];
-                        }
-                        unsafe
-                        {
-                            fixed (float* lin = lBufferIn)
-                            {
-                                fixed (float* lout = lBufferOut)
-                                {
-                                    FFTConvolver.FFTConvolver.conOL_process(lin, lout, toProcess);
-                                }
-                            }
-                            fixed (float* rin = rBufferIn)
-                            {
-                                fixed (float* rout = rBufferOut)
-                                {
-                                    FFTConvolver.FFTConvolver.conOR_process(rin, rout, toProcess);
-                                }
-                            }
-                        }
-
-                        //Array.Copy(lBufferIn, lBufferOut, 48000);
-                        //Array.Copy(lBufferIn, rBufferOut, 48000);
-
-                        for (int i = 0; i < toProcess; i++)
-                        {
-                            int lInd = beginPtr + i * 2;
-                            int rInd = lInd + 1;
-                            buffer[lInd]=  lBufferOut[i] ;
-                            buffer[rInd] = rBufferOut[i] ;
-                        }
-
-                        remain -= toProcess;
-                        beginPtr += toProcess * 2;
-                    }
 
 
                     for (int i = offset; i < end; i += channel)
                     {
                         
-                        // 交换左右声道
-                        if (param.swapChannel)
-                        {
-                            float t = buffer[i];
-                            buffer[i] = buffer[i + 1];
-                            buffer[i + 1] = t;
-                        }
+                       
                         // 反转一边
-                        if (param.invertOneSide)
-                        {
-                            buffer[i] = -buffer[i];
-                        }
+                        
                         // 抗串扰
                         float l = buffer[i];
                         float r = buffer[i + 1];

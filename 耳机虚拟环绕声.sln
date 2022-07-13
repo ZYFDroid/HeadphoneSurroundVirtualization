@@ -4,10 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "耳机虚拟环绕声", "耳机虚拟环绕声\耳机虚拟环绕声.csproj", "{D19F4977-B414-4A0D-AA9D-4D85C25676E3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{67A7AA45-717A-4286-B774-CB628A76FDE1} = {67A7AA45-717A-4286-B774-CB628A76FDE1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEQCreator", "TestEQCreator\TestEQCreator.csproj", "{02B8FC3A-EA6D-49D7-9C54-A03B24ECF9CB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioCommon", "AudioCommon\AudioCommon.csproj", "{9B329F44-878E-419F-9229-1C247EDF4395}"
+	ProjectSection(ProjectDependencies) = postProject
+		{67A7AA45-717A-4286-B774-CB628A76FDE1} = {67A7AA45-717A-4286-B774-CB628A76FDE1}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FFTConvolver", "CLibs\FFTConvolver\FFTConvolver.vcxproj", "{67A7AA45-717A-4286-B774-CB628A76FDE1}"
 EndProject
