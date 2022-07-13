@@ -419,7 +419,6 @@ namespace 耳机虚拟环绕声
         {
             Program.SurroundSettings.masterGain = numMasterGain.Value / 100f;
             surroundToStereoSampleProvider?.applySettings(Program.SurroundSettings); 
-            surroundToStereoSampleProvider?.applySettings(Program.SurroundSettings);
             numMasterGain.ThumbText = $"{Program.SurroundSettings.masterGain.ToString("00.00")}dB";
             Program.needSave = true;
         }
@@ -861,6 +860,5 @@ namespace 耳机虚拟环绕声
             }
 
         }
-
     }
 }

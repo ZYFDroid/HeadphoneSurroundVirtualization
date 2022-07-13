@@ -112,7 +112,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>del /f /q "$(ProjectDir)Resources\FFTConvolver.dll"
+copy "$(SolutionDir)CLibs\FFTConvolver\Bin\x64\Release\FFTConvolver.dll" "$(ProjectDir)Resources\FFTConvolver.dll"</PreBuildEvent>
   </PropertyGroup>
 </Project>

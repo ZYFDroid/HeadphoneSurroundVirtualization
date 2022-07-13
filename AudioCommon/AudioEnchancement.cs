@@ -123,11 +123,6 @@ namespace AudioCommon
             }
             this.baseProvider = baseProvider;
             graphicEQFilter = new EqualizerAPO.GraphicEQFilter(baseProvider.WaveFormat.SampleRate);
-            int bufferSample = baseProvider.WaveFormat.SampleRate;
-            lBufferIn = new float[bufferSample];
-            lBufferOut = new float[bufferSample];
-            rBufferIn = new float[bufferSample];
-            rBufferOut = new float[bufferSample];
             Apply(param);
         }
 
@@ -137,7 +132,8 @@ namespace AudioCommon
 
         private object syncObj = new object();
 
-        private float[] empty = new float[] {1,0,0,0,0,0,0,0};
+        private float[] unitp = new float[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+        private float[] empty = new float[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 
         public void Apply(AudioEnchancementParameters param)
         {
@@ -149,8 +145,9 @@ namespace AudioCommon
                 unsafe
                 {
                     fixed(float* pEmpty = empty)
+                    fixed (float* pUnit = unitp)
                     {
-                        FFTConvolver.FFTConvolver.set_en_ir(pEmpty, pEmpty, pEmpty, pEmpty, 8);
+                        FFTConvolver.FFTConvolver.set_en_ir(pUnit, pEmpty, pEmpty, pUnit, 8);
                     }
                 }
             
@@ -164,14 +161,9 @@ namespace AudioCommon
             float[] firLL = graphicEQFilter.GenerateInpulseResponse();
             float[] firLR = new float[firLL.Length];
             float[] firRL = new float[firLL.Length];
-            float[] firRR = graphicEQFilter.GenerateInpulseResponse();
+            float[] firRR = firLL.Select(l => l).ToArray();
 
-            if (param.swapChannel)
-            {
-                var temp = firLL;
-                firLL = firRR;
-                firRR = temp;
-            }
+          
 
             if (param.invertOneSide)
             {
@@ -187,7 +179,7 @@ namespace AudioCommon
                 firRL[i] = param.antiCrossfeedLevel * firRR[i];
             }
 
-            
+
             lDown = 1;
             rDown = 1;
             if (param.balanceLevel < 0)
@@ -205,7 +197,16 @@ namespace AudioCommon
                 firRL[i] *= lDown;
                 firLL[i] *= lDown;
             }
+            if (param.swapChannel)
+            {
+                var temp = firLL;
+                firLL = firLR;
+                firLR = temp;
 
+                temp = firRL;
+                firRL = firRR;
+                firRR = temp;
+            }
             unsafe
             {
                 fixed(float* pLL = firLL) 
@@ -213,7 +214,7 @@ namespace AudioCommon
                 fixed(float* pRL = firRL) 
                 fixed(float* pRR = firRR)
                 {
-                    FFTConvolver.FFTConvolver.set_en_ir(pLL, pLR, pRL, pLR, firLL.Length);
+                    FFTConvolver.FFTConvolver.set_en_ir(pLL, pLR, pRL, pRR, firLL.Length);
                 }
             }
 
@@ -222,49 +223,11 @@ namespace AudioCommon
         float lDown = 1;
         float rDown = 1;
 
-        float[] lBufferIn,lBufferOut,rBufferIn,rBufferOut;
-
         public int Read(float[] buffer, int offset, int count)
         {
             int sampleReaded = baseProvider.Read(buffer, offset, count);
             return sampleReaded;
-            if (!Bypass && param != null)
-            {
-                lock (syncObj)
-                {
-                    int channel = 2;
-                    int end = offset + sampleReaded;
-                    //for (int i = offset; i < end; i += channel) {
-
-                    //    buffer[i] = 0.1f;
-                    //    buffer[i+1] = 0.1f;
-                    //}
-
-
-
-                    // 均衡器
-
-
-
-                    for (int i = offset; i < end; i += channel)
-                    {
-                        
-                       
-                        // 反转一边
-                        
-                        // 抗串扰
-                        float l = buffer[i];
-                        float r = buffer[i + 1];
-                        buffer[i + 1] += l * param.antiCrossfeedLevel;
-                        buffer[i] += r * param.antiCrossfeedLevel;
-
-                        // 声道平衡
-                        buffer[i] *= lDown;
-                        buffer[i + 1] *= rDown;
-                    }
-                }
-            }
-            return sampleReaded;
+            
         }
     }
 

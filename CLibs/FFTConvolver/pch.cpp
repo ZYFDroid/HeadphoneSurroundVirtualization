@@ -135,6 +135,21 @@ bool __stdcall set_sr_ir(const fftconvolver::Sample* ir, int irLen, int chanCoun
     return result;
 }
 
+bool initOneIr(const fftconvolver::Sample* ir, int frameCount, int chanCount, int chanOffset, FFTConvolver* target, fftconvolver::Sample* tempBuffer) {
+    int i;
+
+    if (chanOffset >= chanCount) {
+        chanOffset = 13 - chanOffset;
+    }
+
+    for (i = 0; i < frameCount; i++) {
+        tempBuffer[i] = ir[i * chanCount + chanOffset];
+    }
+
+    target->reset();
+    return target->init(2048, tempBuffer, frameCount);
+}
+
 bool __stdcall set_en_ir(const fftconvolver::Sample* ll, const fftconvolver::Sample* lr, const fftconvolver::Sample* rl, const fftconvolver::Sample* rr, int irLen)
 {
     bool result = true;
@@ -171,22 +186,6 @@ void __stdcall set_master_gain(float gain)
     _comp->setMasterGain(gain);
 }
 
-bool initOneIr(const fftconvolver::Sample* ir, int frameCount, int chanCount, int chanOffset, FFTConvolver* target, fftconvolver::Sample* tempBuffer) {
-    int i;
-    chanOffset = 0;
-    target = conv01;
-
-    if (chanOffset >= chanCount) {
-        chanOffset = 13 - chanOffset;
-    }
-
-    for (i = 0; i < frameCount; i++) {
-        tempBuffer[i] = ir[i * chanCount + chanOffset];
-    }
-
-    target->reset();
-    return target->init(2048, tempBuffer, frameCount);
-}
 
 
 float _rawMaxs[8];
@@ -214,7 +213,7 @@ float visualizerDownRate = 0.04f;
 /// <param name="len">输入的音频帧长度（长度除以频道数量），不得超过48000</param>
 /// <returns></returns>
 
-void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample* output,fftconvolver::Sample* meters,int offset,int outOffset,int len)
+void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample* output, fftconvolver::Sample* meters, int offset, int outOffset, int len)
 {
     int i;
     int begin = offset;
@@ -304,6 +303,13 @@ void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample*
 
         hrirMutex.unlock();
     }
+    else {
+        for (i = 0; i < len; i++)
+        {
+            st2_L[i] += st1_FL_L[i];
+            st2_R[i] += st1_FR_R[i];
+        }
+    }
     // 目前st2 中是卷积后的数据
 
     enchMutex.lock();
@@ -316,6 +322,12 @@ void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample*
     convORL->process(st2_R, st1_L, len); sumData(st1_L, st3_L, len);
     convORR->process(st2_R, st1_R, len); sumData(st1_R, st3_R, len);
 
+    //for (i = 0; i < len; i++)
+    //{
+    //    st3_L[i] = st2_L[i];
+    //    st3_R[i] = st2_R[i];
+    //}
+
     enchMutex.unlock();
     // 目前st3 中是音频增强后的数据
     // 拷贝到输出，然后做一下压缩
@@ -323,7 +335,7 @@ void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample*
     for (i = 0; i < len; i++)
     {
         output[outOffset + i * 2] = st3_L[i];
-        output[outOffset + i * 2+1] = st3_L[i+1];
+        output[outOffset + i * 2+1] = st3_R[i];
     }
 
     _comp->process(output,outOffset, len * 2, meters);

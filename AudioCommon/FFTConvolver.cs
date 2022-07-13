@@ -7,7 +7,7 @@ namespace FFTConvolver
     public static unsafe class FFTConvolver
     {
 
-        public const string dllName = "fftconvolver_010.dll";
+        public const string dllName = "fftconvolver_200.dll";
 
         [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
         public static extern bool init_mem();

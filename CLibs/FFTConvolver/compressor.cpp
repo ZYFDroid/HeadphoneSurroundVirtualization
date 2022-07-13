@@ -87,7 +87,7 @@ void ap::compressor::process(float* buffer,int outOffset, int len, float* displa
             _maxLeft = 0;
             _maxRight = 0;
             display[8] = outLeft;
-            display[9] = outLeft;
+            display[9] = outRight;
             display[10] = _compressorGain;
         }
     }

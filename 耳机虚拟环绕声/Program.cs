@@ -72,11 +72,17 @@ namespace 耳机虚拟环绕声
             {
                 AudioEnchancementData = JsonConvert.Deserialize<AudioEnchancementData>(File.ReadAllText(AudioEnchancementConfigFile));
             }
+
+
             if (!File.Exists(FFTConvolverModule))
             {
                 string name = FFTConvolverModule;
                 string tempname = FFTConvolverModule+".tmp";
                 File.WriteAllBytes(tempname, AudioCommon.Properties.Resources.FFTConvolver_dll);
+                if (File.Exists(name))
+                {
+                    File.Delete(name);
+                }
                 File.Move(tempname, name);
             }
             
@@ -393,6 +399,7 @@ namespace 耳机虚拟环绕声
 
         public void applySettings(SurroundSettings settings,bool fullApply = false)
         {
+            FFTConvolver.FFTConvolver.set_master_gain(settings.masterGain);
             FFTConvolver.FFTConvolver.set_fc2f(settings.rerouteFrontCenter);
             FFTConvolver.FFTConvolver.set_cmp_param(_outWaveFormat.SampleRate,
                 settings.cmpGate, settings.cmpRatio, settings.cmpAttack, settings.cmpRelease);
