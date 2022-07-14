@@ -44,6 +44,23 @@ Sample* st1_SL_R = NULL;
 Sample* st1_SR_L = NULL;
 Sample* st1_SR_R = NULL;
 
+Sample* st1_FL_LO = NULL;
+Sample* st1_FL_RO = NULL;
+Sample* st1_FR_LO = NULL;
+Sample* st1_FR_RO = NULL;
+Sample* st1_FC_LO = NULL;
+Sample* st1_FC_RO = NULL;
+Sample* st1_LF_LO = NULL;
+Sample* st1_LF_RO = NULL;
+Sample* st1_RL_LO = NULL;
+Sample* st1_RL_RO = NULL;
+Sample* st1_RR_LO = NULL;
+Sample* st1_RR_RO = NULL;
+Sample* st1_SL_LO = NULL;
+Sample* st1_SL_RO = NULL;
+Sample* st1_SR_LO = NULL;
+Sample* st1_SR_RO = NULL;
+
 Sample* st1_L = NULL;
 Sample* st1_R = NULL;
 
@@ -87,6 +104,24 @@ bool __stdcall init_mem()
     result &= (st1_RL_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
     result &= (st1_RR_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
     result &= (st1_RR_R = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
+
+    result &= (st1_FL_LO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_FL_RO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_FR_LO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_FR_RO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_FC_LO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_FC_RO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_LF_LO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_LF_RO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_SL_LO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_SL_RO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_SR_LO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_SR_RO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_RL_LO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_RL_RO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_RR_LO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+    result &= (st1_RR_RO = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
+
     result &= (st1_L = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
     result &= (st1_R = (fftconvolver::Sample*)malloc(sizeof(float) * 48000)) != NULL;
     result &= (st2_L = (fftconvolver::Sample *)malloc(sizeof(float) * 48000)) != NULL;
@@ -147,7 +182,7 @@ bool initOneIr(const fftconvolver::Sample* ir, int frameCount, int chanCount, in
     }
 
     target->reset();
-    return target->init(2048, tempBuffer, frameCount);
+    return target->init(1024, tempBuffer, frameCount);
 }
 
 bool __stdcall set_en_ir(const fftconvolver::Sample* ll, const fftconvolver::Sample* lr, const fftconvolver::Sample* rl, const fftconvolver::Sample* rr, int irLen)
@@ -159,10 +194,10 @@ bool __stdcall set_en_ir(const fftconvolver::Sample* ll, const fftconvolver::Sam
     convORL->reset();
     convORR->reset();
 
-    convOLL->init(2048,ll,irLen);
-    convOLR->init(2048,lr,irLen);
-    convORL->init(2048,rl,irLen);
-    convORR->init(2048,rr,irLen);
+    convOLL->init(1024,ll,irLen);
+    convOLR->init(1024,lr,irLen);
+    convORL->init(1024,rl,irLen);
+    convORR->init(1024,rr,irLen);
     enchMutex.unlock();
     return result;
 }
@@ -279,31 +314,51 @@ void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample*
     }
 
 
-    memset(st2_L, 0, len * sizeof(float));
-    memset(st2_R, 0, len * sizeof(float));
     if (!_sr_bypass) {
         hrirMutex.lock();
+        
+        conv01->process(st1_FL_L, st2_L, len); 
+        conv02->process(st1_FL_R, st2_R, len); 
+        conv03->process(st1_FR_L, st1_FR_LO, len); 
+        conv04->process(st1_FR_R, st1_FR_RO, len); 
+        conv05->process(st1_FC_L, st1_FC_LO, len); 
+        conv06->process(st1_FC_R, st1_FC_RO, len); 
+        conv07->process(st1_LF_L, st1_LF_LO, len); 
+        conv08->process(st1_LF_R, st1_LF_RO, len); 
+        conv09->process(st1_RL_L, st1_RL_LO, len); 
+        conv10->process(st1_RL_R, st1_RL_RO, len); 
+        conv11->process(st1_RR_L, st1_RR_LO, len); 
+        conv12->process(st1_RR_R, st1_RR_RO, len); 
+        conv13->process(st1_SL_L, st1_SL_LO, len); 
+        conv14->process(st1_SL_R, st1_SL_RO, len); 
+        conv15->process(st1_SR_L, st1_SR_LO, len); 
+        conv16->process(st1_SR_R, st1_SR_RO, len); 
 
-        conv01->process(st1_FL_L, st1_L, len); sumData(st1_L, st2_L, len);
-        conv02->process(st1_FL_R, st1_R, len); sumData(st1_R, st2_R, len);
-        conv03->process(st1_FR_L, st1_L, len); sumData(st1_L, st2_L, len);
-        conv04->process(st1_FR_R, st1_R, len); sumData(st1_R, st2_R, len);
-        conv05->process(st1_FC_L, st1_L, len); sumData(st1_L, st2_L, len);
-        conv06->process(st1_FC_R, st1_R, len); sumData(st1_R, st2_R, len);
-        conv07->process(st1_LF_L, st1_L, len); sumData(st1_L, st2_L, len);
-        conv08->process(st1_LF_R, st1_R, len); sumData(st1_R, st2_R, len);
-        conv09->process(st1_RL_L, st1_L, len); sumData(st1_L, st2_L, len);
-        conv10->process(st1_RL_R, st1_R, len); sumData(st1_R, st2_R, len);
-        conv11->process(st1_RR_L, st1_L, len); sumData(st1_L, st2_L, len);
-        conv12->process(st1_RR_R, st1_R, len); sumData(st1_R, st2_R, len);
-        conv13->process(st1_SL_L, st1_L, len); sumData(st1_L, st2_L, len);
-        conv14->process(st1_SL_R, st1_R, len); sumData(st1_R, st2_R, len);
-        conv15->process(st1_SR_L, st1_L, len); sumData(st1_L, st2_L, len);
-        conv16->process(st1_SR_R, st1_R, len); sumData(st1_R, st2_R, len);
+        for (int i = 0; i < len; i++)
+        {
+            //st2_L[i] += st1_FL_LO[i];
+            //st2_R[i] += st1_FL_RO[i];
+            st2_L[i] += st1_FR_LO[i];
+            st2_R[i] += st1_FR_RO[i];
+            st2_L[i] += st1_FC_LO[i];
+            st2_R[i] += st1_FC_RO[i];
+            st2_L[i] += st1_LF_LO[i];
+            st2_R[i] += st1_LF_RO[i];
+            st2_L[i] += st1_RL_LO[i];
+            st2_R[i] += st1_RL_RO[i];
+            st2_L[i] += st1_RR_LO[i];
+            st2_R[i] += st1_RR_RO[i];
+            st2_L[i] += st1_SL_LO[i];
+            st2_R[i] += st1_SL_RO[i];
+            st2_L[i] += st1_SR_LO[i];
+            st2_R[i] += st1_SR_RO[i];
+        }
 
         hrirMutex.unlock();
     }
     else {
+        memset(st2_L, 0, sizeof(float)* len);
+        memset(st2_R, 0, sizeof(float)* len);
         for (i = 0; i < len; i++)
         {
             st2_L[i] += st1_FL_L[i];
@@ -314,13 +369,18 @@ void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample*
 
     enchMutex.lock();
 
-    memset(st3_L, 0, len * sizeof(float));
-    memset(st3_R, 0, len * sizeof(float));
-    convOLL->process(st2_L, st1_L, len); sumData(st1_L, st3_L, len);
-    convOLR->process(st2_L, st1_R, len); sumData(st1_R, st3_R, len);
+    convOLL->process(st2_L, st1_L, len); 
+    convOLR->process(st2_L, st1_R, len); 
 
-    convORL->process(st2_R, st1_L, len); sumData(st1_L, st3_L, len);
-    convORR->process(st2_R, st1_R, len); sumData(st1_R, st3_R, len);
+    convORL->process(st2_R, st3_L, len); 
+    convORR->process(st2_R, st3_R, len); 
+
+    for (i = 0; i < len; i++)
+    {
+        st3_L[i] += st1_L[i];
+        st3_R[i] += st1_R[i];
+    }
+
 
     //for (i = 0; i < len; i++)
     //{
@@ -341,11 +401,3 @@ void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample*
     _comp->process(output,outOffset, len * 2, meters);
 }
 
-
-
-void sumData(const fftconvolver::Sample* src,fftconvolver::Sample* dst, int len) {
-    for (int i = 0; i < len; i++)
-    {
-        dst[i] += src[i];
-    }
-}

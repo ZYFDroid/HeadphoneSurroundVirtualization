@@ -37,6 +37,4 @@ IMPORT_DLL void __stdcall set_fc2f(bool fc2f);
 IMPORT_DLL void __stdcall set_master_gain(float gain);
 IMPORT_DLL void __stdcall pro_call(const fftconvolver::Sample* input,  fftconvolver::Sample* output, fftconvolver::Sample* meters, int offset,int outOffset, int len);
 
-
-void sumData(const fftconvolver::Sample* src, fftconvolver::Sample* dst, int len);
 bool initOneIr(const fftconvolver::Sample* ir, int frameCount, int chanCount, int chanOffset, fftconvolver::FFTConvolver* target, fftconvolver::Sample* tempBuffer);
