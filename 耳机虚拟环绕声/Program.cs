@@ -262,6 +262,10 @@ namespace 耳机虚拟环绕声
         {
             int chanCount = 0;
             float[] IRs = genIR(_outWaveFormat.SampleRate,out chanCount);
+            if(chanCount != 7 && chanCount != 14)
+            {
+                throw new Exception("此音频文件不是一个有效的HRIR文件");
+            }
             unsafe {
                 fixed (float* irs = IRs)
                 {
