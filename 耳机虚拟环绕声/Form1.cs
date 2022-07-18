@@ -22,7 +22,7 @@ namespace 耳机虚拟环绕声
     public partial class btnExportIR : Form,NAudio.CoreAudioApi.Interfaces.IMMNotificationClient
     {
 
-        public int deviceLancey = 40;
+        public int deviceLatency = 40;
 
        
         class StartParam
@@ -106,13 +106,12 @@ namespace 耳机虚拟环绕声
                          catch { }
                      };
                     targetDevice.AudioEndpointVolume.OnVolumeNotification += targetVolumeChanged;
-                    //Console.ReadLine();
                     var targetFormat = targetDevice.AudioClient.MixFormat;
-                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, deviceLancey); //对虚拟声卡进行捕获
-                    WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, deviceLancey + deviceLancey / 2 ); //从我们的立体声耳机创建一个声音输出
+                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, deviceLatency); //对虚拟声卡进行捕获
+                    WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, deviceLatency + deviceLatency / 2 ); //从我们的立体声耳机创建一个声音输出
                     BufferedWaveProvider bufferedWaveProvider = new BufferedWaveProvider(wasapiCapture.WaveFormat);
 
-                    int prefillLen = deviceLancey/9; //玄学调参：只要除以9就可以避免卡顿？我也不知道为什么
+                    int prefillLen = deviceLatency/9; //玄学调参：只要除以9就可以避免卡顿？我也不知道为什么
                     prefillLen *= bufferedWaveProvider.WaveFormat.SampleRate;
                     prefillLen /= 1000;
                     prefillLen *= bufferedWaveProvider.WaveFormat.Channels;
@@ -120,7 +119,7 @@ namespace 耳机虚拟环绕声
 
                     byte[] prefillEmptyBuffer = new byte[prefillLen];
 
-                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(deviceLancey * 2);
+                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(deviceLatency * 2);
                     bufferedWaveProvider.DiscardOnBufferOverflow = true;
                     wasapiCapture.DataAvailable += (_, waveArgs) =>
                     {
@@ -129,7 +128,7 @@ namespace 耳机虚拟环绕声
                             bufferedWaveProvider.AddSamples(prefillEmptyBuffer, 0, prefillEmptyBuffer.Length);
                             //underflowCount++;
                         }
-                        if(bufferedWaveProvider.BufferedDuration.Milliseconds > deviceLancey * 2 * 95 / 100)//Overflow detect
+                        if(bufferedWaveProvider.BufferedDuration.Milliseconds > deviceLatency * 2 * 95 / 100)//Overflow detect
                         {
                             bufferedWaveProvider.Read(prefillEmptyBuffer, 0, prefillEmptyBuffer.Length);
                             Array.Clear(prefillEmptyBuffer,0,prefillEmptyBuffer.Length);
@@ -330,7 +329,7 @@ namespace 耳机虚拟环绕声
                 sp.targetDevice = dst;
                 deviceDecider.OnStart(dst.id,devices.Select(d => d.id).ToArray());
                 chkBypass.Checked = false;
-                this.deviceLancey = chkLowLancey.Checked ? 40 : 200;
+                this.deviceLatency = chkLowLancey.Checked ? 40 : 200;
                 surroundProc.RunWorkerAsync(sp);
 
             }
