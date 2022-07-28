@@ -7,6 +7,9 @@
 #ifndef PCH_H
 #define PCH_H
 
+#define METER_UPDATE_SAMPLES 1000
+#define METER_DECAY_RATE 0.04f
+
 #include <iostream>
 
 #include <mutex>

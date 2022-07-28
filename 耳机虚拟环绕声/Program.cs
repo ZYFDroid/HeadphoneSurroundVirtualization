@@ -408,6 +408,7 @@ namespace 耳机虚拟环绕声
 
         public float[] rawPeaks;
 
+        private float[] meters = new float[11];
         public int Read(float[] buffer, int offset, int count)
         {
             
@@ -419,7 +420,6 @@ namespace 耳机虚拟环绕声
 
             int monoCount = (readFrom / _channels);
 
-            float[] meters = new float[11];
             unsafe {
                 fixed (float* fin = _buffer){
                     fixed (float* fout = buffer)

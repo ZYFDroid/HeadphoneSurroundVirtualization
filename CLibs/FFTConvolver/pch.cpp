@@ -226,8 +226,7 @@ void __stdcall set_master_gain(float gain)
 float _rawMaxs[8];
 float rawPeaks[8]; // out to the displayer
 
-int ccd = 1000;
-int cd = 1000;
+int cd_ = 1000;
 
 int _channels = 8;
 
@@ -237,7 +236,6 @@ void __stdcall set_fc2f(bool val)
 {
     fc2f = val;
 }
-float visualizerDownRate = 0.04f;
 
 /// <summary>
 /// 一站式处理所有的数据
@@ -287,23 +285,25 @@ void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample*
         for (int c = 0; c < _channels; c++)
         {
             float sample = input[ptr + c];
+            if (sample < 0) {
+                sample = -sample;
+            }
             if (_rawMaxs[c] < sample)
             {
                 _rawMaxs[c] = sample;
             }
 
         }
-        cd--;
-        if (cd < 0)
+        cd_--;
+        if (cd_ < 0)
         {
-            cd = ccd;
+            cd_ = METER_UPDATE_SAMPLES;
             for (int c = 0; c < 8; c++)
             {
-                rawPeaks[c] -= visualizerDownRate;
+                rawPeaks[c] -= METER_DECAY_RATE;
                 if (rawPeaks[c] < _rawMaxs[c])
                 {
                     rawPeaks[c] = _rawMaxs[c];
-                    meters[c] = rawPeaks[c];
                 }
                 _rawMaxs[c] = 0;
 
@@ -312,7 +312,11 @@ void __stdcall pro_call(const fftconvolver::Sample* input, fftconvolver::Sample*
 
         ptr += 8;
     }
+    for (int c = 0; c < 8; c++)
+    {
+        meters[c] = rawPeaks[c];
 
+    }
 
     if (!_sr_bypass) {
         hrirMutex.lock();

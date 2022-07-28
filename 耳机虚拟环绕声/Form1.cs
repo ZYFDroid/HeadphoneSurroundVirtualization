@@ -227,9 +227,8 @@ namespace 耳机虚拟环绕声
             bars = new MP3模拟器.CtlBarMeter[] {
                 barFL,barFR,barFC,barLF,barRL,barRR,barSL,barSR
             };
-            
-            
 
+            
             numCompressAttack.Value = (int)Program.SurroundSettings.cmpAttack;
             numCompressGate.Value = (int)(Program.SurroundSettings.cmpGate * 10);
 

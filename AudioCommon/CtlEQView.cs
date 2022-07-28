@@ -23,7 +23,6 @@ namespace 耳机虚拟环绕声
             if (DesignMode) { return; }
             this.DoubleBuffered = true;
             this.BorderStyle = BorderStyle.None;
-            controlGraphics = Graphics.FromHwnd(Handle);
             initMemoryDC();
             if (!DesignMode)
             {
@@ -34,27 +33,18 @@ namespace 耳机虚拟环绕声
         private void initMemoryDC()
         {
             renderTimer.Enabled = false;
-            renderBuffer?.Dispose();
-            memoryDC?.Dispose();
             backgroundBuffer?.Dispose();
             backgroundDC?.Dispose();
             backgroundDC = new Bitmap(this.Width, this.Height);
             backgroundBuffer = Graphics.FromImage(backgroundDC);
-            memoryDC = new Bitmap(this.Width, this.Height);
-            renderBuffer = Graphics.FromImage(memoryDC);
-            renderBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            renderBuffer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             backgroundBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             backgroundBuffer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             renderBackground();
             renderTimer.Enabled = true;
         }
 
-        private Bitmap memoryDC = null;
         private Bitmap backgroundDC = null;
         private Graphics backgroundBuffer = null;
-        private Graphics renderBuffer = null;
-        private Graphics controlGraphics = null;
 
         private void renderBackground()
         {
@@ -115,47 +105,32 @@ namespace 耳机虚拟环绕声
             g.DrawRectangle(forePen, 0, 0, Width - 1, Height - 1);
         }
 
-        private void Draw()
-        {
-
-            if (controlGraphics == null)
-            {
-                return;
-            }
-            if (renderBuffer == null)
-            {
-                return;
-            }
-            if (ParentForm.WindowState == FormWindowState.Minimized) { return; }
-            DrawInternal(renderBuffer);
-            controlGraphics.DrawImage(memoryDC, 0, 0);
-        }
+        
 
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
             initMemoryDC();
+            Invalidate();
         }
 
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
             initMemoryDC();
+            Invalidate();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            if (DesignMode)
-            {
-                e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                DrawInternal(e.Graphics);
-            }
+            
+            DrawInternal(e.Graphics);
             
         }
         public void Redraw()
         {
-            Draw();
+            Invalidate();
         }
 
 
@@ -234,7 +209,7 @@ namespace 耳机虚拟环绕声
         {
             if (!DesignMode)
             {
-                Draw();
+                Invalidate();
             }
         }
     }

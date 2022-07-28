@@ -113,6 +113,29 @@ namespace 耳机虚拟环绕声
         {
             RequestUpdate?.Invoke(this, EventArgs.Empty);
         }
+
+        private void ctlEqView_SizeChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelOuterContainer_SizeChanged(object sender, EventArgs e)
+        {
+            ctlEqView.Size = tblChartContainer.Size;
+            foreach (var item in tblChartContainer.Controls)
+            {
+                if(item is PeakeqPointer)
+                {
+
+                    (item as PeakeqPointer)?.initPosition();
+                }
+            }
+        }
+
+        private void panelOuterContainer_Resize(object sender, EventArgs e)
+        {
+            
+        }
     }
 
 

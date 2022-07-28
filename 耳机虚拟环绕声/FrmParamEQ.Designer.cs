@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelOuterContainer = new System.Windows.Forms.Panel();
             this.tblChartContainer = new System.Windows.Forms.Panel();
-            this.ctlEqView = new 耳机虚拟环绕声.CtlEQView();
             this.label1 = new System.Windows.Forms.Label();
             this.numFC = new System.Windows.Forms.NumericUpDown();
             this.numDBGain = new System.Windows.Forms.NumericUpDown();
@@ -39,22 +38,30 @@
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel1.SuspendLayout();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.ctlEqView = new 耳机虚拟环绕声.CtlEQView();
+            this.panelOuterContainer.SuspendLayout();
             this.tblChartContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDBGain)).BeginInit();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // panelOuterContainer
             // 
-            this.panel1.BackColor = System.Drawing.Color.Black;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.tblChartContainer);
-            this.panel1.Location = new System.Drawing.Point(25, 24);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(601, 484);
-            this.panel1.TabIndex = 0;
+            this.panelOuterContainer.BackColor = System.Drawing.Color.Black;
+            this.panelOuterContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelOuterContainer.Controls.Add(this.tblChartContainer);
+            this.panelOuterContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelOuterContainer.Location = new System.Drawing.Point(0, 0);
+            this.panelOuterContainer.Name = "panelOuterContainer";
+            this.panelOuterContainer.Size = new System.Drawing.Size(684, 537);
+            this.panelOuterContainer.TabIndex = 0;
+            this.panelOuterContainer.SizeChanged += new System.EventHandler(this.panelOuterContainer_SizeChanged);
+            this.panelOuterContainer.Resize += new System.EventHandler(this.panelOuterContainer_Resize);
             // 
             // tblChartContainer
             // 
@@ -62,22 +69,14 @@
             this.tblChartContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblChartContainer.Location = new System.Drawing.Point(0, 0);
             this.tblChartContainer.Name = "tblChartContainer";
-            this.tblChartContainer.Size = new System.Drawing.Size(597, 480);
+            this.tblChartContainer.Size = new System.Drawing.Size(680, 533);
             this.tblChartContainer.TabIndex = 0;
-            // 
-            // ctlEqView
-            // 
-            this.ctlEqView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctlEqView.Location = new System.Drawing.Point(0, 0);
-            this.ctlEqView.Margin = new System.Windows.Forms.Padding(5);
-            this.ctlEqView.Name = "ctlEqView";
-            this.ctlEqView.Size = new System.Drawing.Size(597, 480);
-            this.ctlEqView.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(632, 26);
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Location = new System.Drawing.Point(4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(126, 21);
             this.label1.TabIndex = 12;
@@ -86,7 +85,7 @@
             // numFC
             // 
             this.numFC.DecimalPlaces = 1;
-            this.numFC.Location = new System.Drawing.Point(3, 3);
+            this.numFC.Location = new System.Drawing.Point(0, 3);
             this.numFC.Maximum = new decimal(new int[] {
             20000,
             0,
@@ -115,7 +114,7 @@
             0,
             0,
             65536});
-            this.numDBGain.Location = new System.Drawing.Point(3, 62);
+            this.numDBGain.Location = new System.Drawing.Point(0, 62);
             this.numDBGain.Maximum = new decimal(new int[] {
             15,
             0,
@@ -143,12 +142,13 @@
             // btnNew
             // 
             this.btnNew.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNew.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnNew.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnNew.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNew.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnNew.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnNew.Location = new System.Drawing.Point(637, 194);
+            this.btnNew.Location = new System.Drawing.Point(4, 159);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(202, 35);
             this.btnNew.TabIndex = 11;
@@ -164,7 +164,7 @@
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemove.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnRemove.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnRemove.Location = new System.Drawing.Point(4, 97);
+            this.btnRemove.Location = new System.Drawing.Point(0, 97);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(202, 35);
             this.btnRemove.TabIndex = 11;
@@ -175,15 +175,16 @@
             // btnUpdate
             // 
             this.btnUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnUpdate.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnUpdate.FlatAppearance.BorderSize = 2;
             this.btnUpdate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnUpdate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdate.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnUpdate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnUpdate.Location = new System.Drawing.Point(636, 462);
+            this.btnUpdate.Location = new System.Drawing.Point(4, 491);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(203, 46);
+            this.btnUpdate.Size = new System.Drawing.Size(202, 46);
             this.btnUpdate.TabIndex = 11;
             this.btnUpdate.Text = "应用";
             this.btnUpdate.UseVisualStyleBackColor = true;
@@ -195,44 +196,78 @@
             this.panel2.Controls.Add(this.btnRemove);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.numDBGain);
-            this.panel2.Location = new System.Drawing.Point(633, 50);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(4, 21);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(220, 138);
+            this.panel2.Size = new System.Drawing.Size(202, 138);
             this.panel2.TabIndex = 15;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.panelOuterContainer);
+            this.panel3.Controls.Add(this.panel4);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(12, 12);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(901, 537);
+            this.panel3.TabIndex = 16;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.btnNew);
+            this.panel4.Controls.Add(this.panel2);
+            this.panel4.Controls.Add(this.label1);
+            this.panel4.Controls.Add(this.btnUpdate);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel4.Location = new System.Drawing.Point(684, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Padding = new System.Windows.Forms.Padding(4, 0, 11, 0);
+            this.panel4.Size = new System.Drawing.Size(217, 537);
+            this.panel4.TabIndex = 0;
+            // 
+            // ctlEqView
+            // 
+            this.ctlEqView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctlEqView.Location = new System.Drawing.Point(0, 0);
+            this.ctlEqView.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
+            this.ctlEqView.Name = "ctlEqView";
+            this.ctlEqView.Size = new System.Drawing.Size(680, 533);
+            this.ctlEqView.TabIndex = 0;
+            this.ctlEqView.SizeChanged += new System.EventHandler(this.ctlEqView_SizeChanged);
             // 
             // FrmParamEQ
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(860, 531);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnNew);
-            this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(917, 561);
+            this.Controls.Add(this.panel3);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.White;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(701, 452);
             this.Name = "FrmParamEQ";
+            this.Padding = new System.Windows.Forms.Padding(12, 12, 4, 12);
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "频响曲线校正 - FIR图形均衡器";
             this.Load += new System.EventHandler(this.FrmParamEQ_Load);
-            this.panel1.ResumeLayout(false);
+            this.panelOuterContainer.ResumeLayout(false);
             this.tblChartContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numFC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDBGain)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelOuterContainer;
         private System.Windows.Forms.Panel tblChartContainer;
         private CtlEQView ctlEqView;
         private System.Windows.Forms.Label label1;
@@ -243,5 +278,7 @@
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
     }
 }

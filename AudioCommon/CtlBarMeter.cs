@@ -20,6 +20,7 @@ namespace MP3模拟器
 
 
         public float smoothfactor = 0.15f;
+        public float linearDownRate = 0.016f;
 
         float linearDownValue = 0.0f;
 
@@ -94,9 +95,12 @@ namespace MP3模拟器
             float rectY = this.Height / 8f;
             float rectCenterX = this.Width / 2;
             float rectX = rectCenterX - rectSize / 2;
-
+            float rectCenterY = rectSize / 2 + rectY;
 
             g.DrawArc(pCircle, rectX, rectY, rectSize, rectSize, 225, 90);
+
+            //g.FillEllipse(pCircle.Brush, rectCenterX - 2, rectCenterY - 2, 4, 4);
+            //g.DrawEllipse(pCircle, rectCenterX - 2, rectCenterY - 2, 4, 4);
 
         }
 
@@ -119,7 +123,7 @@ namespace MP3模拟器
         
 
         Pen pCircle = new Pen(Brushes.White, 2.5f);
-        Pen pHand = new Pen(Brushes.White, 1.8f);
+        Pen pHand = new Pen(Brushes.White, 1.6f);
         Pen pBorder = new Pen(Brushes.White, 1);
         Brush txtBrush = Brushes.LightGray;
         public string DisplayText { get; set; } = "";
@@ -182,7 +186,7 @@ namespace MP3模拟器
             {
                 return;
             }
-            linearDownValue -= 0.016f;
+            linearDownValue -= linearDownRate;
             if (linearDownValue < _value)
             {
                 linearDownValue = _value;
