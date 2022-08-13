@@ -202,8 +202,8 @@ namespace 耳机虚拟环绕声
 
                 if(peakEQParam.freq < 20) { peakEQParam.freq = 20;}
                 if(peakEQParam.freq > 20000) { peakEQParam.freq = 20000; }
-                if(peakEQParam.dbGain < -15) { peakEQParam.dbGain = -15;}
-                if(peakEQParam.dbGain > 15) { peakEQParam.dbGain = 15; }
+                if(peakEQParam.dbGain < -eqView.DisplayRange) { peakEQParam.dbGain = -eqView.DisplayRange; }
+                if(peakEQParam.dbGain > eqView.DisplayRange) { peakEQParam.dbGain = eqView.DisplayRange; }
 
 
                 Dragged?.Invoke(this, EventArgs.Empty);

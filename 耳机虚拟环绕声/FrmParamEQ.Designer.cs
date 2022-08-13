@@ -116,12 +116,12 @@
             65536});
             this.numDBGain.Location = new System.Drawing.Point(0, 62);
             this.numDBGain.Maximum = new decimal(new int[] {
-            15,
+            30,
             0,
             0,
             0});
             this.numDBGain.Minimum = new decimal(new int[] {
-            15,
+            30,
             0,
             0,
             -2147483648});
@@ -229,7 +229,7 @@
             // 
             this.ctlEqView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ctlEqView.Location = new System.Drawing.Point(0, 0);
-            this.ctlEqView.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
+            this.ctlEqView.Margin = new System.Windows.Forms.Padding(37, 49, 37, 49);
             this.ctlEqView.Name = "ctlEqView";
             this.ctlEqView.Size = new System.Drawing.Size(680, 533);
             this.ctlEqView.TabIndex = 0;
@@ -243,7 +243,6 @@
             this.Controls.Add(this.panel3);
             this.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ForeColor = System.Drawing.Color.White;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(701, 452);
             this.Name = "FrmParamEQ";

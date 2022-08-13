@@ -37,7 +37,7 @@ namespace 耳机虚拟环绕声
             backgroundDC?.Dispose();
             backgroundDC = new Bitmap(this.Width, this.Height);
             backgroundBuffer = Graphics.FromImage(backgroundDC);
-            backgroundBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            //backgroundBuffer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             backgroundBuffer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             renderBackground();
             renderTimer.Enabled = true;
@@ -82,12 +82,35 @@ namespace 耳机虚拟环绕声
                 g.DrawString(text, Font, forePen.Brush, rect, bottomLeft);
             };
 
+            int step = 1;
+            if (Height < 720)
+            {
+                step = 2;
+            }
+
+            if (Height < 400)
+            {
+                step = 3;
+            }
+
             Action<float, string> drawAtDb = (dB, text) =>
             {
                 float y = h / 2 - (dB / DisplayRange) * (h / 2);
-                g.DrawLine(gridPen, 0, y, Width, y);
-                RectangleF rect = new RectangleF(0, y - 30, 1000, 30);
-                g.DrawString(text, Font, forePen.Brush, rect, bottomLeft);
+
+                if (text != "")
+                {
+                    RectangleF rect = new RectangleF(0, y - 30, 1000, 30);
+                    g.DrawString(text, Font, forePen.Brush, rect, bottomLeft);
+
+                    g.DrawLine(gridPenStroke, 0, y, Width, y);
+                }
+                else
+                {
+
+                    g.DrawLine(gridPen, 0, y, Width, y);
+                }
+                
+                
             };
             drawAtFreq(20, "20Hz");
             drawAtFreq(100, "100Hz");
@@ -96,9 +119,30 @@ namespace 耳机虚拟环绕声
 
             float clippedRange = ((int)(DisplayRange / 3 - 1)) * 3f;
 
-            for (float d = -clippedRange; d <= clippedRange; d += 3)
+            
+
+            for (int d = 0; d <= clippedRange; d += step)
             {
-                drawAtDb(d, d + "dB");
+                string msg = "";
+
+                if(step == 1)
+                {
+                    msg = (d % 5 == 0) ? (d+" dB") : "";
+                }
+
+                if (step == 2)
+                {
+                    msg = (d % 4 == 0) ? (d + " dB") : "";
+                }
+                if (step == 3)
+                {
+                    msg = (d % 6 == 0) ? (d + " dB") : "";
+                }
+                drawAtDb(d, msg);
+                if (d > 0.01f)
+                {
+                    drawAtDb(-d, msg == "" ? msg : "-"+msg);
+                }
             }
 
 
@@ -136,8 +180,8 @@ namespace 耳机虚拟环绕声
 
 
         private Pen forePen = new Pen(Color.White, 2);
-        private Pen gridPen = new Pen(Color.Gray, 1);
-        private Pen gridPenStroke = new Pen(Color.White, 1);
+        private Pen gridPen = new Pen(Color.FromArgb(255,48,48,48), 1);
+        private Pen gridPenStroke = new Pen(Color.Gray, 1);
 
 
         public List<EqualizerAPO.FilterNode> PeakEQParams = new List<EqualizerAPO.FilterNode>();
@@ -175,7 +219,7 @@ namespace 耳机虚拟环绕声
 
         }
 
-        public float DisplayRange = 15f;//dB
+        public float DisplayRange = 30f;//dB
 
         public float evalEqParam(int freq,float q,float gain,float xpos)
         {

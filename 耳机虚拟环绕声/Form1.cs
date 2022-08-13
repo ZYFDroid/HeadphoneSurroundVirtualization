@@ -108,7 +108,7 @@ namespace 耳机虚拟环绕声
                     targetDevice.AudioEndpointVolume.OnVolumeNotification += targetVolumeChanged;
                     var targetFormat = targetDevice.AudioClient.MixFormat;
                     WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, deviceLatency); //对虚拟声卡进行捕获
-                    WasapiOut wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, deviceLatency + deviceLatency / 2 ); //从我们的立体声耳机创建一个声音输出
+                    
                     BufferedWaveProvider bufferedWaveProvider = new BufferedWaveProvider(wasapiCapture.WaveFormat);
 
                     int prefillLen = deviceLatency/9; //玄学调参：只要除以9就可以避免卡顿？我也不知道为什么
@@ -142,9 +142,16 @@ namespace 耳机虚拟环绕声
                     surroundToStereoSampleProvider.applySettings(Program.SurroundSettings, true);
                     
                     audioEnchancementSampleProvider = new AudioEnchancementSampleProvider(surroundToStereoSampleProvider, Program.AudioEnchancementData.getDeviceParam(outDevice.ID));
-                    
-                    wasapiOut.Init(audioEnchancementSampleProvider);
-                    wasapiOut.Play(); //开始环绕
+                    WasapiOut wasapiOut = null;
+                    try
+                    {
+                        wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, deviceLatency + deviceLatency / 2); //从我们的立体声耳机创建一个声音输出
+                        wasapiOut.Init(audioEnchancementSampleProvider);
+                        wasapiOut.Play(); //开始环绕
+                    }catch(Exception ex)
+                    {
+                        _notifyAudioDeviceChanged = true;
+                    }
                     while (!surroundProc.CancellationPending)
                     {
                         System.Threading.Thread.Sleep(20);
@@ -186,8 +193,8 @@ namespace 耳机虚拟环绕声
                     }
                     targetDevice.AudioEndpointVolume.OnVolumeNotification -= targetVolumeChanged;
                     wasapiCapture.StopRecording();
-                    wasapiOut.Stop();
-                    wasapiOut.Dispose();
+                    wasapiOut?.Stop();
+                    wasapiOut?.Dispose();
                     wasapiCapture.Dispose();
                     surroundToStereoSampleProvider = null;
                     audioEnchancementSampleProvider = null;
