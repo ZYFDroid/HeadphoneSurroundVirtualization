@@ -28,9 +28,10 @@ namespace 耳机虚拟环绕声
             this.bindToDevice = deviceGuid;
         }
 
-
+        Toaster.Toast Toast;
         private void FrmEQManage_Load(object sender, EventArgs e)
         {
+            Toast = new Toaster.Toast(this, label11.Font);
             loadData();
         }
 
@@ -120,9 +121,9 @@ namespace 耳机虚拟环绕声
         private Random rnd = new Random();
         private void btnCreateNew_Click(object sender, EventArgs e)
         {
-            if(Program.AudioEnchancementData.audioEnchancementParameters.Count >= 30)
+            if(Program.AudioEnchancementData.audioEnchancementParameters.Count >= 100)
             {
-                MessageBox.Show(this,"数量超过上限。");
+                Toast.ShowMessage("数量超过上限 (100个)");
                 return;
             }
             Program.AudioEnchancementData.audioEnchancementParameters.Add(new AudioEnchancementParameters()
@@ -176,7 +177,7 @@ namespace 耳机虚拟环绕声
                     if(saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
                         File.WriteAllText(saveFileDialog1.FileName, JsonConvert.Serialize(param));
-                        MessageBox.Show(this,"导出完成");
+                        Toast.ShowMessage("导出完成");
                     }
                 }
                 if (e.ColumnIndex == 4)// 删除
@@ -198,9 +199,10 @@ namespace 耳机虚拟环绕声
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            if (Program.AudioEnchancementData.audioEnchancementParameters.Count >= 30)
+            if (Program.AudioEnchancementData.audioEnchancementParameters.Count >= 100)
             {
-                MessageBox.Show(this, "数量超过上限。");
+
+                Toast.ShowMessage("数量超过上限 (100个)");
                 return;
             }
             if (openFileDialog1.ShowDialog(this) == DialogResult.OK)
@@ -216,8 +218,10 @@ namespace 耳机虚拟环绕声
                         tryUpdateParam(param);
                     }
                     loadData();
-                    MessageBox.Show("导入完成");
-                }catch(Exception ex)
+
+                    Toast.ShowMessage("导入完成");
+                }
+                catch(Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                 }
@@ -226,9 +230,9 @@ namespace 耳机虚拟环绕声
 
         private void btnCreateByGuide_Click(object sender, EventArgs e)
         {
-            if (Program.AudioEnchancementData.audioEnchancementParameters.Count >= 30)
+            if (Program.AudioEnchancementData.audioEnchancementParameters.Count >= 100)
             {
-                MessageBox.Show(this, "数量超过上限。");
+                Toast.ShowMessage("数量超过上限 (100个)");
                 return;
             }
 

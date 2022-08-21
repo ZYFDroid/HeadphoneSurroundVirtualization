@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,9 +21,10 @@ namespace 耳机虚拟环绕声
             InitializeComponent();
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
-
+        Toaster.Toast Toast;
         private void FrmParamEQ_Load(object sender, EventArgs e)
         {
+            Toast = new Toaster.Toast(this, btnUpdate.Font);
             loadData();
         }
 
@@ -83,9 +85,10 @@ namespace 耳机虚拟环绕声
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            if(peakEQParamList.Count > 30)
+            if(peakEQParamList.Count > 114)
             {
-                MessageBox.Show(this,"数量超过上限（30个）");
+
+                Toast.ShowMessage("数量超过上限 (100个)");
                 return;
             }
             ctlEqView.SendToBack();
@@ -136,6 +139,130 @@ namespace 耳机虚拟环绕声
         {
             
         }
+
+        private void ctlEqView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                lastPointer = null;
+                double freq = CtlEQView.Log2Freq((float)e.X / (float)ctlEqView.Width);
+                double gain = ctlEqView.DisplayRange * (((float)ctlEqView.Height / 2f - (float)e.Y) / ((float)ctlEqView.Height / 2f));
+                numFC.Value = (decimal)freq;
+                numDBGain.Value = (decimal)gain;
+                btnNew.PerformClick();
+            }
+        }
+
+        bool draggingChart = false;
+        private void label3_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
+        private int draggingChartBeginY = 0;
+        private void ctlEqView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (draggingChart)
+            {
+                float deltaY = e.Y - draggingChartBeginY;
+                draggingChartBeginY = e.Y;
+                float deltaDB = -ctlEqView.DisplayRange * 2 * (deltaY / ctlEqView.Height);
+                if(ctlEqView.PeakEQParams.Count == 0) { return; }
+                if(deltaDB > 0)
+                {
+                    float maxDB = ctlEqView.PeakEQParams.Max(p => p.dbGain);
+                    if(maxDB + deltaDB > ctlEqView.DisplayRange)
+                    {
+                        deltaDB = ctlEqView.DisplayRange - maxDB;
+                    }
+                }
+                if (deltaDB < 0)
+                {
+                    float minDB = ctlEqView.PeakEQParams.Min(p => p.dbGain);
+                    if (minDB + deltaDB < -ctlEqView.DisplayRange)
+                    {
+                        deltaDB = (-ctlEqView.DisplayRange) - minDB ;
+                    }
+                }
+                ctlEqView.PeakEQParams.ForEach(p => p.dbGain += deltaDB);
+                
+            }
+        }
+
+        private void ctlEqView_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                draggingChart = false;
+                foreach (var item in tblChartContainer.Controls)
+                {
+                    if(item is PeakeqPointer)
+                    {
+                        var pointer = item as PeakeqPointer;
+                        pointer.initPosition();
+                    }
+                }
+            }
+        }
+
+        private void ctlEqView_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                draggingChart = true;
+                draggingChartBeginY = e.Y;
+            }
+        }
+
+        private void mnuDist30_Click(object sender, EventArgs e)
+        {
+            if(ctlEqView.PeakEQParams.Count > 0)
+            {
+                Toast.ShowMessage("请清空后再操作");
+                return;
+            }
+            for(float f = 0;f < 31; f++)
+            {
+                float x = f / 30;
+                if(x <= 0) { x = 0.001f; }
+                if(x >= 1) { x = 0.999f; }
+                float freq = CtlEQView.Log2Freq(x);
+                peakEQParamList.Add(new EqualizerAPO.FilterNode() { dbGain = 0,freq = freq });
+            }
+            loadData();
+        }
+
+        private void mnuInvert_Click(object sender, EventArgs e)
+        {
+            foreach (var item in peakEQParamList)
+            {
+                item.dbGain = -item.dbGain;
+            }
+            foreach (var item in tblChartContainer.Controls)
+            {
+                if (item is PeakeqPointer)
+                {
+                    var pointer = item as PeakeqPointer;
+                    pointer.initPosition();
+                }
+            }
+        }
+
+        private void mnuClearAll_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this, "是否清空？", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                List<Control> controlsToRemove = new List<Control>();
+                foreach (var item in tblChartContainer.Controls)
+                {
+                    if (item is PeakeqPointer)
+                    {
+                        controlsToRemove.Add(item as Control);
+                    }
+                }
+                controlsToRemove.ForEach(c => tblChartContainer.Controls.Remove(c));
+                peakEQParamList.Clear();
+            }
+        }
     }
 
 
@@ -170,6 +297,14 @@ namespace 耳机虚拟环绕声
                 Dragged?.Invoke(this, EventArgs.Empty);
             }
         }
+        [DllImport("user32.dll")]
+        private static extern Int16 GetKeyState(Keys nVirtKey);
+
+        private bool IsKeyPressed(Keys k)
+        {
+            short v = GetKeyState(k);
+            return v != 0;
+        }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -194,6 +329,13 @@ namespace 耳机虚拟环绕声
                 {
                     newLeft = eqView.Width - 4;
                 }
+
+                if (IsKeyPressed(Keys.ShiftKey))
+                {
+                    newLeft = this.Left;
+                }
+                
+
                 this.Top = newTop;
                 this.Left = newLeft;
 

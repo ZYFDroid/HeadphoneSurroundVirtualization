@@ -28,21 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panelOuterContainer = new System.Windows.Forms.Panel();
             this.tblChartContainer = new System.Windows.Forms.Panel();
+            this.ctlEqView = new 耳机虚拟环绕声.CtlEQView();
+            this.mnuEqs = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuDist30 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuInvert = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuClearAll = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.numFC = new System.Windows.Forms.NumericUpDown();
             this.numDBGain = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnNew = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.ctlEqView = new 耳机虚拟环绕声.CtlEQView();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnNew = new System.Windows.Forms.Button();
             this.panelOuterContainer.SuspendLayout();
             this.tblChartContainer.SuspendLayout();
+            this.mnuEqs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDBGain)).BeginInit();
             this.panel2.SuspendLayout();
@@ -71,6 +78,51 @@
             this.tblChartContainer.Name = "tblChartContainer";
             this.tblChartContainer.Size = new System.Drawing.Size(680, 533);
             this.tblChartContainer.TabIndex = 0;
+            // 
+            // ctlEqView
+            // 
+            this.ctlEqView.ContextMenuStrip = this.mnuEqs;
+            this.ctlEqView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctlEqView.Location = new System.Drawing.Point(0, 0);
+            this.ctlEqView.Margin = new System.Windows.Forms.Padding(37, 49, 37, 49);
+            this.ctlEqView.Name = "ctlEqView";
+            this.ctlEqView.Size = new System.Drawing.Size(680, 533);
+            this.ctlEqView.TabIndex = 0;
+            this.ctlEqView.SizeChanged += new System.EventHandler(this.ctlEqView_SizeChanged);
+            this.ctlEqView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ctlEqView_MouseDoubleClick);
+            this.ctlEqView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ctlEqView_MouseDown);
+            this.ctlEqView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ctlEqView_MouseMove);
+            this.ctlEqView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ctlEqView_MouseUp);
+            // 
+            // mnuEqs
+            // 
+            this.mnuEqs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuDist30,
+            this.mnuInvert,
+            this.mnuClearAll});
+            this.mnuEqs.Name = "mnuEqs";
+            this.mnuEqs.Size = new System.Drawing.Size(163, 70);
+            // 
+            // mnuDist30
+            // 
+            this.mnuDist30.Name = "mnuDist30";
+            this.mnuDist30.Size = new System.Drawing.Size(162, 22);
+            this.mnuDist30.Text = "一键分布30个点";
+            this.mnuDist30.Click += new System.EventHandler(this.mnuDist30_Click);
+            // 
+            // mnuInvert
+            // 
+            this.mnuInvert.Name = "mnuInvert";
+            this.mnuInvert.Size = new System.Drawing.Size(162, 22);
+            this.mnuInvert.Text = "上下颠倒";
+            this.mnuInvert.Click += new System.EventHandler(this.mnuInvert_Click);
+            // 
+            // mnuClearAll
+            // 
+            this.mnuClearAll.Name = "mnuClearAll";
+            this.mnuClearAll.Size = new System.Drawing.Size(162, 22);
+            this.mnuClearAll.Text = "清空";
+            this.mnuClearAll.Click += new System.EventHandler(this.mnuClearAll_Click);
             // 
             // label1
             // 
@@ -139,23 +191,6 @@
             this.label2.TabIndex = 12;
             this.label2.Text = "增益（dB）";
             // 
-            // btnNew
-            // 
-            this.btnNew.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNew.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnNew.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnNew.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNew.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnNew.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnNew.Location = new System.Drawing.Point(4, 159);
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(202, 35);
-            this.btnNew.TabIndex = 11;
-            this.btnNew.Text = "添加";
-            this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
-            // 
             // btnRemove
             // 
             this.btnRemove.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -214,6 +249,7 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.label3);
             this.panel4.Controls.Add(this.btnNew);
             this.panel4.Controls.Add(this.panel2);
             this.panel4.Controls.Add(this.label1);
@@ -225,15 +261,35 @@
             this.panel4.Size = new System.Drawing.Size(217, 537);
             this.panel4.TabIndex = 0;
             // 
-            // ctlEqView
+            // label3
             // 
-            this.ctlEqView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctlEqView.Location = new System.Drawing.Point(0, 0);
-            this.ctlEqView.Margin = new System.Windows.Forms.Padding(37, 49, 37, 49);
-            this.ctlEqView.Name = "ctlEqView";
-            this.ctlEqView.Size = new System.Drawing.Size(680, 533);
-            this.ctlEqView.TabIndex = 0;
-            this.ctlEqView.SizeChanged += new System.EventHandler(this.ctlEqView_SizeChanged);
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Font = new System.Drawing.Font("微软雅黑 Light", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label3.ForeColor = System.Drawing.Color.Silver;
+            this.label3.Location = new System.Drawing.Point(4, 194);
+            this.label3.Name = "label3";
+            this.label3.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.label3.Size = new System.Drawing.Size(131, 68);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "* 双击图表快速添加\r\n* 鼠标中键整体拖动\r\n* 右键查看更多选项";
+            // 
+            // btnNew
+            // 
+            this.btnNew.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNew.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnNew.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnNew.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNew.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnNew.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnNew.Location = new System.Drawing.Point(4, 159);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(202, 35);
+            this.btnNew.TabIndex = 17;
+            this.btnNew.Text = "添加";
+            this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
             // FrmParamEQ
             // 
@@ -253,6 +309,7 @@
             this.Load += new System.EventHandler(this.FrmParamEQ_Load);
             this.panelOuterContainer.ResumeLayout(false);
             this.tblChartContainer.ResumeLayout(false);
+            this.mnuEqs.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numFC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDBGain)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -273,11 +330,16 @@
         private System.Windows.Forms.NumericUpDown numFC;
         private System.Windows.Forms.NumericUpDown numDBGain;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnNew;
+        private System.Windows.Forms.ContextMenuStrip mnuEqs;
+        private System.Windows.Forms.ToolStripMenuItem mnuDist30;
+        private System.Windows.Forms.ToolStripMenuItem mnuInvert;
+        private System.Windows.Forms.ToolStripMenuItem mnuClearAll;
     }
 }

@@ -136,7 +136,20 @@ namespace 耳机虚拟环绕声
                         }
                         bufferedWaveProvider.AddSamples(waveArgs.Buffer, 0, waveArgs.BytesRecorded);
                     };
-                    wasapiCapture.StartRecording();
+                    try
+                    {
+                        wasapiCapture.StartRecording();
+                    }
+                    catch (Exception ex)
+                    {
+                        try
+                        {
+                            wasapiCapture?.Dispose();
+                        }
+                        catch { }
+                        System.Threading.Thread.Sleep(514);
+                        continue;
+                    }
                     WaveToSampleProvider waveToSampleProvider = new WaveToSampleProvider(bufferedWaveProvider);
                     surroundToStereoSampleProvider = new SurroundToStereoSampleProvider(waveToSampleProvider,Program.SurroundSettings.customIrPath); //实现算法
                     surroundToStereoSampleProvider.applySettings(Program.SurroundSettings, true);
@@ -213,8 +226,10 @@ namespace 耳机虚拟环绕声
 
         MMDeviceEnumerator deviceEnumerator;
         DeviceDecider deviceDecider;
+        Toaster.Toast Toast;
         private void Form1_Load(object sender, EventArgs e)
         {
+            Toast = new Toaster.Toast(this,label11.Font);
             deviceDecider = new DeviceDecider(Program.DevicePriorityList);
             deviceEnumerator = new MMDeviceEnumerator();
             loadData();
@@ -316,17 +331,17 @@ namespace 耳机虚拟环绕声
                 DeviceDesc dst = cmbDst.SelectedValue as DeviceDesc;
                 if(src == null)
                 {
-                    MessageBox.Show("请选择虚拟环绕声设备");
+                    Toast.ShowMessage("请选择虚拟环绕声设备");
                     return;
                 }
                 if (dst == null)
                 {
-                    MessageBox.Show("请选择输出设备");
+                    Toast.ShowMessage("请选择输出设备");
                     return;
                 }
                 if (src.id == dst.id)
                 {
-                    MessageBox.Show("你不能选择相同的设备");
+                    Toast.ShowMessage("你不能选择相同的设备");
                     return;
                 }
                 btnBegin.Enabled = false;
@@ -720,7 +735,7 @@ namespace 耳机虚拟环绕声
             DeviceDesc dst = cmbDst.SelectedValue as DeviceDesc;
             if (dst == null)
             {
-                MessageBox.Show("请选择输出设备");
+                Toast.ShowMessage("请选择输出设备");
                 return;
             }
             string profileGuid = Program.AudioEnchancementData.getDeviceParam(dst.id) == null ? "" : Program.AudioEnchancementData.getDeviceParam(dst.id).guid;
@@ -769,25 +784,25 @@ namespace 耳机虚拟环绕声
             Program.DevicePriorityList.Clear();
             Program.save();
             loadData();
-            MessageBox.Show(this,"已清除设备优先级配置");
+            Toast.ShowMessage("已清除设备优先级配置");
         }
 
         private void btnExportIR__Click(object sender, EventArgs e)
         {
             if (surroundIsOn)
             {
-                MessageBox.Show("关闭环绕声之后才可以进行导出。");
+                Toast.ShowMessage("关闭环绕声之后才可以进行导出。");
                 return;
             }
             DeviceDesc targetDevice = (cmbDst.SelectedValue) as DeviceDesc;
 
             if(targetDevice == null)
             {
-                MessageBox.Show("未选择要创建的目标设备。");
+                Toast.ShowMessage("未选择要创建的目标设备。");
                 return;
             }
             var deviceParam = Program.AudioEnchancementData.getDeviceParam(targetDevice.id);
-            var shouldCreate = MessageBox.Show(this, $"是否创建脉冲样本？以下是创建配置：\r\n\r\n环绕样本：{lblConvolver.Text}\r\n目标设备：{targetDevice.name}\r\n配置文件：{deviceParam.DisplayName}", "创建脉冲样本",MessageBoxButtons.YesNo);
+            var shouldCreate = MessageBox.Show(this, $"是否创建脉冲样本？以下是创建配置：\r\n\r\n环绕样本：{lblConvolver.Text}\r\n目标设备：{targetDevice.name}\r\n配置文件：{(deviceParam == null ? "无" : deviceParam.DisplayName)}", "创建脉冲样本",MessageBoxButtons.YesNo);
             if(shouldCreate != DialogResult.Yes) { return; }
 
             if(saveFileDialog1.ShowDialog(this) != DialogResult.OK) { return; }
@@ -822,7 +837,7 @@ namespace 耳机虚拟环绕声
                 wfw.WriteSamples(singleSample, 0, 4);
             }
             wfw.Dispose();
-            MessageBox.Show(this,"创建成功！");
+            Toast.ShowMessage("创建成功！");
         }
 
         private class IRGen : ISampleProvider
