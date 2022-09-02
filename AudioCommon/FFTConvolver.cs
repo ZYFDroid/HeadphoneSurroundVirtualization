@@ -4,21 +4,21 @@ using 耳机虚拟环绕声;
 
 namespace FFTConvolver
 {
-    public static unsafe class FFTConvolver
+    public static class FFTConvolver
     {
 
-        public const string dllName = "fftconvolver_210.dll";
+        public const string dllName = "fftconvolver_214.dll";
 
         [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
         public static extern bool init_mem();
 
         [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool set_sr_ir(float* ir,int irLen,int chanCount);
+        public static extern bool set_sr_ir(ref float ir,int irLen,int chanCount);
 
 
 
         [DllImport(dllName, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool set_en_ir(float* ll, float* lr, float* rl, float* rr,int irlen);
+        public static extern bool set_en_ir(ref float ll, ref float lr, ref float rl, ref float rr,int irlen);
 
 
 
@@ -43,7 +43,7 @@ namespace FFTConvolver
 
 
 
-        public delegate void pro_call_(float* input, float* output, float* meters, int offset, int outOffset, int len);
+        public delegate void pro_call_(ref float input, ref float output, ref float meters, int offset, int outOffset, int len);
 
         public static pro_call_ pro_call;
 

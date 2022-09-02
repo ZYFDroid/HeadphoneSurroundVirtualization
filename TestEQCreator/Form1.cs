@@ -61,11 +61,11 @@ namespace TestEQCreator
             testProvider.freq1 = 551;
             testProvider.Freq1Strength = -15;
             testProvider.Freq2Strength = -15;
-            waveOut = new WaveOut();
+            waveOut = new WasapiOut();
             waveOut.Init(testProvider);
             waveOut.Play();
         }
-        private WaveOut waveOut;
+        private WasapiOut waveOut;
         private FrequentTestProvider testProvider = new FrequentTestProvider();
 
         private void ctlFQ_Load(object sender, EventArgs e)

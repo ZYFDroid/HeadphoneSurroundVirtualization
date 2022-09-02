@@ -109,30 +109,30 @@ namespace 耳机虚拟环绕声
                     var win10InternalProperty2 = new PropertyKey(Guid.Parse("624f56de-fd24-473e-814a-de40aacaed16"), 3);
 
                     EarTrumpet.Interop.MMDeviceAPI.WaveFormatEx waveFormatEx = default(EarTrumpet.Interop.MMDeviceAPI.WaveFormatEx);
+                    // 注释掉了，因为没开/unsafe
+                    //unsafe
+                    //{
+                    //    fixed(byte* byteptr = format)
+                    //    {
+                    //        waveFormatEx = (EarTrumpet.Interop.MMDeviceAPI.WaveFormatEx)Marshal.PtrToStructure((IntPtr)byteptr, typeof(EarTrumpet.Interop.MMDeviceAPI.WaveFormatEx));
+                    //        PropVariant pv2 = new PropVariant();
+                    //        pv2.vt = (short)VarEnum.VT_BLOB;
+                    //        pv2.blobVal = new Blob();
+                    //        pv2.blobVal.Length = format.Length;
+                    //        pv2.blobVal.Data = (IntPtr)(byteptr);
+                    //        property.SetValue(targetProperty, pv);
+                    //        property.SetValue(targetProperty2, pv);
+                    //        property.SetValue(targetProperty3, pv2);
+                    //        property.SetValue(targetProperty4, pv2);
+                    //        property.SetValue(win7InternalProperty0, pv2);
+                    //        property.SetValue(win10InternalProperty0, pv2);
+                    //        property.SetValue(win10InternalProperty1, pv2);
+                    //        property.SetValue(win10InternalProperty2, pv2);
+                    //        property.Commit();
 
-                    unsafe
-                    {
-                        fixed(byte* byteptr = format)
-                        {
-                            waveFormatEx = (EarTrumpet.Interop.MMDeviceAPI.WaveFormatEx)Marshal.PtrToStructure((IntPtr)byteptr, typeof(EarTrumpet.Interop.MMDeviceAPI.WaveFormatEx));
-                            PropVariant pv2 = new PropVariant();
-                            pv2.vt = (short)VarEnum.VT_BLOB;
-                            pv2.blobVal = new Blob();
-                            pv2.blobVal.Length = format.Length;
-                            pv2.blobVal.Data = (IntPtr)(byteptr);
-                            property.SetValue(targetProperty, pv);
-                            property.SetValue(targetProperty2, pv);
-                            property.SetValue(targetProperty3, pv2);
-                            property.SetValue(targetProperty4, pv2);
-                            property.SetValue(win7InternalProperty0, pv2);
-                            property.SetValue(win10InternalProperty0, pv2);
-                            property.SetValue(win10InternalProperty1, pv2);
-                            property.SetValue(win10InternalProperty2, pv2);
-                            property.Commit();
-
-                        }
+                    //    }
                         
-                    }
+                    //}
 
 
 

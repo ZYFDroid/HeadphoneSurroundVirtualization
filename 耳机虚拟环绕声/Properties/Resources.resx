@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="fir" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fir.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="btnSurroundOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btnSurroundOn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -144,5 +141,26 @@
   </data>
   <data name="testsurround_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\testsurround_3.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="firs_fc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\firs_fc.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="firs_fl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\firs_fl.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="firs_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\firs_fr.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="firs_rl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\firs_rl.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="firs_rr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\firs_rr.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="firs_sl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\firs_sl.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="firs_sr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\firs_sr.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

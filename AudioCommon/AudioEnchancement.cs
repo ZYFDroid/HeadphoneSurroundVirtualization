@@ -142,15 +142,7 @@ namespace AudioCommon
 
             if (param == null)
             {
-                unsafe
-                {
-                    fixed(float* pEmpty = empty)
-                    fixed (float* pUnit = unitp)
-                    {
-                        FFTConvolver.FFTConvolver.set_en_ir(pUnit, pEmpty, pEmpty, pUnit, 8);
-                    }
-                }
-            
+                FFTConvolver.FFTConvolver.set_en_ir(ref unitp[0], ref empty[0], ref empty[0], ref unitp[0], 8);
                 return;
             }
             float sampleRate = WaveFormat.SampleRate;
@@ -207,16 +199,9 @@ namespace AudioCommon
                 firRL = firRR;
                 firRR = temp;
             }
-            unsafe
-            {
-                fixed(float* pLL = firLL) 
-                fixed(float* pLR = firLR) 
-                fixed(float* pRL = firRL) 
-                fixed(float* pRR = firRR)
-                {
-                    FFTConvolver.FFTConvolver.set_en_ir(pLL, pLR, pRL, pRR, firLL.Length);
-                }
-            }
+            
+            FFTConvolver.FFTConvolver.set_en_ir(ref firLL[0], ref firLR[0], ref firRL[0], ref firRR[0], firLL.Length);
+                
 
         }
 

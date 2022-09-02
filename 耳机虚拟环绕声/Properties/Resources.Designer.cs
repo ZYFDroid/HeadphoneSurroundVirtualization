@@ -93,9 +93,69 @@ namespace 耳机虚拟环绕声.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
-        internal static byte[] fir {
+        internal static byte[] firs_fc {
             get {
-                object obj = ResourceManager.GetObject("fir", resourceCulture);
+                object obj = ResourceManager.GetObject("firs_fc", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] firs_fl {
+            get {
+                object obj = ResourceManager.GetObject("firs_fl", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] firs_fr {
+            get {
+                object obj = ResourceManager.GetObject("firs_fr", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] firs_rl {
+            get {
+                object obj = ResourceManager.GetObject("firs_rl", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] firs_rr {
+            get {
+                object obj = ResourceManager.GetObject("firs_rr", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] firs_sl {
+            get {
+                object obj = ResourceManager.GetObject("firs_sl", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] firs_sr {
+            get {
+                object obj = ResourceManager.GetObject("firs_sr", resourceCulture);
                 return ((byte[])(obj));
             }
         }

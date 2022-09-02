@@ -266,12 +266,9 @@ namespace 耳机虚拟环绕声
             {
                 throw new Exception("此音频文件不是一个有效的HRIR文件");
             }
-            unsafe {
-                fixed (float* irs = IRs)
-                {
-                    test(FFTConvolver.FFTConvolver.set_sr_ir(irs, IRs.Length, chanCount));
-                }
-            }
+            test(FFTConvolver.FFTConvolver.set_sr_ir(ref IRs[0], IRs.Length, chanCount));
+                
+            
         }
 
         void test(bool b)
@@ -314,39 +311,19 @@ namespace 耳机虚拟环绕声
                 }
                 
             }
-            MemoryStream internalIrStream = null;
-            if (irSource == null)
+            else
             {
-                internalIrStream = new MemoryStream(Properties.Resources.fir); 
-                irSource =new WaveFileReader(internalIrStream);
+                chanCount = 14;
+                return GenBuildinIR();
             }
+            MemoryStream internalIrStream = null;
+           
 
             using (WaveStream irIn = irSource)
             {
 
-                ISampleProvider sampleReader = null;
-                if (irIn.WaveFormat.BitsPerSample == 8)
-                {
-                    sampleReader = new Pcm8BitToSampleProvider(irIn);
-                }
-                else if(irIn.WaveFormat.BitsPerSample == 16)
-                {
-                    sampleReader = new Pcm16BitToSampleProvider(irIn);
-                }
-                else if (irIn.WaveFormat.BitsPerSample == 24)
-                {
-                    sampleReader = new Pcm24BitToSampleProvider(irIn);
-                }
-                else if (irIn.WaveFormat.BitsPerSample == 32 && irIn.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
-                {
-                    sampleReader = new Pcm32BitToSampleProvider(irIn);
-                }
-                else
-                {
-                    sampleReader = new WaveToSampleProvider(irIn);
-                }
 
-                ISampleProvider sampleProvider = sampleReader;
+                ISampleProvider sampleProvider = irIn.ToSampleProvider() ;
                 if (sampleRate != irIn.WaveFormat.SampleRate)
                 {
                     sampleProvider = new WdlResamplingSampleProvider(sampleProvider, sampleRate);
@@ -372,6 +349,33 @@ namespace 耳机虚拟环绕声
             return buffer.ToArray();
         }
 
+        private float[] GenBuildinIR()
+        {
+            List<float> floats = new List<float>();
+            List<NVorbis.VorbisReader> vorbisReaderList = new List<NVorbis.VorbisReader>();
+            vorbisReaderList.Add(new NVorbis.VorbisReader(new MemoryStream(Properties.Resources.firs_fl), true));
+            vorbisReaderList.Add(new NVorbis.VorbisReader(new MemoryStream(Properties.Resources.firs_sl), true));
+            vorbisReaderList.Add(new NVorbis.VorbisReader(new MemoryStream(Properties.Resources.firs_rl), true));
+            vorbisReaderList.Add(new NVorbis.VorbisReader(new MemoryStream(Properties.Resources.firs_fc), true));
+            vorbisReaderList.Add(new NVorbis.VorbisReader(new MemoryStream(Properties.Resources.firs_fr), true));
+            vorbisReaderList.Add(new NVorbis.VorbisReader(new MemoryStream(Properties.Resources.firs_sr), true));
+            vorbisReaderList.Add(new NVorbis.VorbisReader(new MemoryStream(Properties.Resources.firs_rr), true));
+            int endofFiles = 0;
+            while (endofFiles != 7)
+            {
+                endofFiles = 0;
+                for (int i = 0; i < vorbisReaderList.Count; i++)
+                {
+                    float[] buf = new float[2];
+                    int result = vorbisReaderList[i].ReadSamples(buf, 0, 2);
+                    if(result <= 0) { endofFiles++; }
+                    floats.Add(buf[0]);
+                    floats.Add(buf[1]);
+                }
+            }
+            vorbisReaderList.ForEach(f => f.Dispose());
+            return floats.ToArray();
+        }
 
         private WaveFormat _outWaveFormat = null;
         private WaveFormat _inWaveFormat = null;
@@ -420,16 +424,8 @@ namespace 耳机虚拟环绕声
 
             int monoCount = (readFrom / _channels);
 
-            unsafe {
-                fixed (float* fin = _buffer){
-                    fixed (float* fout = buffer)
-                    {
-                        fixed(float* pMeters = meters) {
-                            FFTConvolver.FFTConvolver.pro_call(fin, fout, pMeters, 0, offset, monoCount);
-                        }
-                    }
-                }
-            }
+            FFTConvolver.FFTConvolver.pro_call(ref _buffer[0], ref buffer[0], ref meters[0], 0, offset, monoCount);
+                       
 
             for (int i = 0; i < 8; i++)
             {
