@@ -93,7 +93,9 @@ namespace 耳机虚拟环绕声
             }
             FFTConvolver.FFTConvolver.Init();
             FFTConvolver.FFTConvolver.init_mem();
-            Application.Run(new btnExportIR());
+            // 提升进程优先级，减少卡顿
+            System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High;
+            Application.Run(new FrmMain());
             if (needSave)
             {
                 save();

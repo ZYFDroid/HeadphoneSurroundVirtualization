@@ -199,8 +199,8 @@ namespace 耳机虚拟环绕声
             }
             if(!found && configured)
             {
-                MessageBox.Show(this,"未找到已安装的VB Cable虚拟设备，但找到了其它可用于耳机虚拟环绕声的设备。");
-                lblConfigStatus.Text += "找到其它可用设备";
+                MessageBox.Show(this,"未找到已安装的VB Cable虚拟设备，但在系统上找到其它支持7.1声道的设备。（仍然建议安装虚拟环绕声设备使用）");
+                lblConfigStatus.Text += "找到其它7.1设备";
             }
         }
     }

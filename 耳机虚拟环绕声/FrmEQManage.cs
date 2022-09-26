@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Toaster;
 using static 耳机虚拟环绕声.Program;
 
 namespace 耳机虚拟环绕声
@@ -235,6 +236,7 @@ namespace 耳机虚拟环绕声
                 Toast.ShowMessage("数量超过上限 (100个)");
                 return;
             }
+            Toast.ShowMessage("别着急，这个功能还没完成呢");
 
         }
 

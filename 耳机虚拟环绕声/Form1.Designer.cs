@@ -1,6 +1,6 @@
 ﻿namespace 耳机虚拟环绕声
 {
-    partial class btnExportIR
+    partial class FrmMain
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -42,7 +42,7 @@
             this.chkShowAllDevice = new System.Windows.Forms.CheckBox();
             this.btnEnchanceAudio = new System.Windows.Forms.Button();
             this.btnResetDevicePriority = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnExportIR = new System.Windows.Forms.Button();
             this.btnBegin = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.dragger = new System.Windows.Forms.PictureBox();
@@ -53,16 +53,32 @@
             this.btnPage4 = new System.Windows.Forms.Button();
             this.panelPage1 = new System.Windows.Forms.Panel();
             this.btnTest = new System.Windows.Forms.Button();
+            this.numMasterGain = new 耳机虚拟环绕声.CtlBarSlider();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.barFL = new MP3模拟器.CtlBarMeter();
+            this.mtmOutR = new MP3模拟器.CtlBarMeter();
+            this.barFR = new MP3模拟器.CtlBarMeter();
+            this.numCompressOverflow1 = new MP3模拟器.CtlBarMeter();
+            this.mtmOutL = new MP3模拟器.CtlBarMeter();
+            this.barFC = new MP3模拟器.CtlBarMeter();
+            this.barLF = new MP3模拟器.CtlBarMeter();
+            this.barRL = new MP3模拟器.CtlBarMeter();
+            this.barSL = new MP3模拟器.CtlBarMeter();
+            this.barRR = new MP3模拟器.CtlBarMeter();
+            this.barSR = new MP3模拟器.CtlBarMeter();
             this.posShow = new System.Windows.Forms.Label();
             this.posHide = new System.Windows.Forms.Label();
             this.panelPage2 = new System.Windows.Forms.Panel();
             this.lblConvolver = new System.Windows.Forms.Label();
             this.btnResetConvolver = new System.Windows.Forms.Button();
+            this.numCompressRelease = new 耳机虚拟环绕声.CtlBarSlider();
+            this.numCompressAttack = new 耳机虚拟环绕声.CtlBarSlider();
+            this.numCompressRatio = new 耳机虚拟环绕声.CtlBarSlider();
+            this.numCompressGate = new 耳机虚拟环绕声.CtlBarSlider();
             this.label12 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -98,22 +114,6 @@
             this.lblStatus = new System.Windows.Forms.Label();
             this.updateDeviceCountdownTimer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.numCompressRelease = new 耳机虚拟环绕声.CtlBarSlider();
-            this.numCompressAttack = new 耳机虚拟环绕声.CtlBarSlider();
-            this.numCompressRatio = new 耳机虚拟环绕声.CtlBarSlider();
-            this.numCompressGate = new 耳机虚拟环绕声.CtlBarSlider();
-            this.numMasterGain = new 耳机虚拟环绕声.CtlBarSlider();
-            this.barFL = new MP3模拟器.CtlBarMeter();
-            this.mtmOutR = new MP3模拟器.CtlBarMeter();
-            this.barFR = new MP3模拟器.CtlBarMeter();
-            this.numCompressOverflow1 = new MP3模拟器.CtlBarMeter();
-            this.mtmOutL = new MP3模拟器.CtlBarMeter();
-            this.barFC = new MP3模拟器.CtlBarMeter();
-            this.barLF = new MP3模拟器.CtlBarMeter();
-            this.barRL = new MP3模拟器.CtlBarMeter();
-            this.barSL = new MP3模拟器.CtlBarMeter();
-            this.barRR = new MP3模拟器.CtlBarMeter();
-            this.barSR = new MP3模拟器.CtlBarMeter();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dragger)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -318,24 +318,25 @@
             this.btnResetDevicePriority.UseVisualStyleBackColor = true;
             this.btnResetDevicePriority.Click += new System.EventHandler(this.btnResetDevicePriority_Click);
             // 
-            // button1
+            // btnExportIR
             // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("微软雅黑 Light", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button1.Location = new System.Drawing.Point(322, 155);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(154, 35);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "导出脉冲响应文件";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip1.SetToolTip(this.button1, "将当前使用的环绕声，音质增强导出为wav格式\r\n的脉冲响应样本，该样本可以在Viper4Android\r\n或者JamesDSPManager中使用。");
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnExportIR__Click);
+            this.btnExportIR.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExportIR.FlatAppearance.BorderSize = 0;
+            this.btnExportIR.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnExportIR.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnExportIR.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportIR.Font = new System.Drawing.Font("微软雅黑 Light", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnExportIR.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnExportIR.Location = new System.Drawing.Point(322, 155);
+            this.btnExportIR.Name = "btnExportIR";
+            this.btnExportIR.Size = new System.Drawing.Size(154, 35);
+            this.btnExportIR.TabIndex = 9;
+            this.btnExportIR.Text = "导出脉冲响应文件";
+            this.btnExportIR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip1.SetToolTip(this.btnExportIR, "将当前使用的环绕声，音质增强导出为wav格式\r\n的脉冲响应样本，该样本可以在Viper4Android\r\n或者JamesDSPManager中使用，也可以用于\r\n" +
+        "FantasticMusicPlayer 或 NightPlayer");
+            this.btnExportIR.UseVisualStyleBackColor = true;
+            this.btnExportIR.Click += new System.EventHandler(this.btnExportIR__Click);
             // 
             // btnBegin
             // 
@@ -482,7 +483,7 @@
             // 
             this.panelPage1.BackColor = System.Drawing.Color.Transparent;
             this.panelPage1.Controls.Add(this.btnTest);
-            this.panelPage1.Controls.Add(this.button1);
+            this.panelPage1.Controls.Add(this.btnExportIR);
             this.panelPage1.Controls.Add(this.btnEnchanceAudio);
             this.panelPage1.Controls.Add(this.numMasterGain);
             this.panelPage1.Controls.Add(this.chkFc2F);
@@ -524,6 +525,22 @@
             this.btnTest.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // numMasterGain
+            // 
+            this.numMasterGain.BackColor = System.Drawing.Color.Black;
+            this.numMasterGain.BigStep = 5;
+            this.numMasterGain.Location = new System.Drawing.Point(93, 201);
+            this.numMasterGain.Max = 4000;
+            this.numMasterGain.Min = -2000;
+            this.numMasterGain.Name = "numMasterGain";
+            this.numMasterGain.Size = new System.Drawing.Size(499, 25);
+            this.numMasterGain.SmallStep = 3;
+            this.numMasterGain.TabIndex = 10;
+            this.numMasterGain.ThumbText = "0.0 dB";
+            this.numMasterGain.ThumbWidth = 80;
+            this.numMasterGain.Value = 0;
+            this.numMasterGain.ValueChanged += new System.EventHandler<System.EventArgs>(this.numMasterGain_Scroll);
             // 
             // label6
             // 
@@ -584,6 +601,149 @@
             this.label11.TabIndex = 1;
             this.label11.Text = "输入";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // barFL
+            // 
+            this.barFL.BackColor = System.Drawing.Color.Black;
+            this.barFL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barFL.DisplayText = "FL";
+            this.barFL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
+            this.barFL.Location = new System.Drawing.Point(15, 38);
+            this.barFL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barFL.Name = "barFL";
+            this.barFL.Size = new System.Drawing.Size(67, 50);
+            this.barFL.TabIndex = 0;
+            this.barFL.Value = 0F;
+            // 
+            // mtmOutR
+            // 
+            this.mtmOutR.BackColor = System.Drawing.Color.Black;
+            this.mtmOutR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mtmOutR.DisplayText = "R";
+            this.mtmOutR.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
+            this.mtmOutR.Location = new System.Drawing.Point(450, 38);
+            this.mtmOutR.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.mtmOutR.Name = "mtmOutR";
+            this.mtmOutR.Size = new System.Drawing.Size(142, 105);
+            this.mtmOutR.TabIndex = 6;
+            this.mtmOutR.Value = 0F;
+            // 
+            // barFR
+            // 
+            this.barFR.BackColor = System.Drawing.Color.Black;
+            this.barFR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barFR.DisplayText = "FR";
+            this.barFR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
+            this.barFR.Location = new System.Drawing.Point(15, 93);
+            this.barFR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barFR.Name = "barFR";
+            this.barFR.Size = new System.Drawing.Size(67, 50);
+            this.barFR.TabIndex = 0;
+            this.barFR.Value = 0F;
+            // 
+            // numCompressOverflow1
+            // 
+            this.numCompressOverflow1.BackColor = System.Drawing.Color.Black;
+            this.numCompressOverflow1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.numCompressOverflow1.DisplayText = "CMP";
+            this.numCompressOverflow1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
+            this.numCompressOverflow1.Location = new System.Drawing.Point(93, 250);
+            this.numCompressOverflow1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.numCompressOverflow1.Name = "numCompressOverflow1";
+            this.numCompressOverflow1.Size = new System.Drawing.Size(136, 104);
+            this.numCompressOverflow1.TabIndex = 6;
+            this.numCompressOverflow1.Value = 0F;
+            // 
+            // mtmOutL
+            // 
+            this.mtmOutL.BackColor = System.Drawing.Color.Black;
+            this.mtmOutL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mtmOutL.DisplayText = "L";
+            this.mtmOutL.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
+            this.mtmOutL.Location = new System.Drawing.Point(303, 38);
+            this.mtmOutL.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.mtmOutL.Name = "mtmOutL";
+            this.mtmOutL.Size = new System.Drawing.Size(142, 105);
+            this.mtmOutL.TabIndex = 6;
+            this.mtmOutL.Value = 0F;
+            // 
+            // barFC
+            // 
+            this.barFC.BackColor = System.Drawing.Color.Black;
+            this.barFC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barFC.DisplayText = "FC";
+            this.barFC.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
+            this.barFC.Location = new System.Drawing.Point(87, 38);
+            this.barFC.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barFC.Name = "barFC";
+            this.barFC.Size = new System.Drawing.Size(67, 50);
+            this.barFC.TabIndex = 0;
+            this.barFC.Value = 0F;
+            // 
+            // barLF
+            // 
+            this.barLF.BackColor = System.Drawing.Color.Black;
+            this.barLF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barLF.DisplayText = "LF";
+            this.barLF.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
+            this.barLF.Location = new System.Drawing.Point(87, 93);
+            this.barLF.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barLF.Name = "barLF";
+            this.barLF.Size = new System.Drawing.Size(67, 50);
+            this.barLF.TabIndex = 0;
+            this.barLF.Value = 0F;
+            // 
+            // barRL
+            // 
+            this.barRL.BackColor = System.Drawing.Color.Black;
+            this.barRL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barRL.DisplayText = "RL";
+            this.barRL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
+            this.barRL.Location = new System.Drawing.Point(231, 38);
+            this.barRL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barRL.Name = "barRL";
+            this.barRL.Size = new System.Drawing.Size(67, 50);
+            this.barRL.TabIndex = 0;
+            this.barRL.Value = 0F;
+            // 
+            // barSL
+            // 
+            this.barSL.BackColor = System.Drawing.Color.Black;
+            this.barSL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barSL.DisplayText = "SL";
+            this.barSL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
+            this.barSL.Location = new System.Drawing.Point(159, 38);
+            this.barSL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barSL.Name = "barSL";
+            this.barSL.Size = new System.Drawing.Size(67, 50);
+            this.barSL.TabIndex = 0;
+            this.barSL.Value = 0F;
+            // 
+            // barRR
+            // 
+            this.barRR.BackColor = System.Drawing.Color.Black;
+            this.barRR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barRR.DisplayText = "RR";
+            this.barRR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
+            this.barRR.Location = new System.Drawing.Point(231, 93);
+            this.barRR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barRR.Name = "barRR";
+            this.barRR.Size = new System.Drawing.Size(67, 50);
+            this.barRR.TabIndex = 0;
+            this.barRR.Value = 0F;
+            // 
+            // barSR
+            // 
+            this.barSR.BackColor = System.Drawing.Color.Black;
+            this.barSR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.barSR.DisplayText = "SR";
+            this.barSR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
+            this.barSR.Location = new System.Drawing.Point(159, 93);
+            this.barSR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.barSR.Name = "barSR";
+            this.barSR.Size = new System.Drawing.Size(67, 50);
+            this.barSR.TabIndex = 0;
+            this.barSR.Value = 0F;
             // 
             // posShow
             // 
@@ -649,6 +809,70 @@
             this.btnResetConvolver.Text = "恢复默认";
             this.btnResetConvolver.UseVisualStyleBackColor = true;
             this.btnResetConvolver.Click += new System.EventHandler(this.btnResetConvolver_Click);
+            // 
+            // numCompressRelease
+            // 
+            this.numCompressRelease.BackColor = System.Drawing.Color.Black;
+            this.numCompressRelease.BigStep = 5;
+            this.numCompressRelease.Location = new System.Drawing.Point(112, 188);
+            this.numCompressRelease.Max = 4000;
+            this.numCompressRelease.Min = 0;
+            this.numCompressRelease.Name = "numCompressRelease";
+            this.numCompressRelease.Size = new System.Drawing.Size(488, 25);
+            this.numCompressRelease.SmallStep = 3;
+            this.numCompressRelease.TabIndex = 11;
+            this.numCompressRelease.ThumbText = "3200ms";
+            this.numCompressRelease.ThumbWidth = 80;
+            this.numCompressRelease.Value = 3200;
+            this.numCompressRelease.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
+            // 
+            // numCompressAttack
+            // 
+            this.numCompressAttack.BackColor = System.Drawing.Color.Black;
+            this.numCompressAttack.BigStep = 5;
+            this.numCompressAttack.Location = new System.Drawing.Point(112, 142);
+            this.numCompressAttack.Max = 200;
+            this.numCompressAttack.Min = 0;
+            this.numCompressAttack.Name = "numCompressAttack";
+            this.numCompressAttack.Size = new System.Drawing.Size(488, 25);
+            this.numCompressAttack.SmallStep = 3;
+            this.numCompressAttack.TabIndex = 11;
+            this.numCompressAttack.ThumbText = "144ms";
+            this.numCompressAttack.ThumbWidth = 80;
+            this.numCompressAttack.Value = 144;
+            this.numCompressAttack.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
+            // 
+            // numCompressRatio
+            // 
+            this.numCompressRatio.BackColor = System.Drawing.Color.Black;
+            this.numCompressRatio.BigStep = 5;
+            this.numCompressRatio.Location = new System.Drawing.Point(112, 96);
+            this.numCompressRatio.Max = 800;
+            this.numCompressRatio.Min = 0;
+            this.numCompressRatio.Name = "numCompressRatio";
+            this.numCompressRatio.Size = new System.Drawing.Size(488, 25);
+            this.numCompressRatio.SmallStep = 3;
+            this.numCompressRatio.TabIndex = 11;
+            this.numCompressRatio.ThumbText = "30:1";
+            this.numCompressRatio.ThumbWidth = 80;
+            this.numCompressRatio.Value = 310;
+            this.numCompressRatio.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
+            // 
+            // numCompressGate
+            // 
+            this.numCompressGate.BackColor = System.Drawing.Color.Black;
+            this.numCompressGate.BigStep = 5;
+            this.numCompressGate.Location = new System.Drawing.Point(112, 50);
+            this.numCompressGate.Max = 0;
+            this.numCompressGate.Min = -200;
+            this.numCompressGate.Name = "numCompressGate";
+            this.numCompressGate.Size = new System.Drawing.Size(488, 25);
+            this.numCompressGate.SmallStep = 3;
+            this.numCompressGate.TabIndex = 11;
+            this.numCompressGate.ThumbText = "0.0 dB";
+            this.numCompressGate.ThumbWidth = 80;
+            this.numCompressGate.Value = 0;
+            this.numCompressGate.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
             // 
             // label12
             // 
@@ -1106,230 +1330,7 @@
             // 
             this.saveFileDialog1.Filter = "Wave文件|*.wav";
             // 
-            // numCompressRelease
-            // 
-            this.numCompressRelease.BackColor = System.Drawing.Color.Black;
-            this.numCompressRelease.BigStep = 5;
-            this.numCompressRelease.Location = new System.Drawing.Point(112, 188);
-            this.numCompressRelease.Max = 4000;
-            this.numCompressRelease.Min = 0;
-            this.numCompressRelease.Name = "numCompressRelease";
-            this.numCompressRelease.Size = new System.Drawing.Size(488, 25);
-            this.numCompressRelease.SmallStep = 3;
-            this.numCompressRelease.TabIndex = 11;
-            this.numCompressRelease.ThumbText = "3200ms";
-            this.numCompressRelease.ThumbWidth = 80;
-            this.numCompressRelease.Value = 3200;
-            this.numCompressRelease.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
-            // 
-            // numCompressAttack
-            // 
-            this.numCompressAttack.BackColor = System.Drawing.Color.Black;
-            this.numCompressAttack.BigStep = 5;
-            this.numCompressAttack.Location = new System.Drawing.Point(112, 142);
-            this.numCompressAttack.Max = 200;
-            this.numCompressAttack.Min = 0;
-            this.numCompressAttack.Name = "numCompressAttack";
-            this.numCompressAttack.Size = new System.Drawing.Size(488, 25);
-            this.numCompressAttack.SmallStep = 3;
-            this.numCompressAttack.TabIndex = 11;
-            this.numCompressAttack.ThumbText = "144ms";
-            this.numCompressAttack.ThumbWidth = 80;
-            this.numCompressAttack.Value = 144;
-            this.numCompressAttack.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
-            // 
-            // numCompressRatio
-            // 
-            this.numCompressRatio.BackColor = System.Drawing.Color.Black;
-            this.numCompressRatio.BigStep = 5;
-            this.numCompressRatio.Location = new System.Drawing.Point(112, 96);
-            this.numCompressRatio.Max = 800;
-            this.numCompressRatio.Min = 0;
-            this.numCompressRatio.Name = "numCompressRatio";
-            this.numCompressRatio.Size = new System.Drawing.Size(488, 25);
-            this.numCompressRatio.SmallStep = 3;
-            this.numCompressRatio.TabIndex = 11;
-            this.numCompressRatio.ThumbText = "30:1";
-            this.numCompressRatio.ThumbWidth = 80;
-            this.numCompressRatio.Value = 310;
-            this.numCompressRatio.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
-            // 
-            // numCompressGate
-            // 
-            this.numCompressGate.BackColor = System.Drawing.Color.Black;
-            this.numCompressGate.BigStep = 5;
-            this.numCompressGate.Location = new System.Drawing.Point(112, 50);
-            this.numCompressGate.Max = 0;
-            this.numCompressGate.Min = -200;
-            this.numCompressGate.Name = "numCompressGate";
-            this.numCompressGate.Size = new System.Drawing.Size(488, 25);
-            this.numCompressGate.SmallStep = 3;
-            this.numCompressGate.TabIndex = 11;
-            this.numCompressGate.ThumbText = "0.0 dB";
-            this.numCompressGate.ThumbWidth = 80;
-            this.numCompressGate.Value = 0;
-            this.numCompressGate.ValueChanged += new System.EventHandler<System.EventArgs>(this.numCompress_ValueChanged);
-            // 
-            // numMasterGain
-            // 
-            this.numMasterGain.BackColor = System.Drawing.Color.Black;
-            this.numMasterGain.BigStep = 5;
-            this.numMasterGain.Location = new System.Drawing.Point(93, 201);
-            this.numMasterGain.Max = 4000;
-            this.numMasterGain.Min = -2000;
-            this.numMasterGain.Name = "numMasterGain";
-            this.numMasterGain.Size = new System.Drawing.Size(499, 25);
-            this.numMasterGain.SmallStep = 3;
-            this.numMasterGain.TabIndex = 10;
-            this.numMasterGain.ThumbText = "0.0 dB";
-            this.numMasterGain.ThumbWidth = 80;
-            this.numMasterGain.Value = 0;
-            this.numMasterGain.ValueChanged += new System.EventHandler<System.EventArgs>(this.numMasterGain_Scroll);
-            // 
-            // barFL
-            // 
-            this.barFL.BackColor = System.Drawing.Color.Black;
-            this.barFL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barFL.DisplayText = "FL";
-            this.barFL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
-            this.barFL.Location = new System.Drawing.Point(15, 38);
-            this.barFL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.barFL.Name = "barFL";
-            this.barFL.Size = new System.Drawing.Size(67, 50);
-            this.barFL.TabIndex = 0;
-            this.barFL.Value = 0F;
-            // 
-            // mtmOutR
-            // 
-            this.mtmOutR.BackColor = System.Drawing.Color.Black;
-            this.mtmOutR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mtmOutR.DisplayText = "R";
-            this.mtmOutR.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.mtmOutR.Location = new System.Drawing.Point(450, 38);
-            this.mtmOutR.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.mtmOutR.Name = "mtmOutR";
-            this.mtmOutR.Size = new System.Drawing.Size(142, 105);
-            this.mtmOutR.TabIndex = 6;
-            this.mtmOutR.Value = 0F;
-            // 
-            // barFR
-            // 
-            this.barFR.BackColor = System.Drawing.Color.Black;
-            this.barFR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barFR.DisplayText = "FR";
-            this.barFR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
-            this.barFR.Location = new System.Drawing.Point(15, 93);
-            this.barFR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.barFR.Name = "barFR";
-            this.barFR.Size = new System.Drawing.Size(67, 50);
-            this.barFR.TabIndex = 0;
-            this.barFR.Value = 0F;
-            // 
-            // numCompressOverflow1
-            // 
-            this.numCompressOverflow1.BackColor = System.Drawing.Color.Black;
-            this.numCompressOverflow1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.numCompressOverflow1.DisplayText = "CMP";
-            this.numCompressOverflow1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.numCompressOverflow1.Location = new System.Drawing.Point(93, 250);
-            this.numCompressOverflow1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.numCompressOverflow1.Name = "numCompressOverflow1";
-            this.numCompressOverflow1.Size = new System.Drawing.Size(136, 104);
-            this.numCompressOverflow1.TabIndex = 6;
-            this.numCompressOverflow1.Value = 0F;
-            // 
-            // mtmOutL
-            // 
-            this.mtmOutL.BackColor = System.Drawing.Color.Black;
-            this.mtmOutL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.mtmOutL.DisplayText = "L";
-            this.mtmOutL.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.mtmOutL.Location = new System.Drawing.Point(303, 38);
-            this.mtmOutL.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.mtmOutL.Name = "mtmOutL";
-            this.mtmOutL.Size = new System.Drawing.Size(142, 105);
-            this.mtmOutL.TabIndex = 6;
-            this.mtmOutL.Value = 0F;
-            // 
-            // barFC
-            // 
-            this.barFC.BackColor = System.Drawing.Color.Black;
-            this.barFC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barFC.DisplayText = "FC";
-            this.barFC.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
-            this.barFC.Location = new System.Drawing.Point(87, 38);
-            this.barFC.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.barFC.Name = "barFC";
-            this.barFC.Size = new System.Drawing.Size(67, 50);
-            this.barFC.TabIndex = 0;
-            this.barFC.Value = 0F;
-            // 
-            // barLF
-            // 
-            this.barLF.BackColor = System.Drawing.Color.Black;
-            this.barLF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barLF.DisplayText = "LF";
-            this.barLF.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
-            this.barLF.Location = new System.Drawing.Point(87, 93);
-            this.barLF.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.barLF.Name = "barLF";
-            this.barLF.Size = new System.Drawing.Size(67, 50);
-            this.barLF.TabIndex = 0;
-            this.barLF.Value = 0F;
-            // 
-            // barRL
-            // 
-            this.barRL.BackColor = System.Drawing.Color.Black;
-            this.barRL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barRL.DisplayText = "RL";
-            this.barRL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
-            this.barRL.Location = new System.Drawing.Point(231, 38);
-            this.barRL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.barRL.Name = "barRL";
-            this.barRL.Size = new System.Drawing.Size(67, 50);
-            this.barRL.TabIndex = 0;
-            this.barRL.Value = 0F;
-            // 
-            // barSL
-            // 
-            this.barSL.BackColor = System.Drawing.Color.Black;
-            this.barSL.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barSL.DisplayText = "SL";
-            this.barSL.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
-            this.barSL.Location = new System.Drawing.Point(159, 38);
-            this.barSL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.barSL.Name = "barSL";
-            this.barSL.Size = new System.Drawing.Size(67, 50);
-            this.barSL.TabIndex = 0;
-            this.barSL.Value = 0F;
-            // 
-            // barRR
-            // 
-            this.barRR.BackColor = System.Drawing.Color.Black;
-            this.barRR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barRR.DisplayText = "RR";
-            this.barRR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
-            this.barRR.Location = new System.Drawing.Point(231, 93);
-            this.barRR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.barRR.Name = "barRR";
-            this.barRR.Size = new System.Drawing.Size(67, 50);
-            this.barRR.TabIndex = 0;
-            this.barRR.Value = 0F;
-            // 
-            // barSR
-            // 
-            this.barSR.BackColor = System.Drawing.Color.Black;
-            this.barSR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.barSR.DisplayText = "SR";
-            this.barSR.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold);
-            this.barSR.Location = new System.Drawing.Point(159, 93);
-            this.barSR.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.barSR.Name = "barSR";
-            this.barSR.Size = new System.Drawing.Size(67, 50);
-            this.barSR.TabIndex = 0;
-            this.barSR.Value = 0F;
-            // 
-            // btnExportIR
+            // FrmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
@@ -1351,7 +1352,7 @@
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
-            this.Name = "btnExportIR";
+            this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "耳机虚拟环绕声";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -1454,7 +1455,7 @@
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Timer updateDeviceCountdownTimer;
         private System.Windows.Forms.Button btnResetDevicePriority;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnExportIR;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

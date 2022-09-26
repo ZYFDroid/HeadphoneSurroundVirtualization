@@ -19,7 +19,7 @@ using AudioCommon;
 
 namespace 耳机虚拟环绕声
 {
-    public partial class btnExportIR : Form,NAudio.CoreAudioApi.Interfaces.IMMNotificationClient
+    public partial class FrmMain : Form,NAudio.CoreAudioApi.Interfaces.IMMNotificationClient
     {
 
         public int deviceLatency = 40;
@@ -33,7 +33,7 @@ namespace 耳机虚拟环绕声
 
         List<DeviceDesc> devices = new List<DeviceDesc>();
 
-        public btnExportIR()
+        public FrmMain()
         {
             InitializeComponent();
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
