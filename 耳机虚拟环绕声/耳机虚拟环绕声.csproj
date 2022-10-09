@@ -157,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="doubi.ico" />
+    <None Include="Resources\extra.pak" />
     <None Include="Resources\firs_sr.ogg" />
     <None Include="Resources\firs_sl.ogg" />
     <None Include="Resources\firs_rr.ogg" />

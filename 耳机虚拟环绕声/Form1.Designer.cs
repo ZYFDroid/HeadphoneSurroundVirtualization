@@ -93,6 +93,9 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.panelPage4 = new System.Windows.Forms.Panel();
+            this.lblCrazyThursdayV50 = new System.Windows.Forms.Panel();
+            this.label33 = new System.Windows.Forms.Label();
+            this.lblV50 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -121,6 +124,7 @@
             this.panelPage2.SuspendLayout();
             this.panelPage3.SuspendLayout();
             this.panelPage4.SuspendLayout();
+            this.lblCrazyThursdayV50.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmbSrc
@@ -963,7 +967,7 @@
             this.panelPage3.Controls.Add(this.label15);
             this.panelPage3.Controls.Add(this.label14);
             this.panelPage3.Controls.Add(this.cmbDst);
-            this.panelPage3.Location = new System.Drawing.Point(166, 515);
+            this.panelPage3.Location = new System.Drawing.Point(174, 515);
             this.panelPage3.Name = "panelPage3";
             this.panelPage3.Size = new System.Drawing.Size(647, 394);
             this.panelPage3.TabIndex = 15;
@@ -1047,6 +1051,7 @@
             // panelPage4
             // 
             this.panelPage4.BackColor = System.Drawing.Color.Transparent;
+            this.panelPage4.Controls.Add(this.lblCrazyThursdayV50);
             this.panelPage4.Controls.Add(this.label16);
             this.panelPage4.Controls.Add(this.label20);
             this.panelPage4.Controls.Add(this.label19);
@@ -1068,6 +1073,43 @@
             this.panelPage4.Name = "panelPage4";
             this.panelPage4.Size = new System.Drawing.Size(647, 394);
             this.panelPage4.TabIndex = 15;
+            // 
+            // lblCrazyThursdayV50
+            // 
+            this.lblCrazyThursdayV50.Controls.Add(this.label33);
+            this.lblCrazyThursdayV50.Controls.Add(this.lblV50);
+            this.lblCrazyThursdayV50.Location = new System.Drawing.Point(0, 299);
+            this.lblCrazyThursdayV50.Name = "lblCrazyThursdayV50";
+            this.lblCrazyThursdayV50.Size = new System.Drawing.Size(507, 39);
+            this.lblCrazyThursdayV50.TabIndex = 8;
+            this.lblCrazyThursdayV50.Visible = false;
+            // 
+            // label33
+            // 
+            this.label33.BackColor = System.Drawing.Color.Transparent;
+            this.label33.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold);
+            this.label33.ForeColor = System.Drawing.Color.White;
+            this.label33.Location = new System.Drawing.Point(15, 5);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(91, 25);
+            this.label33.TabIndex = 7;
+            this.label33.Text = "赞助";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblV50
+            // 
+            this.lblV50.BackColor = System.Drawing.Color.Transparent;
+            this.lblV50.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblV50.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F, System.Drawing.FontStyle.Underline);
+            this.lblV50.ForeColor = System.Drawing.Color.White;
+            this.lblV50.Location = new System.Drawing.Point(118, 5);
+            this.lblV50.Name = "lblV50";
+            this.lblV50.Size = new System.Drawing.Size(350, 25);
+            this.lblV50.TabIndex = 7;
+            this.lblV50.Tag = "";
+            this.lblV50.Text = "肯德基疯狂星期四 V我50 我代你吃";
+            this.lblV50.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblV50.Click += new System.EventHandler(this.lblV50Click);
             // 
             // label16
             // 
@@ -1366,6 +1408,7 @@
             this.panelPage3.ResumeLayout(false);
             this.panelPage3.PerformLayout();
             this.panelPage4.ResumeLayout(false);
+            this.lblCrazyThursdayV50.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1457,6 +1500,9 @@
         private System.Windows.Forms.Button btnResetDevicePriority;
         private System.Windows.Forms.Button btnExportIR;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Panel lblCrazyThursdayV50;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label lblV50;
     }
 }
 

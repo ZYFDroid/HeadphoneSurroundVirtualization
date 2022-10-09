@@ -270,6 +270,13 @@ namespace 耳机虚拟环绕声
 
             lblVersion.Text ="v"+ Application.ProductVersion;
             loaded = true;
+
+            if(DateTime.Now.DayOfWeek == DayOfWeek.Thursday)
+            {
+                lblCrazyThursdayV50.Visible = true;
+            }
+
+
         }
         private bool loaded = false;
         private void loadData()
@@ -879,6 +886,34 @@ namespace 耳机虚拟环绕声
                 return readed;
             }
 
+        }
+
+        private void lblV50Click(object sender, EventArgs e)
+        {
+            Image img = null;
+            using(MemoryStream ms = new MemoryStream(Properties.Resources.extra))
+            {
+                using(GZipStream gZip = new GZipStream(ms, CompressionMode.Decompress))
+                {
+                    img = Image.FromStream(gZip);
+                }
+            }
+            if(img != null)
+            {
+                Form form = new Form();
+                form.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+                form.Text = "疯狂星期四V我50";
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.FormBorderStyle = FormBorderStyle.FixedSingle;
+                form.MaximizeBox = false;
+                form.AutoSize = true;
+                form.Icon = this.Icon;
+                PictureBox pb = new PictureBox();
+                pb.Image = img;
+                pb.SizeMode = PictureBoxSizeMode.AutoSize;
+                form.Controls.Add(pb);
+                form.ShowDialog(this);
+            }
         }
     }
 }

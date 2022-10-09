@@ -93,6 +93,16 @@ namespace 耳机虚拟环绕声.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
+        internal static byte[] extra {
+            get {
+                object obj = ResourceManager.GetObject("extra", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
         internal static byte[] firs_fc {
             get {
                 object obj = ResourceManager.GetObject("firs_fc", resourceCulture);
