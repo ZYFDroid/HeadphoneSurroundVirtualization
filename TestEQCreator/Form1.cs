@@ -16,97 +16,85 @@ namespace TestEQCreator
     public partial class Form1 : Form
     {
 
-        /*
-         ---------------------------
-
----------------------------
-80,105,138,182,240,317,418,551,726,957,1262,1664,2193,2891,3811,5024,6623,8730,11509,15172,
----------------------------
-确定   
----------------------------
-
-         */
         public Form1()
         {
             InitializeComponent();
         }
-        // 测试频响曲线时使用的基准频率
-        public static int[] tests = { 80, 105, 138, 182, 240, 317, 418, 551, 726, 957, 1262, 1664, 2193, 2891, 3811, 5024, 6623, 8730, 11509, 15172 };
-        // 生成频响曲线校准的时候使用的Q值
-        public static float bandQ = 2f;
-        // 生成频响曲线校准时使用的Q值的倍数
-        public static float dbGainMultiplier = 3f / 7.6f;
+       
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            frequentProvider = new FrequentProvider(48000);
+            wasapiOut = new WasapiOut(NAudio.CoreAudioApi.AudioClientShareMode.Shared,50);
+            wasapiOut.Init(frequentProvider);
+        }
+        WasapiOut wasapiOut;
+        FrequentProvider frequentProvider;
 
-
+        private void ctlBarSlider1_ValueChanged(object sender, EventArgs e)
+        {
+            int newFreq = CtlEQView.Log2Freq(((float)ctlBarSlider1.Value) / 10000f);
+            if(newFreq < 32) { newFreq = 32; }
+            if(newFreq > 16384) { newFreq = 16384; }
+            frequentProvider.Frequency = newFreq;
+            ctlBarSlider1.ThumbText = newFreq + " Hz";
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            StringBuilder sb = new StringBuilder();
-            for(int i = 200;i <= 960;i+=40)
-            {
-                float f = i / 1000f;
-                sb.Append(CtlEQView.Log2Freq(f)).Append(",");
-            }
-            MessageBox.Show(sb.ToString());
+            wasapiOut.Play();
         }
-        List<PeakEQParam> eqs = new List<PeakEQParam>();
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            for (int i = 0; i < tests.Length; i++)
-            {
-                eqs.Add(new PeakEQParam() { centerFrequent = tests[i], gain = 3, Q = bandQ });
-            }
-            //ctlEQView1.PeakEQParams = eqs;
-            testProvider.freq0 = 551;
-            testProvider.freq1 = 551;
-            testProvider.Freq1Strength = -15;
-            testProvider.Freq2Strength = -15;
-            waveOut = new WasapiOut();
-            waveOut.Init(testProvider);
-            waveOut.Play();
-        }
-        private WasapiOut waveOut;
-        private FrequentTestProvider testProvider = new FrequentTestProvider();
-
-        private void ctlFQ_Load(object sender, EventArgs e)
-        {
-            
-        }
-
-       
 
         private void button2_Click(object sender, EventArgs e)
         {
-            foreach (var item in ctlEQView1.PeakEQParams)
+            wasapiOut.Pause();
+        }
+    }
+
+    public class FrequentProvider : ISampleProvider
+    {
+
+        public FrequentProvider(int sampleRate)
+        {
+            _waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 1);
+        }
+        private WaveFormat _waveFormat;
+        public WaveFormat WaveFormat => _waveFormat;
+
+        public int Read(float[] buffer, int offset, int count)
+        {
+            for (int i = offset; i < offset+count; i++)
             {
-                //Console.WriteLine($"Filter: ON PK Fc {item.centerFrequent} Hz Gain {item.gain} dB Q {item.Q}");
+                buffer[i] = (float)Next();
+            }
+            return count;
+        }
+
+        private double dT = 0;
+        private double T = 0;
+
+        private int _freq;
+
+        public int Frequency
+        {
+            get { return _freq; }
+            set
+            {
+                this._freq = value;
+                double _sampleRate = this.WaveFormat.SampleRate;
+                double __freq = _freq;
+                double oneHzDT = 1 / _sampleRate * Math.PI * 2;
+                this.dT = oneHzDT * __freq;
             }
         }
 
-        private void ctlBarSlider1_Load(object sender, EventArgs e)
+        double Next()
         {
-            ctlBarSlider1.ThumbText = tests[ctlBarSlider1.Value] + " Hz";
-            testProvider.freq1 = tests[ctlBarSlider1.Value];
-            //ctlBarSlider2.Value = (int)Math.Round(ctlEQView1.PeakEQParams[ctlBarSlider1.Value].gain * 100f / dbGainMultiplier);
-        }
-
-        private void ctlBarSlider2_ValueChanged(object sender, EventArgs e)
-        {
-            float dB = (float)ctlBarSlider2.Value / 100f;
-            float dBDiff = (float)ctlBarSlider3.Value / 100f;
-            ctlBarSlider2.ThumbText = dB + " dB";
-            testProvider.Freq1Strength = dB - 15f + dBDiff;
-            testProvider.Freq2Strength = 0 - 15f + dBDiff;
-            //ctlEQView1.PeakEQParams[ctlBarSlider1.Value].gain = dB * dbGainMultiplier;
-        }
-
-        private void ctlBarSlider3_ValueChanged(object sender, EventArgs e)
-        {
-            float dB = (float)ctlBarSlider2.Value / 100f;
-            float dBDiff = (float)ctlBarSlider3.Value / 100f;
-            ctlBarSlider3.ThumbText = dBDiff + " dB";
-            testProvider.Freq1Strength = dB - 15f + dBDiff;
-            testProvider.Freq2Strength = 0 - 15f + dBDiff;
+            T = T + dT;
+            if(T > 999999999)
+            {
+                T = 0;
+            }
+            return Math.Sin(T) * 0.1d;
         }
     }
 }

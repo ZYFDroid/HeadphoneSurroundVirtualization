@@ -74,8 +74,8 @@ namespace 耳机虚拟环绕声
         private SurroundToStereoSampleProvider surroundToStereoSampleProvider;
         private AudioEnchancementSampleProvider audioEnchancementSampleProvider;
         private bool _notifyAudioDeviceChanged = false;
-        
 
+        private int bufferDuration = 0;
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -107,34 +107,36 @@ namespace 耳机虚拟环绕声
                      };
                     targetDevice.AudioEndpointVolume.OnVolumeNotification += targetVolumeChanged;
                     var targetFormat = targetDevice.AudioClient.MixFormat;
-                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, deviceLatency); //对虚拟声卡进行捕获
+                    WasapiCapture wasapiCapture = new LowLanceyLoopbackCapture(targetDevice, deviceLatency / 3); //对虚拟声卡进行捕获
                     
                     BufferedWaveProvider bufferedWaveProvider = new BufferedWaveProvider(wasapiCapture.WaveFormat);
 
                     int prefillLen = deviceLatency/9; //玄学调参：只要除以9就可以避免卡顿？我也不知道为什么
                     prefillLen *= bufferedWaveProvider.WaveFormat.SampleRate;
-                    prefillLen /= 1000;
                     prefillLen *= bufferedWaveProvider.WaveFormat.Channels;
                     prefillLen *= bufferedWaveProvider.WaveFormat.BitsPerSample;
+                    prefillLen /= 1000;
 
                     byte[] prefillEmptyBuffer = new byte[prefillLen];
+                    byte[] dropEmptyBuffer = new byte[prefillLen];
 
-                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(deviceLatency * 2);
+                    bufferedWaveProvider.BufferDuration = TimeSpan.FromMilliseconds(deviceLatency);
                     bufferedWaveProvider.DiscardOnBufferOverflow = true;
                     wasapiCapture.DataAvailable += (_, waveArgs) =>
                     {
-                        if(bufferedWaveProvider.BufferedDuration.Milliseconds == 0)//underflow detect
+                        if(bufferedWaveProvider.BufferedDuration.TotalMilliseconds < 2)//underflow detect
                         {
                             bufferedWaveProvider.AddSamples(prefillEmptyBuffer, 0, prefillEmptyBuffer.Length);
                             //underflowCount++;
                         }
-                        if(bufferedWaveProvider.BufferedDuration.Milliseconds > deviceLatency * 2 * 95 / 100)//Overflow detect
+                        if(bufferedWaveProvider.BufferedDuration.TotalMilliseconds > deviceLatency * 90 / 100)//Overflow detect
                         {
-                            bufferedWaveProvider.Read(prefillEmptyBuffer, 0, prefillEmptyBuffer.Length);
-                            Array.Clear(prefillEmptyBuffer,0,prefillEmptyBuffer.Length);
+                            bufferedWaveProvider.Read(dropEmptyBuffer, 0, dropEmptyBuffer.Length);
                             //overflowCount++;
                         }
                         bufferedWaveProvider.AddSamples(waveArgs.Buffer, 0, waveArgs.BytesRecorded);
+
+                        bufferDuration = (int)bufferedWaveProvider.BufferedDuration.TotalMilliseconds;
                     };
                     try
                     {
@@ -158,7 +160,7 @@ namespace 耳机虚拟环绕声
                     WasapiOut wasapiOut = null;
                     try
                     {
-                        wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, deviceLatency + deviceLatency / 2); //从我们的立体声耳机创建一个声音输出
+                        wasapiOut = new WasapiOut(outDevice, AudioClientShareMode.Shared, true, deviceLatency / 3); //从我们的立体声耳机创建一个声音输出
                         wasapiOut.Init(audioEnchancementSampleProvider);
                         wasapiOut.Play(); //开始环绕
                     }catch(Exception ex)
@@ -424,6 +426,8 @@ namespace 耳机虚拟环绕声
             {
                 bars[i].Value = (MathHelper.linear2db(surroundToStereoSampleProvider.rawPeaks[i]) + displayDbRange) / displayDbRange;
             }
+
+            lblStatus.Text = bufferDuration+"ms";
         }
 
         private void surroundProc_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
