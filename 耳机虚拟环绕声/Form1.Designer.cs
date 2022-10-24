@@ -89,7 +89,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label28 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.panelPage4 = new System.Windows.Forms.Panel();
@@ -134,7 +133,7 @@
             this.cmbSrc.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.cmbSrc.ForeColor = System.Drawing.Color.White;
             this.cmbSrc.FormattingEnabled = true;
-            this.cmbSrc.Location = new System.Drawing.Point(112, 128);
+            this.cmbSrc.Location = new System.Drawing.Point(112, 94);
             this.cmbSrc.Name = "cmbSrc";
             this.cmbSrc.Size = new System.Drawing.Size(335, 29);
             this.cmbSrc.TabIndex = 1;
@@ -165,16 +164,18 @@
             this.chkLowLancey.BackColor = System.Drawing.Color.Black;
             this.chkLowLancey.Checked = true;
             this.chkLowLancey.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLowLancey.Enabled = false;
             this.chkLowLancey.FlatAppearance.CheckedBackColor = System.Drawing.Color.Black;
             this.chkLowLancey.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkLowLancey.Font = new System.Drawing.Font("微软雅黑 Light", 12F);
-            this.chkLowLancey.Location = new System.Drawing.Point(112, 91);
+            this.chkLowLancey.Location = new System.Drawing.Point(558, 345);
             this.chkLowLancey.Name = "chkLowLancey";
-            this.chkLowLancey.Size = new System.Drawing.Size(202, 25);
+            this.chkLowLancey.Size = new System.Drawing.Size(74, 25);
             this.chkLowLancey.TabIndex = 10;
-            this.chkLowLancey.Text = "启用（重新开启后生效）";
+            this.chkLowLancey.Text = "自适应";
             this.toolTip1.SetToolTip(this.chkLowLancey, "低延迟模式，延迟更低但会导致音频卡顿。听音乐时推荐关闭");
             this.chkLowLancey.UseVisualStyleBackColor = false;
+            this.chkLowLancey.Visible = false;
             this.chkLowLancey.CheckedChanged += new System.EventHandler(this.chkLowLancey_CheckedChanged);
             // 
             // btnHelp
@@ -184,7 +185,7 @@
             this.btnHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHelp.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
-            this.btnHelp.Location = new System.Drawing.Point(453, 123);
+            this.btnHelp.Location = new System.Drawing.Point(453, 89);
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(179, 38);
             this.btnHelp.TabIndex = 9;
@@ -277,7 +278,7 @@
             this.chkShowAllDevice.FlatAppearance.CheckedBackColor = System.Drawing.Color.Black;
             this.chkShowAllDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkShowAllDevice.Font = new System.Drawing.Font("微软雅黑 Light", 12F);
-            this.chkShowAllDevice.Location = new System.Drawing.Point(110, 173);
+            this.chkShowAllDevice.Location = new System.Drawing.Point(110, 139);
             this.chkShowAllDevice.Name = "chkShowAllDevice";
             this.chkShowAllDevice.Size = new System.Drawing.Size(122, 25);
             this.chkShowAllDevice.TabIndex = 10;
@@ -312,7 +313,7 @@
             this.btnResetDevicePriority.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnResetDevicePriority.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnResetDevicePriority.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
-            this.btnResetDevicePriority.Location = new System.Drawing.Point(238, 167);
+            this.btnResetDevicePriority.Location = new System.Drawing.Point(238, 133);
             this.btnResetDevicePriority.Name = "btnResetDevicePriority";
             this.btnResetDevicePriority.Size = new System.Drawing.Size(179, 38);
             this.btnResetDevicePriority.TabIndex = 11;
@@ -963,7 +964,6 @@
             this.panelPage3.Controls.Add(this.cmbSrc);
             this.panelPage3.Controls.Add(this.label28);
             this.panelPage3.Controls.Add(this.label2);
-            this.panelPage3.Controls.Add(this.label1);
             this.panelPage3.Controls.Add(this.label15);
             this.panelPage3.Controls.Add(this.label14);
             this.panelPage3.Controls.Add(this.cmbDst);
@@ -979,7 +979,7 @@
             this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("微软雅黑", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
-            this.button2.Location = new System.Drawing.Point(453, 167);
+            this.button2.Location = new System.Drawing.Point(453, 133);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(179, 38);
             this.button2.TabIndex = 9;
@@ -993,7 +993,7 @@
             this.label28.BackColor = System.Drawing.Color.Transparent;
             this.label28.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F);
             this.label28.ForeColor = System.Drawing.Color.White;
-            this.label28.Location = new System.Drawing.Point(13, 172);
+            this.label28.Location = new System.Drawing.Point(13, 138);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(91, 25);
             this.label28.TabIndex = 7;
@@ -1005,24 +1005,12 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F);
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(15, 129);
+            this.label2.Location = new System.Drawing.Point(15, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(91, 25);
             this.label2.TabIndex = 7;
             this.label2.Text = "虚拟设备";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(15, 91);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 25);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "低延迟";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label15
             // 
@@ -1356,9 +1344,9 @@
             this.lblStatus.BackColor = System.Drawing.Color.Transparent;
             this.lblStatus.Font = new System.Drawing.Font("微软雅黑 Light", 14.25F);
             this.lblStatus.ForeColor = System.Drawing.Color.White;
-            this.lblStatus.Location = new System.Drawing.Point(540, 26);
+            this.lblStatus.Location = new System.Drawing.Point(15, 26);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(137, 35);
+            this.lblStatus.Size = new System.Drawing.Size(662, 35);
             this.lblStatus.TabIndex = 1;
             this.lblStatus.Text = "已关闭";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1463,7 +1451,6 @@
         private System.Windows.Forms.Panel panelPage3;
         private System.Windows.Forms.Panel panelPage4;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button btnEnchanceAudio_;

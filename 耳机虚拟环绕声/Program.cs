@@ -27,7 +27,7 @@ namespace 耳机虚拟环绕声
     internal static class Program
     {
         public static List<DevicePriority> DevicePriorityList = new List<DevicePriority>();
-        
+
         internal static SurroundSettings SurroundSettings = new SurroundSettings();
 
         public static AudioEnchancementData AudioEnchancementData = new AudioEnchancementData();
@@ -54,7 +54,7 @@ namespace 耳机虚拟环绕声
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.GetType().FullName+": "+ ex.Message,"配置失败");
+                        MessageBox.Show(ex.GetType().FullName + ": " + ex.Message, "配置失败");
                         Environment.Exit(1);
                     }
                     return;
@@ -77,7 +77,7 @@ namespace 耳机虚拟环绕声
             if (!File.Exists(FFTConvolverModule))
             {
                 string name = FFTConvolverModule;
-                string tempname = FFTConvolverModule+".tmp";
+                string tempname = FFTConvolverModule + ".tmp";
                 File.WriteAllBytes(tempname, AudioCommon.Properties.Resources.FFTConvolver_dll);
                 if (File.Exists(name))
                 {
@@ -85,8 +85,8 @@ namespace 耳机虚拟环绕声
                 }
                 File.Move(tempname, name);
             }
-            
-            if(!SetDllDirectory(UserDataDir))
+
+            if (!SetDllDirectory(UserDataDir))
             {
                 MessageBox.Show("加载音频处理模块失败。");
                 throw new Exception();
@@ -214,7 +214,7 @@ namespace 耳机虚拟环绕声
         /// 强制扫描所有设备
         /// 部分奇怪的电脑会强制所有设备都变成7.1声道的（例如戴尔外星人），导致无法正常开启环绕声
         /// </summary>
-        public bool ignoreOutputChannelCount = false; 
+        public bool ignoreOutputChannelCount = false;
 
         /// <summary>
         /// 自定义HRIR文件。
@@ -240,10 +240,10 @@ namespace 耳机虚拟环绕声
     }
     public class SurroundToStereoSampleProvider : ISampleProvider
     {
-        int _channels=8;
+        int _channels = 8;
 
 
-        public SurroundToStereoSampleProvider(ISampleProvider sampleIn,string customIrPath = null)
+        public SurroundToStereoSampleProvider(ISampleProvider sampleIn, string customIrPath = null)
         {
             this.customIrPath = customIrPath;
             _sampleIn = sampleIn;
@@ -263,14 +263,14 @@ namespace 耳机虚拟环绕声
         void initIR()
         {
             int chanCount = 0;
-            float[] IRs = genIR(_outWaveFormat.SampleRate,out chanCount);
-            if(chanCount != 7 && chanCount != 14)
+            float[] IRs = genIR(_outWaveFormat.SampleRate, out chanCount);
+            if (chanCount != 7 && chanCount != 14)
             {
                 throw new Exception("此音频文件不是一个有效的HRIR文件");
             }
             test(FFTConvolver.FFTConvolver.set_sr_ir(ref IRs[0], IRs.Length, chanCount));
-                
-            
+
+
         }
 
         void test(bool b)
@@ -284,9 +284,9 @@ namespace 耳机虚拟环绕声
             try
             {
                 initIR();
-            }catch (Exception e)
+            } catch (Exception e)
             {
-                customIrPath=null;
+                customIrPath = null;
                 initIR();
                 throw e;
             }
@@ -300,18 +300,18 @@ namespace 耳机虚拟环绕声
         const int OffsetRearRight = 5; //右后
         const int OffsetSideLeft = 6; //左侧
         const int OffsetSideRight = 7; //右侧
-        private float[] genIR(int sampleRate,out int chanCount)
+        private float[] genIR(int sampleRate, out int chanCount)
         {
 
             List<float> buffer = new List<float>();
 
             WaveStream irSource = null;
-            
+
             if (customIrPath != null) {
-                if (File.Exists(customIrPath)) { 
+                if (File.Exists(customIrPath)) {
                     irSource = new WaveFileReader(customIrPath);
                 }
-                
+
             }
             else
             {
@@ -319,13 +319,13 @@ namespace 耳机虚拟环绕声
                 return GenBuildinIR();
             }
             MemoryStream internalIrStream = null;
-           
+
 
             using (WaveStream irIn = irSource)
             {
 
 
-                ISampleProvider sampleProvider = irIn.ToSampleProvider() ;
+                ISampleProvider sampleProvider = irIn.ToSampleProvider();
                 if (sampleRate != irIn.WaveFormat.SampleRate)
                 {
                     sampleProvider = new WdlResamplingSampleProvider(sampleProvider, sampleRate);
@@ -337,7 +337,7 @@ namespace 耳机虚拟环绕声
 
                 int readed = 0;
 
-                while((readed = sampleProvider.Read(buf,0,buf.Length)) > 0)
+                while ((readed = sampleProvider.Read(buf, 0, buf.Length)) > 0)
                 {
                     for (int i = 0; i < readed; i++)
                     {
@@ -370,7 +370,7 @@ namespace 耳机虚拟环绕声
                 {
                     float[] buf = new float[2];
                     int result = vorbisReaderList[i].ReadSamples(buf, 0, 2);
-                    if(result <= 0) { endofFiles++; }
+                    if (result <= 0) { endofFiles++; }
                     floats.Add(buf[0]);
                     floats.Add(buf[1]);
                 }
@@ -400,9 +400,9 @@ namespace 耳机虚拟环绕声
         }
 
 
-       
 
-        public void applySettings(SurroundSettings settings,bool fullApply = false)
+
+        public void applySettings(SurroundSettings settings, bool fullApply = false)
         {
             FFTConvolver.FFTConvolver.set_master_gain(settings.masterGain);
             FFTConvolver.FFTConvolver.set_fc2f(settings.rerouteFrontCenter);
@@ -417,17 +417,17 @@ namespace 耳机虚拟环绕声
         private float[] meters = new float[11];
         public int Read(float[] buffer, int offset, int count)
         {
-            
+
             int desiredSamples = count / 2;
             int neededSamples = desiredSamples * _inWaveFormat.Channels;
             int maxSamples = 24000 * 8;
 
-            int readFrom = _sampleIn.Read(_buffer,0,Math.Min(maxSamples,neededSamples));
+            int readFrom = _sampleIn.Read(_buffer, 0, Math.Min(maxSamples, neededSamples));
 
             int monoCount = (readFrom / _channels);
 
             FFTConvolver.FFTConvolver.pro_call(ref _buffer[0], ref buffer[0], ref meters[0], 0, offset, monoCount);
-                       
+
 
             for (int i = 0; i < 8; i++)
             {
@@ -437,13 +437,30 @@ namespace 耳机虚拟环绕声
             outLeft = meters[8];
             outRight = meters[9];
             _compressorGain = meters[10];
-            return monoCount * 2 ;
+            return monoCount * 2;
         }
 
         public float _compressorGain = 1f;
         public float outLeft = 0, outRight = 0;
     }
 
+
+    public class  RecordEndSampleProcessor{
+        private WaveFormat _waveFormat = null;
+        private BufferedWaveProvider _buffer;
+        public RecordEndSampleProcessor(WaveFormat inputWaveFormat)
+        {
+            this._waveFormat = inputWaveFormat ;
+            _buffer = new BufferedWaveProvider(WaveFormat.CreateIeeeFloatWaveFormat(inputWaveFormat.SampleRate,2));
+        }
+        
+        public BufferedWaveProvider OutputProvider { get => _buffer; }
+
+        public void ProcessReceived(byte[] data,int length)
+        {
+            
+        }
+    }
     
     public class LowLanceyLoopbackCapture : WasapiCapture
     {
