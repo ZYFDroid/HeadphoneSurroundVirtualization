@@ -13,6 +13,9 @@ namespace 耳机虚拟环绕声
 {
     public partial class CtlEQView : UserControl
     {
+
+        public event EventHandler<Graphics> PostRender;
+
         public CtlEQView()
         {
             InitializeComponent();
@@ -186,10 +189,6 @@ namespace 耳机虚拟环绕声
 
         public List<EqualizerAPO.FilterNode> PeakEQParams = new List<EqualizerAPO.FilterNode>();
 
-        // 凑出来的
-        private const float ndFactor = 3.5f;
-
-
         private void DrawInternal(Graphics g)
         {
             g.Clear(Color.Black);
@@ -201,6 +200,7 @@ namespace 耳机虚拟环绕声
             if(PeakEQParams.Count == 0)
             {
                 g.DrawLine(forePen, 0, h / 2, w, h / 2);
+                PostRender?.Invoke(this, g);
                 return;
             }
 
@@ -216,18 +216,10 @@ namespace 耳机虚拟环绕声
                 lastY = ly;
             }
             g.DrawLine(forePen,lastX,lastY,w,lastY);
-
+            PostRender?.Invoke(this,g);
         }
 
         public float DisplayRange = 30f;//dB
-
-        public float evalEqParam(int freq,float q,float gain,float xpos)
-        {
-            // 下面的数据是我凑出来的。凑了半天，只要画出来的图像和EqualizerAPO里的看着很像就行了（
-            float centerX = Freq2Log(freq);
-            float qMultiplier = ndFactor;
-            return GuarssianDistribution(gain, q * qMultiplier, xpos - centerX);
-        }
 
         public static float Freq2Log(int freq)
         {
@@ -240,6 +232,49 @@ namespace 耳机虚拟环绕声
         }
 
         StringFormat bottomLeft = new StringFormat() { Alignment = StringAlignment.Near,LineAlignment = StringAlignment.Far };
+
+        public float GainAt(float freq)
+        {
+            if (PeakEQParams.Count == 0)
+            {
+                return 0;
+            }
+            if(PeakEQParams.Count == 1)
+            {
+                return PeakEQParams[0].dbGain;
+            }
+            
+            var list = PeakEQParams.OrderBy(p => p.freq).ToArray();
+            if(freq < list[0].freq)
+            {
+                return list[0].dbGain;
+            }
+            if(freq > list[list.Length- 1].freq)
+            {
+                return list[list.Length-1].dbGain;
+            }
+            for (int i = 0; i < list.Length-1; i++)
+            {
+                if (list[i+1].freq > freq && list[i].freq <= freq)
+                {
+                    float fromFreq = list[i].freq;
+                    float toFreq = list[i+1].freq;
+                    float fromLog = Freq2Log((int)fromFreq);
+                    float toLog = Freq2Log((int)toFreq);
+                    float midLog = Freq2Log((int)freq);
+
+                    float logPercent =(midLog - fromLog) / (toLog - fromLog);
+
+                    float fromDbGain = list[i].dbGain;
+                    float toDbGain = list[i + 1].dbGain;
+
+                    return fromDbGain + logPercent * (toDbGain - fromDbGain);
+
+                }
+            }
+            // This should not happen.
+            return list[list.Length - 1].dbGain;
+        }
 
         public float GuarssianDistribution(float altitude,float Q,float x)
         {

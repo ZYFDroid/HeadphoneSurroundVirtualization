@@ -19,8 +19,8 @@ namespace MP3模拟器
 
 
 
-        public float smoothfactor = 0.15f;
-        public float linearDownRate = 0.016f;
+        public float smoothfactor = 0.24f;
+        public float linearDownRate = 0.012f;
 
         float linearDownValue = 0.0f;
 

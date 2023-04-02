@@ -1,6 +1,8 @@
 ﻿using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -99,11 +101,12 @@ namespace AudioCommon
     }
 
     public class PeakEQParam
-    {
+            {
         public float centerFrequent;
         public float gain;
         public float Q;
     }
+
 
     public class AudioEnchancementSampleProvider : ISampleProvider
     {

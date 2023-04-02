@@ -59,5 +59,14 @@ namespace TestEQCreator.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查找类似 {&quot;uuid&quot;:&quot;096fb714-d536-4f09-849b-a78e1d1a59c8&quot;,&quot;DisplayName&quot;:&quot;默认配置&quot;,&quot;TargetDevice&quot;:&quot;Edifier W820NB&quot;,&quot;RecordingDevice&quot;:&quot;人耳（成年男性，21岁，听力良好）&quot;,&quot;Params&quot;:[{&quot;freq&quot;:135,&quot;dbGain&quot;:-16.5},{&quot;freq&quot;:150,&quot;dbGain&quot;:-21.4000015},{&quot;freq&quot;:176,&quot;dbGain&quot;:-22.9000015},{&quot;freq&quot;:200,&quot;dbGain&quot;:-22.5},{&quot;freq&quot;:225,&quot;dbGain&quot;:-23.5},{&quot;freq&quot;:256,&quot;dbGain&quot;:-26.4000015},{&quot;freq&quot;:288,&quot;dbGain&quot;:-27.7},{&quot;freq&quot;:340,&quot;dbGain&quot;:-27.5},{&quot;freq&quot;:408,&quot;dbGain&quot;:-27.9000015},{&quot;freq&quot;:468,&quot;dbGain&quot;:-27.7},{&quot;freq&quot;:536,&quot;dbGain&quot;:-28.8},{&quot;freq&quot;:618,&quot;dbGain&quot;:-30.3},{&quot;fr [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string buildinHsvt {
+            get {
+                return ResourceManager.GetString("buildinHsvt", resourceCulture);
+            }
+        }
     }
 }

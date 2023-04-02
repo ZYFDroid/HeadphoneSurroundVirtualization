@@ -147,21 +147,7 @@ namespace 耳机虚拟环绕声
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool SetDllDirectory(string lpPathName);
-        public class JsonConvert
-        {
-            private static System.Web.Script.Serialization.JavaScriptSerializer serializer;
-            public static string Serialize(object obj)
-            {
-                if (serializer == null) { serializer = new System.Web.Script.Serialization.JavaScriptSerializer(); }
-                return serializer.Serialize(obj);
-            }
-
-            public static T Deserialize<T>(string json)
-            {
-                if (serializer == null) { serializer = new System.Web.Script.Serialization.JavaScriptSerializer(); }
-                return serializer.Deserialize<T>(json);
-            }
-        }
+       
 
         public static void setDict<T>(this ComboBox cmb, Dictionary<String, T> dict)
         {
@@ -332,7 +318,7 @@ namespace 耳机虚拟环绕声
                 }
 
                 int chan = sampleProvider.WaveFormat.Channels;
-
+    
                 float[] buf = new float[chan * 100];
 
                 int readed = 0;

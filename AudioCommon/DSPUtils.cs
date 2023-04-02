@@ -28,4 +28,20 @@ namespace 耳机虚拟环绕声
             return (float)(20.0 * Math.Log10(x / 1.0));
         }
     }
+
+    public class JsonConvert
+    {
+        private static System.Web.Script.Serialization.JavaScriptSerializer serializer;
+        public static string Serialize(object obj)
+        {
+            if (serializer == null) { serializer = new System.Web.Script.Serialization.JavaScriptSerializer(); }
+            return serializer.Serialize(obj);
+        }
+
+        public static T Deserialize<T>(string json)
+        {
+            if (serializer == null) { serializer = new System.Web.Script.Serialization.JavaScriptSerializer(); }
+            return serializer.Deserialize<T>(json);
+        }
+    }
 }

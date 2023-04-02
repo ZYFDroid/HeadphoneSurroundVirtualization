@@ -28,11 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.panelOuterContainer = new System.Windows.Forms.Panel();
             this.tblChartContainer = new System.Windows.Forms.Panel();
             this.ctlEqView = new 耳机虚拟环绕声.CtlEQView();
-            this.mnuEqs = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuEqs = new System.Windows.Forms.ContextMenuStrip();
             this.mnuDist30 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInvert = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuClearAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,26 +100,26 @@
             this.mnuInvert,
             this.mnuClearAll});
             this.mnuEqs.Name = "mnuEqs";
-            this.mnuEqs.Size = new System.Drawing.Size(163, 70);
+            this.mnuEqs.Size = new System.Drawing.Size(181, 92);
             // 
             // mnuDist30
             // 
             this.mnuDist30.Name = "mnuDist30";
-            this.mnuDist30.Size = new System.Drawing.Size(162, 22);
+            this.mnuDist30.Size = new System.Drawing.Size(180, 22);
             this.mnuDist30.Text = "一键分布30个点";
             this.mnuDist30.Click += new System.EventHandler(this.mnuDist30_Click);
             // 
             // mnuInvert
             // 
             this.mnuInvert.Name = "mnuInvert";
-            this.mnuInvert.Size = new System.Drawing.Size(162, 22);
+            this.mnuInvert.Size = new System.Drawing.Size(180, 22);
             this.mnuInvert.Text = "上下颠倒";
             this.mnuInvert.Click += new System.EventHandler(this.mnuInvert_Click);
             // 
             // mnuClearAll
             // 
             this.mnuClearAll.Name = "mnuClearAll";
-            this.mnuClearAll.Size = new System.Drawing.Size(162, 22);
+            this.mnuClearAll.Size = new System.Drawing.Size(180, 22);
             this.mnuClearAll.Text = "清空";
             this.mnuClearAll.Click += new System.EventHandler(this.mnuClearAll_Click);
             // 
